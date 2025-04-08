@@ -1,7 +1,3 @@
 .vscode
 CPP_Piscine.code-workspace
-C_*/*
-!C_*/Makefile
-!C_*/src
-!C_*/inc
 
