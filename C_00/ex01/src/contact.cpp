@@ -1,9 +1,21 @@
 #include <iostream>
 #include "contact.hpp"
 
+// Default constructor
 Contact::Contact( void ) {
-	std::cout << "Contact created" << std::endl;
-	return;
+
+}
+
+// Using list initialisation cuz Thor said to
+Contact::Contact(int index,
+	std::string firstName,
+	std::string lastName,
+	std::string nickName,
+	std::string phonenumber,
+	std::string darkestSecret)
+	: _index(index), _darkestSecret(darkestSecret), _phonenumber(phonenumber),
+	_nickName(nickName), _lastName(lastName), _firstName(firstName) {
+	std::cout << "Contact #" << this->_index << " " << this->_lastName << "created" << std::endl;
 }
 
 Contact::~Contact( void ) {
@@ -11,25 +23,18 @@ Contact::~Contact( void ) {
 	return;
 }
 
-std::string Contact::Prompt( std::string prompt) {
-
-	std::string	result = "";
-
-	while (result.length() <= 0)
-	{
-		std::cout << prompt;
-		std::cin >> result;
-	}
-	return (result);
+void Contact::display( void ) const {
+	std::cout << "Index: " << this->_index << "\n"
+		<< "First Name: " << this->_firstName << "\n"
+		<< "Last Name: " << this->_lastName << "\n"
+		<< "Nickname: " << this->_nickName << "\n"
+		<< "Phone Number: " << this->_phonenumber << "\n"
+		<< "Darkest Secret: " << this->_darkestSecret;
 }
 
-void Contact::Fill( void ){
-	std::cout << "-- Adding new contact --" << std::endl;
-	this->firstName = Contact::Prompt("First Name : ");
-	this->lastName = Contact::Prompt("Last Name : ");
-	this->nickName = Contact::Prompt("Nickname : ");
-	this->phonenumber = Contact::Prompt("Phone Number : ");
-	this->darkestSecret = Contact::Prompt("Darkest Secret : ");
-	std::cout << "-- Filled new contact --" << std::endl;
-	return;
+void Contact::summarize ( void ) const {
+	std::cout << "Index: " << this->_index << "\n"
+		<< "First Name: " << this->_firstName << "\n"
+		<< "Last Name: " << this->_lastName << "\n"
+		<< "Nickname: " << this->_nickName << "\n";
 }

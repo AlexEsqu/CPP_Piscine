@@ -4,18 +4,24 @@
 class Contact
 {
 public:
-	std::string	index;
-	std::string	firstName;
-	std::string	lastName;
-	std::string	nickName;
-	std::string	phonenumber;
-	std::string	darkestSecret;
+					Contact( void );
+					Contact(int index,
+						std::string firstName,
+						std::string phonenumber,
+						std::string nickName,
+						std::string lastName,
+						std::string darkestSecret);
+					~Contact ( void );
+	void			display ( void ) const;
+	void			summarize ( void ) const;
 
-				Contact ( void );
-				~Contact ( void );
-
-	std::string	Prompt( std::string prompt );
-	void		Fill( void );
+private:
+	int				_index;
+	std::string		_darkestSecret;
+	std::string		_phonenumber;
+	std::string		_nickName;
+	std::string		_lastName;
+	std::string		_firstName;
 };
 
 #endif

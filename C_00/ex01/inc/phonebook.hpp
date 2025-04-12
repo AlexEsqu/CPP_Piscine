@@ -6,13 +6,18 @@
 class Phonebook
 {
 public:
-	Contact contactArray[8];
+				Phonebook( void );
+				~Phonebook( void );
+	void		add( void );
+	void		search( void ) const;
+	void		display( int index ) const;
 
-	Phonebook ( void );
-	~Phonebook ( void );
+private:
+	Contact		_contactArray[8];
+	int			_currently_filled;
 
-	void Add( void );
-	void Search(void) const;
+	bool		is_valid_search_query(std::string query) const;
+	void		summarize( void ) const;
 };
 
 

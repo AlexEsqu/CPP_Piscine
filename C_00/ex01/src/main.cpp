@@ -7,18 +7,18 @@
 int main(void)
 {
 	Phonebook	myPhonebook;
-	std::string	prompt;
+	std::string	cmd;
 
 	while (1)
 	{
 		std::cout << "> ";
-		std::cin >> prompt;
-		if (prompt.compare("EXIT") == 0)
+		std::getline (std::cin, cmd);
+		if (cmd.compare("EXIT") == 0)
 			return (0);
-		else if (prompt.compare("ADD") == 0)
-			myPhonebook.Add();
-		else if (prompt.compare("SEARCH") == 0)
-			myPhonebook.Search();
+		else if (cmd.compare("ADD") == 0)
+			myPhonebook.add();
+		else if (cmd.compare("SEARCH") == 0)
+			myPhonebook.search();
 		else
 			std::cout << "Please enter command ADD, SEARCH, or EXIT.\n";
 	}
