@@ -3,7 +3,7 @@
 #include <cctype>
 #include "contact.hpp"
 #include "phonebook.hpp"
-#include "strbari.hpp"
+#include "prompt.hpp"
 
 int main(void)
 {
@@ -12,7 +12,7 @@ int main(void)
 
 	while (1)
 	{
-		cmd = strbari::prompt("Please enter command ADD, SEARCH, or EXIT.\n> ");
+		cmd = prompt("Please enter command ADD, SEARCH, or EXIT.\n> ");
 		if (cmd.compare("EXIT") == 0)
 			return (0);
 		else if (cmd.compare("ADD") == 0)

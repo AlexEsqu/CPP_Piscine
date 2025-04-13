@@ -2,7 +2,7 @@
 #include <cstdlib>
 #include "phonebook.hpp"
 #include "contact.hpp"
-#include "strbari.hpp"
+#include "prompt.hpp"
 
 Phonebook::Phonebook( void ) {
 	// std::cout << "Phonebook instanciated" << std::endl;
@@ -64,11 +64,11 @@ bool	Phonebook::is_valid_search_query(std::string query) const {
 }
 
 void	Phonebook::add( void ){
-	std::string firstName = strbari::prompt("First Name: ");
-	std::string lastName = strbari::prompt("Last Name: ");
-	std::string nickName= strbari::prompt("Nickname: ");
-	std::string phoneNumber = strbari::prompt("Phonenumber: ");
-	std::string darkestSecret = strbari::prompt("Darkest secret: ");
+	std::string firstName = prompt("First Name: ");
+	std::string lastName = prompt("Last Name: ");
+	std::string nickName= prompt("Nickname: ");
+	std::string phoneNumber = prompt("Phonenumber: ");
+	std::string darkestSecret = prompt("Darkest secret: ");
 
 	_contactArray[_index_to_be_filled] = Contact(
 		_index_to_be_filled,
@@ -98,7 +98,7 @@ void	Phonebook::search( void ) const {
 	while (1)
 	{
 		Phonebook::summarize();
-		query = strbari::prompt("Please input the index of the contact to be displayed.\n> ");
+		query = prompt("Please input the index of the contact to be displayed.\n> ");
 		if (Phonebook::is_valid_search_query(query))
 			break;
 	}

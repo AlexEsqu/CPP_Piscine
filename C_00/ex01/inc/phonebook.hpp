@@ -1,8 +1,7 @@
-#include "contact.hpp"
-
 #ifndef PHONEBOOK_CLASS_H
 # define PHONEBOOK_CLASS_H
 
+# include "contact.hpp"
 # define MAX_CONTACT 8
 
 class Phonebook
@@ -22,6 +21,5 @@ private:
 	bool		is_valid_search_query(std::string query) const;
 	void		summarize( void ) const;
 };
-
 
 #endif
