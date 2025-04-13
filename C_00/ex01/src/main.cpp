@@ -3,6 +3,7 @@
 #include <cctype>
 #include "contact.hpp"
 #include "phonebook.hpp"
+#include "strbari.hpp"
 
 int main(void)
 {
@@ -11,16 +12,19 @@ int main(void)
 
 	while (1)
 	{
-		std::cout << "> ";
-		std::getline (std::cin, cmd);
+		cmd = strbari::prompt("Please enter command ADD, SEARCH, or EXIT.\n> ");
 		if (cmd.compare("EXIT") == 0)
 			return (0);
 		else if (cmd.compare("ADD") == 0)
+		{
 			myPhonebook.add();
+			continue;
+		}
 		else if (cmd.compare("SEARCH") == 0)
+		{
 			myPhonebook.search();
-		else
-			std::cout << "Please enter command ADD, SEARCH, or EXIT.\n";
+			continue;
+		}
 	}
 	return (1);
 }

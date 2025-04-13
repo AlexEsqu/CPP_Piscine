@@ -12,10 +12,12 @@ INC_DIR		= inc
 
 FUNC		= 	main.cpp \
 				phonebook.cpp \
-				contact.cpp
+				contact.cpp \
+				prompt.cpp
 
 HEAD		= 	phonebook.hpp \
-				contact.hpp
+				contact.hpp \
+				prompt.hpp
 
 SRC			= $(addprefix $(SRC_DIR)/, $(FUNC))
 

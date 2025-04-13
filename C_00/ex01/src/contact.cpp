@@ -1,40 +1,59 @@
 #include <iostream>
+#include <iomanip>
 #include "contact.hpp"
 
-// Default constructor
+// Default constructor for phonebook initialization
 Contact::Contact( void ) {
-
+	// std::cout << "Generic Contact created" << std::endl;
 }
 
-// Using list initialisation cuz Thor said to
+// Using list initialisation cuz Thor from the intra videos said to
 Contact::Contact(int index,
 	std::string firstName,
 	std::string lastName,
 	std::string nickName,
 	std::string phonenumber,
 	std::string darkestSecret)
-	: _index(index), _darkestSecret(darkestSecret), _phonenumber(phonenumber),
-	_nickName(nickName), _lastName(lastName), _firstName(firstName) {
-	std::cout << "Contact #" << this->_index << " " << this->_lastName << "created" << std::endl;
+	: _index(index), _firstName(firstName), _lastName(lastName), _nickName(nickName),
+		_phonenumber(phonenumber), _darkestSecret(darkestSecret)
+{
+	std::cout << "Contact #" << this->_index << " " << this->_lastName << " created" << std::endl;
 }
 
+// Default destructor
 Contact::~Contact( void ) {
-	std::cout << "Contact destroyed" << std::endl;
-	return;
+	// std::cout << "Contact destroyed" << std::endl;
+}
+
+std::string	Contact::resized_and_dotted( std::string string, int size ) const
+{
+	if ((int)string.length() > size)
+	{
+		string.resize(size - 1);
+		string += ".";
+	}
+	return (string);
 }
 
 void Contact::display( void ) const {
-	std::cout << "Index: " << this->_index << "\n"
-		<< "First Name: " << this->_firstName << "\n"
-		<< "Last Name: " << this->_lastName << "\n"
-		<< "Nickname: " << this->_nickName << "\n"
-		<< "Phone Number: " << this->_phonenumber << "\n"
-		<< "Darkest Secret: " << this->_darkestSecret;
+	std::cout << "Here are contact #" << _index << "'s informations" << std::endl;
+	std::cout << "Index: " << _index << std::endl
+		<< "First Name: " << _firstName << std::endl
+		<< "Last Name: " << _lastName << std::endl
+		<< "Nickname: " << _nickName << std::endl
+		<< "Phone Number: " << _phonenumber << std::endl
+		<< "Darkest Secret: " << _darkestSecret << std::endl;
 }
 
 void Contact::summarize ( void ) const {
-	std::cout << "Index: " << this->_index << "\n"
-		<< "First Name: " << this->_firstName << "\n"
-		<< "Last Name: " << this->_lastName << "\n"
-		<< "Nickname: " << this->_nickName << "\n";
+	std::cout << "|";
+	std::cout << std::setw(10);
+	std::cout << _index << "|";
+	std::cout << std::setw(10);
+	std::cout << resized_and_dotted(_firstName, 10) << "|";
+	std::cout << std::setw(10);
+	std::cout << resized_and_dotted(_lastName, 10) << "|";
+	std::cout << std::setw(10);
+	std::cout << resized_and_dotted(_nickName, 10);
+	std::cout << "|" << std::endl;
 }

@@ -1,28 +1,19 @@
 #include <iostream>
+#include <cstdlib>
 #include "phonebook.hpp"
 #include "contact.hpp"
+#include "strbari.hpp"
 
 Phonebook::Phonebook( void ) {
-	std::cout << "Phonebook instanciated" << std::endl;
+	// std::cout << "Phonebook instanciated" << std::endl;
 	_currently_filled = 0;
+	_index_to_be_filled = 0;
 	return;
 }
 
 Phonebook::~Phonebook( void ) {
-	std::cout << "Phonebook destroyed" << std::endl;
+	// std::cout << "Phonebook destroyed" << std::endl;
 	return;
-}
-
-std::string	prompt( std::string prompt )
-{
-	std::string	result = "";
-
-	while (result.length() <= 0)
-	{
-		std::cout << prompt;
-		std::cin >> result;
-	}
-	return (result);
 }
 
 void	Phonebook::display( int index ) const {
@@ -34,11 +25,9 @@ void	Phonebook::display( int index ) const {
 void	Phonebook::summarize( void ) const {
 	int	current;
 
-	if (_currently_filled == 0)
-
-	std::cout << "Here are the available contacts :" << std::endl;
 	current = 0;
-	while (current < this->_currently_filled)
+	std::cout << "Here are the available contacts :" << std::endl;
+	while (current < std::min(_currently_filled, MAX_CONTACT))
 	{
 		_contactArray[current].summarize();
 		current++;
@@ -75,36 +64,46 @@ bool	Phonebook::is_valid_search_query(std::string query) const {
 }
 
 void	Phonebook::add( void ){
-	_contactArray[_currently_filled] = Contact(
-		_currently_filled,
-		prompt("First Name: "),
-		prompt("Last Name: "),
-		prompt("Nickname: "),
-		prompt("Phonenumber: "),
-		prompt("Darkest secret: ")
+	std::string firstName = strbari::prompt("First Name: ");
+	std::string lastName = strbari::prompt("Last Name: ");
+	std::string nickName= strbari::prompt("Nickname: ");
+	std::string phoneNumber = strbari::prompt("Phonenumber: ");
+	std::string darkestSecret = strbari::prompt("Darkest secret: ");
+
+	_contactArray[_index_to_be_filled] = Contact(
+		_index_to_be_filled,
+		firstName,
+		lastName,
+		nickName,
+		phoneNumber,
+		darkestSecret
 	);
 	_currently_filled++;
-	if (_currently_filled == 8)
-		_currently_filled = 0;
-	return;
+	_index_to_be_filled++;
+	if (_index_to_be_filled == 8)
+		_index_to_be_filled = 0;
 }
 
 void	Phonebook::search( void ) const {
 
 	std::string	query;
+	long		sought_index;
+	char		*pEnd;
 
+	if (_currently_filled == 0)
+	{
+		std::cout << "The Phonebook is currently empty." << std::endl;
+		return;
+	}
 	while (1)
 	{
 		Phonebook::summarize();
-		query = prompt("Please input the index of the contact to be displayed.\n");
+		query = strbari::prompt("Please input the index of the contact to be displayed.\n> ");
 		if (Phonebook::is_valid_search_query(query))
 			break;
 	}
-
-
-
-
-	return;
+	sought_index = std::strtol(query.c_str(), &pEnd, 10);
+	_contactArray[sought_index].display();
 }
 
 
