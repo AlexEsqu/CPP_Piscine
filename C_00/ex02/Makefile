@@ -2,51 +2,47 @@
 #		General variables													   #
 # **************************************************************************** #
 
-NAME		= phonebook
+NAME				= account
 
-SRC_DIR		= src
+SRC_DIR				= src
 
-OBJ_DIR		= obj
+OBJ_DIR				= obj
 
-INC_DIR		= inc
+INC_DIR				= inc
 
-FUNC		= 	main.cpp \
-				phonebook.cpp \
-				contact.cpp \
-				prompt.cpp
+FUNC				= tests.cpp \
+					Account.cpp
 
-HEAD		= 	phonebook.hpp \
-				contact.hpp \
-				prompt.hpp
+HEAD				= Account.hpp
 
-SRC			= $(addprefix $(SRC_DIR)/, $(FUNC))
+SRC					= $(addprefix $(SRC_DIR)/, $(FUNC))
 
-HEADER		= $(addprefix $(INC_DIR)/, $(HEAD))
+HEADER				= $(addprefix $(INC_DIR)/, $(HEAD))
 
-INC			= -I$(INC_DIR)
+INC					= -I$(INC_DIR)
 
-OBJ			= $(SRC:$(SRC_DIR)/%.cpp=$(OBJ_DIR)/%.o)
+OBJ					= $(SRC:$(SRC_DIR)/%.cpp=$(OBJ_DIR)/%.o)
 
-DEP			= $(OBJ_DIR) $(HEADER)
+DEP					= $(OBJ_DIR) $(HEADER)
 
-CC			= c++
+CC					= c++
 
-FLAGS		= -Wall -Wextra -Werror -std=c++98
+FLAGS				= -Wall -Wextra -Werror -std=c++98
 
 # **************************************************************************** #
 #		Compilation															   #
 # **************************************************************************** #
 
-all:			$(NAME)
+all:				$(NAME)
 
-$(NAME):		$(DEP) $(OBJ)
-				$(CC) $(FLAGS) $(INC) -o $(NAME) $(OBJ)
+$(NAME):			$(DEP) $(OBJ)
+					$(CC) $(FLAGS) $(INC) -o $(NAME) $(OBJ)
 
-$(OBJ_DIR)/%.o:	$(SRC_DIR)/%.cpp
-				$(CC) $(FLAGS) $(INC) -c $< -o $@
+$(OBJ_DIR)/%.o:		$(SRC_DIR)/%.cpp
+					$(CC) $(FLAGS) $(INC) -c $< -o $@
 
 $(OBJ_DIR):
-				mkdir -p $@
+					mkdir -p $@
 
 # **************************************************************************** #
 #		Debug																   #
