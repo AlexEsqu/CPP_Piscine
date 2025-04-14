@@ -1,3 +1,7 @@
 .vscode
 CPP_Piscine.code-workspace
 *.pdf
+C_*/ex*/*
+!C_*/ex*/Makefile
+!C_*/ex*/src
+!C_*/ex*/inc
