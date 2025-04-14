@@ -94,24 +94,17 @@ void	Phonebook::search( void ) const {
 	while (1)
 	{
 		Phonebook::summarize();
-		std::cout << "Please input the index of the contact to be displayed." << std::endl;
-		std::cout << "> ";
-		std::getline(std::cin, query);
-		if (std::cin.bad() || std::cin.eof() || std::cin.fail())
-			break;
-		if (query.empty())
-			continue;
-		else if (Phonebook::is_valid_search_query(query))
+		query = prompt("Please input the index of the contact to be displayed.\n");
+		if (Phonebook::is_valid_search_query(query))
 		{
 			sought_index = std::strtol(query.c_str(), &pEnd, 10);
 			if (sought_index < _currently_filled)
-			{
 				_contactArray[sought_index].display();
-				return ;
-			}
+			else
+				std::cout << "Contact does not exist yet." << std::endl;
+			return ;
 		}
 	}
-
 }
 
 

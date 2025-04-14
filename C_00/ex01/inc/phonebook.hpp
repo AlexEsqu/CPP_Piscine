@@ -1,6 +1,7 @@
 #ifndef PHONEBOOK_CLASS_H
 # define PHONEBOOK_CLASS_H
 
+# include <iostream>
 # include "contact.hpp"
 # define MAX_CONTACT 8
 
