@@ -14,7 +14,7 @@ public:
 	void		display( int index ) const;
 
 private:
-	Contact		_contactArray[8];
+	Contact		_contactArray[MAX_CONTACT];
 	int			_currently_filled;
 	int			_index_to_be_filled;
 

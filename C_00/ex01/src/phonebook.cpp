@@ -56,10 +56,6 @@ bool	Phonebook::is_valid_search_query(std::string query) const {
 		std::cerr << "Our super modern C++ Phonebook only contains 8 addresses." << std::endl;
 		return (false);
 	}
-
-	// If more contacts are to be added :
-	// long query_atol = std::atoi(query.c_str());
-
 	return (true);
 }
 
@@ -98,12 +94,24 @@ void	Phonebook::search( void ) const {
 	while (1)
 	{
 		Phonebook::summarize();
-		query = prompt("Please input the index of the contact to be displayed.\n> ");
-		if (Phonebook::is_valid_search_query(query))
+		std::cout << "Please input the index of the contact to be displayed." << std::endl;
+		std::cout << "> ";
+		std::getline(std::cin, query);
+		if (std::cin.bad() || std::cin.eof() || std::cin.fail())
 			break;
+		if (query.empty())
+			continue;
+		else if (Phonebook::is_valid_search_query(query))
+		{
+			sought_index = std::strtol(query.c_str(), &pEnd, 10);
+			if (sought_index < _currently_filled)
+			{
+				_contactArray[sought_index].display();
+				return ;
+			}
+		}
 	}
-	sought_index = std::strtol(query.c_str(), &pEnd, 10);
-	_contactArray[sought_index].display();
+
 }
 
 
