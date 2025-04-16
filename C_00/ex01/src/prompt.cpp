@@ -12,7 +12,7 @@ bool	is_supported_char( int c, e_prompt_types mode ) {
 	if (mode == ALPHA) {
 		if (std::isprint(c))
 			return (true);
-		std::cout << "This field only supports alphabetical characters." << std::endl;
+		std::cout << "This field only supports print characters." << std::endl;
 		return (false);
 	}
 	if (mode == NUM) {
@@ -45,6 +45,11 @@ std::string	prompt( std::string prompt, e_prompt_types mode ) {
 		std::cout << prompt;
 		std::cout << "> ";
 		getline(std::cin, result);
+		if (std::cin.eof()) {
+			std::cout << "Received an end of file signal, exiting..." << std::endl;
+			std::cin.clear();
+			exit(1);
+		}
 		if (!is_valid_intput(result, mode))
 			continue;
 		if (result.empty())
