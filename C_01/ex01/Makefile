@@ -2,7 +2,7 @@
 #		General variables													   #
 # **************************************************************************** #
 
-NAME				= account
+NAME				= Brainz
 
 SRC_DIR				= src
 
@@ -10,10 +10,11 @@ OBJ_DIR				= obj
 
 INC_DIR				= inc
 
-FUNC				= tests.cpp \
-					Account.cpp
+FUNC				= main.cpp \
+					Zombie.cpp \
+					zombieHorde.cpp
 
-HEAD				= Account.hpp
+HEAD				= Zombie.hpp
 
 SRC					= $(addprefix $(SRC_DIR)/, $(FUNC))
 
