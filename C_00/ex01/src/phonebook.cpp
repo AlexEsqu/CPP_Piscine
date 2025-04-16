@@ -38,33 +38,33 @@ bool	Phonebook::is_valid_search_query(std::string query) const {
 
 	if (query.empty())
 	{
-		std::cerr << "Empty field." << std::endl;
+		std::wcerr << "Empty field." << std::endl;
 		return (false);
 	}
 	if (query.size() > 1)
 	{
-		std::cerr << "Invalid index." << std::endl;
+		std::wcerr << "Invalid index." << std::endl;
 		return (false);
 	}
 	if (query[0] < '0' || query[0] > '9')
 	{
-		std::cerr << "Only unsigned digits can be used as input." << std::endl;
+		std::wcerr << "Only unsigned digits can be used as input." << std::endl;
 		return (false);
 	}
 	if (query[0] > '7')
 	{
-		std::cerr << "Our super modern C++ Phonebook only contains 8 addresses." << std::endl;
+		std::wcerr << "Our super modern C++ Phonebook only contains 8 addresses." << std::endl;
 		return (false);
 	}
 	return (true);
 }
 
 void	Phonebook::add( void ){
-	std::string firstName = prompt("First Name: ");
-	std::string lastName = prompt("Last Name: ");
-	std::string nickName= prompt("Nickname: ");
-	std::string phoneNumber = prompt("Phonenumber: ");
-	std::string darkestSecret = prompt("Darkest secret: ");
+	std::string firstName = prompt("First Name: ", ALPHA);
+	std::string lastName = prompt("Last Name: ", ALPHA);
+	std::string nickName= prompt("Nickname: ", ALPHA);
+	std::string phoneNumber = prompt("Phonenumber: ", NUM);
+	std::string darkestSecret = prompt("Darkest secret: ", ALPHA);
 
 	_contactArray[_index_to_be_filled] = Contact(
 		_index_to_be_filled,
@@ -83,8 +83,8 @@ void	Phonebook::add( void ){
 void	Phonebook::search( void ) const {
 
 	std::string	query;
-	long		sought_index;
-	char		*pEnd;
+	long			sought_index;
+	char			*pEnd;
 
 	if (_currently_filled == 0)
 	{
@@ -94,7 +94,7 @@ void	Phonebook::search( void ) const {
 	while (1)
 	{
 		Phonebook::summarize();
-		query = prompt("Please input the index of the contact to be displayed.\n");
+		query = prompt("Please input the index of the contact to be displayed.\n", NUM);
 		if (Phonebook::is_valid_search_query(query))
 		{
 			sought_index = std::strtol(query.c_str(), &pEnd, 10);

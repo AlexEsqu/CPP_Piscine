@@ -7,12 +7,12 @@
 
 int main(void)
 {
-	Phonebook	myPhonebook;
+	Phonebook		myPhonebook;
 	std::string	cmd;
 
 	while (1)
 	{
-		cmd = prompt("Please enter command ADD, SEARCH, or EXIT.\n");
+		cmd = prompt("Please enter command ADD, SEARCH, or EXIT.\n", ALPHA);
 		if (cmd.compare("ADD") == 0)
 			myPhonebook.add();
 		else if (cmd.compare("SEARCH") == 0)

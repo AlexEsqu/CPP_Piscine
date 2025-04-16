@@ -17,7 +17,7 @@ Contact::Contact(int index,
 	: _index(index), _firstName(firstName), _lastName(lastName), _nickName(nickName),
 		_phonenumber(phonenumber), _darkestSecret(darkestSecret)
 {
-	std::cout << "Contact #" << this->_index << " " << this->_lastName << " created" << std::endl;
+	std::cout << "Contact #" << _index << " " << _lastName << " created" << std::endl;
 }
 
 // Default destructor
@@ -30,7 +30,7 @@ std::string	Contact::resized_and_dotted( std::string string, int size ) const
 	if ((int)string.length() > size)
 	{
 		string.resize(size - 1);
-		string += ".";
+		string.append(".");
 	}
 	return (string);
 }
