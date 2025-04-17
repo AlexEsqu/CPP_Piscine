@@ -2,5 +2,6 @@
 CPP_Piscine.code-workspace
 C*/ex*/*
 !C*/ex*/Makefile
+!C*/ex*/*.cpp
 !C*/ex*/src/*.cpp
 !C*/ex*/inc/*.hpp
