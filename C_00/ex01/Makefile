@@ -61,10 +61,10 @@ debug:				$(DEP) $(OBJ)
 # **************************************************************************** #
 
 clean:
-					rm -rf $(DIR_OBJ)
+					rm -rf $(OBJ_DIR)
 
 fclean:
-					rm -rf $(DIR_OBJ)
+					rm -rf $(OBJ_DIR)
 					rm -rf $(NAME)
 
 re:					fclean all

@@ -2,7 +2,8 @@
 
 // Creates, name and announce a stack allocated Zombie,
 // Which is destroyed as soon as the function ends
-void	Zombie::randomChump( std::string name )
+void	randomChump( std::string name )
 {
-	Zombie(name);
+	Zombie rando(name);
+	rando.announce();
 }
