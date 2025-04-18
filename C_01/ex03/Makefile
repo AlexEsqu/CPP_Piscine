@@ -2,7 +2,7 @@
 #		General variables													   #
 # **************************************************************************** #
 
-NAME				= hiBrain
+NAME				= UnnecessaryViolence
 
 SRC_DIR				= src
 
@@ -10,9 +10,14 @@ OBJ_DIR				= obj
 
 INC_DIR				= inc
 
-FUNC				= main.cpp
+FUNC				= main.cpp \
+						Weapon.cpp \
+						HumanA.cpp \
+						HumanB.cpp
 
-HEAD				=
+HEAD				= Weapon.hpp \
+						HumanA.hpp \
+						HumanB.hpp
 
 SRC					= $(addprefix $(SRC_DIR)/,$(FUNC))
 
