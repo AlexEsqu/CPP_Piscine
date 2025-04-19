@@ -2,14 +2,34 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "name": "C/C++ Runner: Debug Session",
+      "name": "CPP 01 Ex 04",
       "type": "cppdbg",
       "request": "launch",
-      "args": [],
-      "stopAtEntry": false,
+      "args": ["bepp", "lil", "big"],
+      "stopAtEntry": true,
       "externalConsole": false,
-      "cwd": "/home/alex/Project/CPP_Piscine",
-      "program": "/home/alex/Project/CPP_Piscine/build/Debug/outDebug",
+      "cwd": "/home/mkling/Documents/CPP_Piscine/C_01/ex04",
+      "program": "/home/mkling/Documents/CPP_Piscine/C_01/ex04/SedReplacement",
+      "MIMode": "gdb",
+      "miDebuggerPath": "gdb",
+      "setupCommands": [
+        {
+          "description": "Enable pretty-printing for gdb",
+          "text": "-enable-pretty-printing",
+          "ignoreFailures": true
+        }
+      ]
+    },
+
+    {
+      "name": "CPP 01 Ex 04 - single char",
+      "type": "cppdbg",
+      "request": "launch",
+      "args": ["bepp", "i", "big"],
+      "stopAtEntry": true,
+      "externalConsole": false,
+      "cwd": "/home/mkling/Documents/CPP_Piscine/C_01/ex04",
+      "program": "/home/mkling/Documents/CPP_Piscine/C_01/ex04/SedReplacement",
       "MIMode": "gdb",
       "miDebuggerPath": "gdb",
       "setupCommands": [

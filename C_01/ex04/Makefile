@@ -12,7 +12,7 @@ INC_DIR				= inc
 
 FUNC				= main.cpp
 
-HEAD				= sedd.hpp
+HEAD				= 
 
 SRC					= $(addprefix $(SRC_DIR)/,$(FUNC))
 
