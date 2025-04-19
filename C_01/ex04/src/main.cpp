@@ -23,15 +23,20 @@ void	replace_string_in_file ( std::ifstream& original,
 	std::ofstream& modified, std::string& to_replace, std::string& replacement )
 {
 	std::string		line;
-	while (!original.bad() && !original.fail() && !original.eof()) {
-		std::getline(original, line);
-		size_t	index_of_to_replace = line.find(to_replace);
-		while (index_of_to_replace != std::string::npos) {
+	while (!original.bad() && !original.fail() && !original.eof())
+	{
 
-			line.erase(index_of_to_replace, to_replace.size());
-			line.insert(index_of_to_replace, replacement);
-			index_of_to_replace = line.find(to_replace, index_of_to_replace + replacement.length());
+		std::getline(original, line);
+
+		for (size_t	replace_index = line.find(to_replace);
+			replace_index != std::string::npos;
+			replace_index = line.find(to_replace, replace_index
+				+ replacement.length()))
+		{
+			line.erase(replace_index, to_replace.size());
+			line.insert(replace_index, replacement);
 		}
+
 		modified << line;
 		if (!original.eof())
 			modified << std::endl;
