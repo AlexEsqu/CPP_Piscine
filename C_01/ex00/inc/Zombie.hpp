@@ -31,7 +31,6 @@ public:
 private:
 
 	std::string _name;
-	bool		_is_heap_allocated;
 
 };
 
