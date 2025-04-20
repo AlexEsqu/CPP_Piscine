@@ -10,7 +10,8 @@ OBJ_DIR				= obj
 
 INC_DIR				= inc
 
-FUNC				= main.cpp, Harl.cpp
+FUNC				= main.cpp \
+						Harl.cpp
 
 HEAD				= Harl.hpp
 
