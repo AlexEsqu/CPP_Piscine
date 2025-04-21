@@ -2,7 +2,7 @@
 #		General variables													   #
 # **************************************************************************** #
 
-NAME				= account
+NAME				= Fixed
 
 SRC_DIR				= src
 
@@ -10,10 +10,10 @@ OBJ_DIR				= obj
 
 INC_DIR				= inc
 
-FUNC				= tests.cpp \
-					Account.cpp
+FUNC				= main.cpp \
+					Fixed.cpp
 
-HEAD				= Account.hpp
+HEAD				= Fixed.hpp
 
 SRC					= $(addprefix $(SRC_DIR)/, $(FUNC))
 
