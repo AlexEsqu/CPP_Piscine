@@ -2,6 +2,7 @@
 # define FIXED_POINT_CLASS_H
 
 # include <iostream>
+# include <math.h>
 
 class	Fixed
 {
@@ -10,14 +11,14 @@ public:
 
 	//----------------- CONSTRUCTORS ---------------------//
 						Fixed( void );
-						Fixed( const int );
-						Fixed( const float );
+						Fixed( const int num );
+						Fixed( const float fnum );
 
 	//----------------- DESTRUCTOR -----------------------//
 						~Fixed( void );
 
 	//----------------- COPY CONSTRUCTORS ----------------//
-						Fixed( Fixed& original );
+						Fixed( const Fixed& original );
 
 	//----------------- COPY ASSIGNEMENT -----------------//
 	Fixed&				operator=( const Fixed& original );
@@ -35,7 +36,6 @@ private:
 
 };
 
-
-
+std::ostream& operator<<( std::ostream& out, const Fixed& point );
 
 #endif

@@ -2,7 +2,7 @@
 
 //------------- VARIABLE INITALISATION ---------------//
 
-const int	_fractional_bit_count = 8;
+const int	Fixed::_fractional_bit_count = 8;
 
 //----------------- CONSTRUCTORS ---------------------//
 
@@ -11,14 +11,14 @@ const int	_fractional_bit_count = 8;
 	_number_value = 0;
 }
 
-			Fixed::Fixed( const int ) {
+			Fixed::Fixed( const int num ) {
 	std::cout << "Int constructor called" << std::endl;
-	_number_value = 0;
+	_number_value = num << _fractional_bit_count;
 }
 
-			Fixed::Fixed( const float ) {
+			Fixed::Fixed( const float fnum ) {
 	std::cout << "Float constructor called" << std::endl;
-	_number_value = 0;
+	_number_value = roundf(fnum * (1 << _fractional_bit_count));
 }
 
 //----------------- DESTRUCTOR -----------------------//
@@ -29,7 +29,7 @@ const int	_fractional_bit_count = 8;
 
 //----------------- COPY CONSTRUCTORS ----------------//
 
-			Fixed::Fixed( Fixed& original ) {
+			Fixed::Fixed( const Fixed& original ) {
 	std::cout << "Copy constructor called" << std::endl;
 	*this = original;
 }
@@ -57,9 +57,19 @@ void		Fixed::setRawBits( int const raw ) {
 }
 
 float		Fixed::toFloat( void ) const {
-
+	float	result = (float)_number_value / (float)(1 << _fractional_bit_count);
+	return (result);
 }
 
 int			Fixed::toInt( void ) const {
+	int	result = _number_value >> _fractional_bit_count;
+	return (result);
+}
 
-};
+
+//----------------- REPRESENTATION -----------------//
+
+std::ostream& operator<<( std::ostream& out, const Fixed& point ) {
+	out << point.toFloat();
+	return (out);
+}
