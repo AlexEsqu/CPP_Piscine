@@ -5,7 +5,7 @@ int	main() {
 
 	std::string		str = "'HI THIS IS BRAIN'";
 	std::string*	p_str = &str;
-	std::string		&r_str = str;
+	std::string&	r_str = str;
 
 	std::cout << "Printing the address of the string : ";
 	std::cout << &str << std::endl;

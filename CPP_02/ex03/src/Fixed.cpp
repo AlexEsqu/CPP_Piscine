@@ -27,13 +27,13 @@ const int	Fixed::_fractional_bit_count = 8;
 //----------------- COPY CONSTRUCTORS ----------------//
 
 			Fixed::Fixed( const Fixed& original ): _number_value(original._number_value) {
-	std::cout << "Copy constructor called" << std::endl;
+	// std::cout << "Copy constructor called" << std::endl;
 }
 
 //----------------- COPY ASSIGNEMENT -----------------//
 
 Fixed&		Fixed::operator=( const Fixed& original ) {
-	std::cout << "Copy assignement operator called" << std::endl;
+	// std::cout << "Copy assignement operator called" << std::endl;
 	if (this != &original) {
 		this->_number_value = original.getRawBits();
 	}
@@ -144,12 +144,10 @@ Fixed		Fixed::operator--( int ) {
 //----------------- MEMBER FUNCTIONS -----------------//
 
 int			Fixed::getRawBits() const {
-	std::cout << "getRawBits member function called" << std::endl;
 	return (_number_value);
 }
 
 void		Fixed::setRawBits( int const raw ) {
-	std::cout << "setRawBits member function called" << std::endl;
 	_number_value = raw;
 }
 
