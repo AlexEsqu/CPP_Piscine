@@ -2,7 +2,7 @@
 #		General variables													   #
 # **************************************************************************** #
 
-NAME				= account
+NAME				= ClapTrap
 
 SRC_DIR				= src
 
@@ -10,10 +10,10 @@ OBJ_DIR				= obj
 
 INC_DIR				= inc
 
-FUNC				= tests.cpp \
-					Account.cpp
+FUNC				= main.cpp \
+					ClapTrap.cpp
 
-HEAD				= Account.hpp
+HEAD				= ClapTrap.hpp
 
 SRC					= $(addprefix $(SRC_DIR)/, $(FUNC))
 
