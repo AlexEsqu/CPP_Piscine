@@ -1,18 +1,20 @@
 #include "ClapTrap.hpp"
 
-int	main() {
+int	main()
+{
+	{
+		ClapTrap	CL4P("CL4P");
 
+		CL4P.displayStats();
 
+		CL4P.attack("Bob");
 
-	ClapTrap	CL4P("CL4P");
+		CL4P.beRepaired(1);
 
-	CL4P.attack("Bob");
+		CL4P.takeDamage(11);
 
-	CL4P.beRepaired(1);
-
-	CL4P.takeDamage(11);
-
-	CL4P.beRepaired(1);
+		CL4P.beRepaired(1);
+	}
 
 	ClapTrap	Stakanov("Stakanov");
 

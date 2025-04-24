@@ -2,7 +2,7 @@
 #		General variables													   #
 # **************************************************************************** #
 
-NAME				= FragTrap
+NAME				= DiamondTrap
 
 SRC_DIR				= src
 
@@ -13,11 +13,13 @@ INC_DIR				= inc
 FUNC				= main.cpp \
 					ClapTrap.cpp \
 					ScavTrap.cpp \
-					FragTrap.cpp
+					FragTrap.cpp \
+					DiamondTrap.cpp
 
 HEAD				= ClapTrap.hpp \
 					ScavTrap.hpp \
-					FragTrap.hpp
+					FragTrap.hpp \
+					DiamondTrap.hpp
 
 SRC					= $(addprefix $(SRC_DIR)/, $(FUNC))
 
