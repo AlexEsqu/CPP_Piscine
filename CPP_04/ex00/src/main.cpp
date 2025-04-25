@@ -15,7 +15,19 @@ int	main()
 	j->makeSound();
 	meta->makeSound();
 
+	delete meta;
+	delete j;
+	delete i;
 
+	const WrongAnimal* robot = new WrongAnimal();
+	const WrongAnimal* roCat = new WrongCat();
+	std::cout << robot->getType() << " " << std::endl;
+	std::cout << roCat->getType() << " " << std::endl;
+	robot->makeSound(); //will output the cat sound!
+	roCat->makeSound();
+
+	delete robot;
+	delete roCat;
 
 	return 0;
 }

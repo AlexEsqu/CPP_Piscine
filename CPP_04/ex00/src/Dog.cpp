@@ -17,19 +17,20 @@ Dog::~Dog()
 
 //----------------- COPY CONSTRUCTORS ----------------//
 Dog::Dog( const Dog& original )
-	: Animal()
+	: Animal(original)
 {
 	std::cout << "Calling Dog copy constructor for " << type << std::endl;
-	setType("Dog");
+	*this = original;
 }
 
 //----------------- COPY ASSIGNEMENT -----------------//
 Dog&			Dog::operator=( const Dog& original )
 {
 	std::cout << "Calling Dog copy assignment for " << type << std::endl;
-	if (this != &original) {
-		type = original.getType();
-	}
+	if (this == &original)
+		return *this;
+
+	Animal::operator=(original);
 	return *this;
 }
 

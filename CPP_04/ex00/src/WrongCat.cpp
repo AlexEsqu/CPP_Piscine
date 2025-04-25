@@ -3,7 +3,7 @@
 //----------------- CONSTRUCTORS ---------------------//
 
 WrongCat::WrongCat()
-	: type("WrongCat")
+	: WrongAnimal()
 {
 	std::cout << "Calling WrongCat constructor for " << type << std::endl;
 }
@@ -16,20 +16,25 @@ WrongCat::~WrongCat()
 
 //----------------- COPY CONSTRUCTORS ----------------//
 WrongCat::WrongCat( const WrongCat& original )
+	: WrongAnimal()
 {
 	std::cout << "Calling WrongCat copy constructor for " << type << std::endl;
+	*this = original;
 }
 
 //----------------- COPY ASSIGNEMENT -----------------//
 WrongCat&			WrongCat::operator=( const WrongCat& original )
 {
 	std::cout << "Calling WrongCat copy assignment for " << type << std::endl;
+
+	WrongAnimal::operator=(original);
+	return *this;
 }
 
 //----------------- MEMBER FUNCTIONS -----------------//
 void			WrongCat::makeSound() const
 {
-	std::cout << "🛎️ Riiiiinnng !!! " << std::endl;
+	std::cout << "🛎️  Riiiiinnng !!! " << std::endl;
 }
 
 std::string		WrongCat::getType() const

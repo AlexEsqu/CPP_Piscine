@@ -17,19 +17,18 @@ Cat::~Cat()
 
 //----------------- COPY CONSTRUCTORS ----------------//
 Cat::Cat( const Cat& original )
-	: Animal(original)
+	: Animal()
 {
 	std::cout << "Calling Cat copy constructor for " << type << std::endl;
-	setType("Cat");
+	*this = original;
 }
 
 //----------------- COPY ASSIGNEMENT -----------------//
 Cat&			Cat::operator=( const Cat& original )
 {
 	std::cout << "Calling Cat copy assignment for " << type << std::endl;
-	if (this != &original) {
-		type = original.getType();
-	}
+
+	Animal::operator=(original);
 	return *this;
 }
 

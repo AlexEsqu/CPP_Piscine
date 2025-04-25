@@ -25,9 +25,10 @@ Animal::Animal( const Animal& original )
 Animal&			Animal::operator=( const Animal& original )
 {
 	std::cout << "Calling Animal copy assignment for " << type << std::endl;
-	if (this != &original) {
-		type = original.getType();
-	}
+	if (this == &original)
+		return *this;
+
+	this->type = original.getType();
 	return *this;
 }
 
