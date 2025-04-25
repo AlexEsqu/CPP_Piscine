@@ -15,7 +15,7 @@ class ScavTrap: virtual public ClapTrap {
 					ScavTrap( std::string name);
 
 	//----------------- DESTRUCTOR -----------------------//
-					~ScavTrap();
+	virtual			~ScavTrap();
 
 	//----------------- COPY CONSTRUCTORS ----------------//
 					ScavTrap( const ScavTrap& original );
@@ -27,13 +27,13 @@ class ScavTrap: virtual public ClapTrap {
 	void			guardGate();
 
 	// ---------------- INHERITED ------------------------//
-	void			attack( const std::string& target );
+	virtual void	attack( const std::string& target );
 	// void			takeDamage( unsigned int amount );
 	// void			beRepaired( unsigned int amount );
 
-	void			resetHitPoint();
-	void			resetEnergyPoint();
-	void			resetAttackDamage();
+	virtual void	resetHitPoint();
+	virtual void	resetEnergyPoint();
+	virtual void	resetAttackDamage();
 
 	private:
 

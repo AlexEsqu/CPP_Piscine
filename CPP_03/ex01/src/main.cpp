@@ -18,6 +18,7 @@ int	main()
 	{
 		ScavTrap	Stakanov("Stakanov");
 
+
 		Stakanov.guardGate();
 
 		for (int i = 0; i < 11; i++) {
@@ -29,6 +30,20 @@ int	main()
 		}
 
 		Stakanov.guardGate();
+
+		// Why does attack() need to be virtual ? Because it ensure overriding :
+		ClapTrap* pTrap = &Stakanov;
+		pTrap->displayStats();
+		pTrap->attack("BObo");
+
+	}
+
+	// Why does destructor have to be virtual ? Same reason !
+	{
+		ClapTrap* pCock;
+		pCock = new ScavTrap("Cockroach");
+		pCock->displayStats();
+		delete pCock;
 	}
 
 }

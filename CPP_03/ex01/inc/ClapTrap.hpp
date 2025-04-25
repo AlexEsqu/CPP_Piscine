@@ -16,7 +16,7 @@ public:
 					ClapTrap( std::string name);
 
 	//----------------- DESTRUCTOR -----------------------//
-					~ClapTrap();
+	virtual			~ClapTrap();
 
 	//----------------- COPY CONSTRUCTORS ----------------//
 					ClapTrap( const ClapTrap& original );
@@ -25,7 +25,7 @@ public:
 	ClapTrap&		operator=( const ClapTrap& original );
 
 	//----------------- MEMBER FUNCTIONS -----------------//
-	void			attack( const std::string& target );
+	virtual void	attack( const std::string& target );
 	void			takeDamage( unsigned int amount );
 	void			beRepaired( unsigned int amount );
 
@@ -39,9 +39,9 @@ public:
 	void			setEnergyPoint( int new_energy_point );
 	void			setAttackDamage( int new_attack_damage );
 
-	void			resetHitPoint();
-	void			resetEnergyPoint();
-	void			resetAttackDamage();
+	virtual void	resetHitPoint();
+	virtual void	resetEnergyPoint();
+	virtual void	resetAttackDamage();
 
 	void			displayStats();
 

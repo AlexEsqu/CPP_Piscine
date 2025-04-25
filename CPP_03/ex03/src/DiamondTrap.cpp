@@ -67,3 +67,19 @@ void		DiamondTrap::whoAmI()
 {
 	std::cout << "DiamondTrap is " << getName() << " or " << _name << " for short" << std::endl;
 }
+
+void		DiamondTrap::resetHitPoint()
+{
+	FragTrap::resetHitPoint();
+}
+
+void		DiamondTrap::resetEnergyPoint()
+{
+	ScavTrap::resetEnergyPoint();
+
+}
+
+void		DiamondTrap::resetAttackDamage()
+{
+	FragTrap::resetAttackDamage();
+}

@@ -29,6 +29,10 @@ public:
 	// void			takeDamage( unsigned int amount );
 	// void			beRepaired( unsigned int amount );
 
+	void			resetHitPoint();
+	void			resetEnergyPoint();
+	void			resetAttackDamage();
+
 private:
 
 	std::string		_name;

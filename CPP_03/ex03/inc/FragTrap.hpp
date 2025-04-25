@@ -15,7 +15,7 @@ class FragTrap: virtual public ClapTrap {
 					FragTrap( std::string name);
 
 	//----------------- DESTRUCTOR -----------------------//
-					~FragTrap();
+	virtual			~FragTrap();
 
 	//----------------- COPY CONSTRUCTORS ----------------//
 					FragTrap( const FragTrap& original );
@@ -27,13 +27,13 @@ class FragTrap: virtual public ClapTrap {
 	void			highFivesGuys();
 
 	// ---------------- INHERITED ------------------------//
-	void			attack( const std::string& target );
+	virtual void	attack( const std::string& target );
 	// void			takeDamage( unsigned int amount );
 	// void			beRepaired( unsigned int amount );
 
-	void			resetHitPoint();
-	void			resetEnergyPoint();
-	void			resetAttackDamage();
+	virtual void	resetHitPoint();
+	virtual void	resetEnergyPoint();
+	virtual void	resetAttackDamage();
 
 
 	private:
