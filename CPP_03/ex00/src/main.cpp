@@ -16,14 +16,24 @@ int	main()
 		CL4P.beRepaired(1);
 	}
 
-	ClapTrap	Stakanov("Stakanov");
+	{
+		ClapTrap	Stakanov("Stakanov");
 
-	for (int i = 0; i < 11; i++) {
-		Stakanov.attack("Bob");
+		for (int i = 0; i < 11; i++) {
+			Stakanov.attack("Bob");
+		}
+
+		for (int i = 0; i < 11; i++) {
+			Stakanov.takeDamage(1);
+		}
 	}
 
-	for (int i = 0; i < 11; i++) {
-		Stakanov.takeDamage(1);
+	{
+		ClapTrap	Bast("Bast");
+		ClapTrap	BastCopy(Bast);
+
+		Bast.displayStats();
+		BastCopy.displayStats();
 	}
 
 }

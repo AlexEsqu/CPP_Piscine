@@ -5,7 +5,8 @@
 ScavTrap::ScavTrap( std::string name)
 	: ClapTrap(name)
 {
-	std::cout << "ScavTrap constructor called for " << name << std::endl;
+	std::cout << GREEN << FAINT << "ScavTrap constructor called for ";
+	std::cout << name << STOP_COLOR << STOP_STYLE << std::endl;
 
 	setHitPoint(100);
 	setEnergyPoint(50);
@@ -16,7 +17,8 @@ ScavTrap::ScavTrap( std::string name)
 
 ScavTrap::~ScavTrap()
 {
-	std::cout << "ScavTrap destructor called" << std::endl;
+	std::cout << RED << FAINT << "ScavTrap destructor called";
+	std::cout << STOP_COLOR << STOP_STYLE << std::endl;
 }
 
 //----------------- COPY CONSTRUCTORS ----------------//
@@ -24,21 +26,22 @@ ScavTrap::~ScavTrap()
 ScavTrap::ScavTrap( const ScavTrap& original )
 	: ClapTrap(original)
 {
-	std::cout << "ScavTrap copy constructor called" << std::endl;
+	std::cout << GREEN << FAINT << "ScavTrap copy constructor called";
+	std::cout << STOP_COLOR << STOP_STYLE << std::endl;
 
-	this->setHitPoint(original.getHitPoint());
-	this->setEnergyPoint(original.getEnergyPoint());
-	this->setAttackDamage(original.getAttackDamage());
+	setHitPoint(original.getHitPoint());
+	setEnergyPoint(original.getEnergyPoint());
+	setAttackDamage(original.getAttackDamage());
 }
 
 //----------------- COPY ASSIGNEMENT -----------------//
 
 ScavTrap&	ScavTrap::operator=( const ScavTrap& original )
 {
-	std::cout << "ScavTrap copy assignement called" << std::endl;
-	if (this != &original) {
-		*this = original;
-	}
+	std::cout << GREEN << FAINT << "ScavTrap copy assignement called";
+	std::cout << STOP_COLOR << STOP_STYLE << std::endl;
+
+	ClapTrap::operator=(original);
 	return *this;
 }
 

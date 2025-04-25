@@ -5,15 +5,13 @@
 
 int	main()
 {
-
+	std::cout << "Testing the new DiamondTrap :" << std::endl;
 	{
 		DiamondTrap	Stakanov("Stakanov");
 		Stakanov.displayStats();
 
-		Stakanov.attack("Bob");
-
-		for (int i = 0; i < 5; i++) {
-			Stakanov.takeDamage(1);
+		for (int i = 0; i < 3; i++) {
+			Stakanov.attack("Bob");
 		}
 
 		Stakanov.displayStats();
@@ -21,6 +19,7 @@ int	main()
 		Stakanov.whoAmI();
 
 	}
+	std::cout << std::endl;
 
 	ClapTrap*	array_CL4P[4];
 	{
@@ -33,13 +32,15 @@ int	main()
 	{
 		for (int i = 0; i < 4; i++) {
 			array_CL4P[i]->displayStats();
-			array_CL4P[i]->attack("bob");
+			array_CL4P[i]->attack("Bob");
+			std::cout << std::endl;
 		}
 	}
 
 	{
 		for (int i = 0; i < 4; i++) {
 			delete array_CL4P[i];
+			std::cout << std::endl;
 		}
 	}
 

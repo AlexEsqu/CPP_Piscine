@@ -5,7 +5,8 @@
 FragTrap::FragTrap( std::string name)
 	: ClapTrap(name)
 {
-	std::cout << "FragTrap constructor called for " << name << std::endl;
+	std::cout << GREEN << FAINT << "FragTrap constructor called for ";
+	std::cout << name << STOP_COLOR << STOP_STYLE << std::endl;
 
 	setHitPoint(100);
 	setEnergyPoint(100);
@@ -16,7 +17,8 @@ FragTrap::FragTrap( std::string name)
 
 FragTrap::~FragTrap()
 {
-	std::cout << "FragTrap destructor called" << std::endl;
+	std::cout << RED << FAINT << "FragTrap destructor called";
+	std::cout << STOP_COLOR << STOP_STYLE << std::endl;
 }
 
 //----------------- COPY CONSTRUCTORS ----------------//
@@ -24,7 +26,8 @@ FragTrap::~FragTrap()
 FragTrap::FragTrap( const FragTrap& original )
 	: ClapTrap(original)
 {
-	std::cout << "FragTrap copy constructor called" << std::endl;
+	std::cout << GREEN << FAINT << "FragTrap copy constructor called";
+	std::cout << STOP_COLOR << STOP_STYLE << std::endl;
 
 	setHitPoint(original.getHitPoint());
 	setEnergyPoint(original.getEnergyPoint());
@@ -36,10 +39,9 @@ FragTrap::FragTrap( const FragTrap& original )
 
 FragTrap&	FragTrap::operator=( const FragTrap& original )
 {
-	std::cout << "FragTrap copy assignement called" << std::endl;
-	if (this != &original) {
-		*this = original;
-	}
+	std::cout << GREEN << FAINT << "FragTrap copy assignement called";
+	std::cout << STOP_COLOR << STOP_STYLE << std::endl;
+	ClapTrap::operator=(original);
 	return *this;
 }
 

@@ -8,14 +8,15 @@ ClapTrap::ClapTrap( std::string name )
 	, _energy_point(CLAPTRAP_ENERGY)
 	, _attack_damage(CLAPTRAP_ATTACK)
 {
-	std::cout << "ClapTrap constructor called for " << _name << std::endl;
+	std::cout << GREEN << FAINT << "ClapTrap constructor called for ";
+	std::cout << _name << STOP_COLOR << STOP_STYLE << std::endl;
 }
 
 //----------------- DESTRUCTOR -----------------------//
 
 ClapTrap::~ClapTrap()
 {
-	std::cout << "ClapTrap destructor called" << std::endl;
+	std::cout << RED << FAINT << "ClapTrap destructor called" << STOP_COLOR << STOP_STYLE << std::endl;
 }
 
 //----------------- COPY CONSTRUCTORS ----------------//
@@ -26,20 +27,24 @@ ClapTrap::ClapTrap( const ClapTrap& original )
 	, _energy_point(original._energy_point)
 	, _attack_damage(original._attack_damage)
 {
-	std::cout << "ClapTrap copy constructor called" << std::endl;
+	std::cout << GREEN << FAINT << "ClapTrap copy constructor called" << STOP_COLOR << STOP_STYLE << std::endl;
 }
 
 //----------------- COPY ASSIGNEMENT -----------------//
 
 ClapTrap&		ClapTrap::operator=( const ClapTrap& original )
 {
-	std::cout << "ClapTrap copy assignement called" << std::endl;
-	if (this != &original) {
-		_name = original._name;
-		_hit_point = original._hit_point;
-		_energy_point = original._energy_point;
-		_attack_damage = original._attack_damage;
-	}
+	std::cout << GREEN << FAINT << "ClapTrap copy assignement called";
+	std::cout << STOP_COLOR << STOP_STYLE << std::endl;
+
+	// self reference guard (unneeded unless managing memory)
+	if (this == &original)
+		return *this;
+
+	_name = original._name;
+	_hit_point = original._hit_point;
+	_energy_point = original._energy_point;
+	_attack_damage = original._attack_damage;
 	return *this;
 }
 

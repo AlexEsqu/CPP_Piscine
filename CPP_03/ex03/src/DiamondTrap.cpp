@@ -7,7 +7,8 @@ DiamondTrap::DiamondTrap( std::string name)
 	, ScavTrap(name)
 	, FragTrap(name)
 {
-	std::cout << "DiamondTrap constructor called for " << name << std::endl;
+	std::cout << GREEN << FAINT << "DiamondTrap constructor called for ";
+	std::cout << name << STOP_COLOR << STOP_STYLE << std::endl;
 	_name = name;
 	FragTrap::resetHitPoint();
 	ScavTrap::resetEnergyPoint();
@@ -18,7 +19,8 @@ DiamondTrap::DiamondTrap( std::string name)
 
 DiamondTrap::~DiamondTrap()
 {
-	std::cout << "DiamondTrap destructor called" << std::endl;
+	std::cout << RED << FAINT << "DiamondTrap destructor called";
+	std::cout << STOP_COLOR << STOP_STYLE << std::endl;
 }
 
 //----------------- COPY CONSTRUCTORS ----------------//
@@ -28,17 +30,23 @@ DiamondTrap::DiamondTrap( const DiamondTrap& original )
 	, ScavTrap(original)
 	, FragTrap(original)
 {
-	std::cout << "DiamondTrap copy constructor called" << std::endl;
+	std::cout << GREEN << FAINT << "DiamondTrap copy constructor called";
+	std::cout << STOP_COLOR << STOP_STYLE << std::endl;
+
+	_name = original._name;
+	setHitPoint(original.getHitPoint());
+	setEnergyPoint(original.getEnergyPoint());
+	setAttackDamage(original.getAttackDamage());
 }
 
 //----------------- COPY ASSIGNEMENT -----------------//
 
 DiamondTrap&	DiamondTrap::operator=( const DiamondTrap& original )
 {
-	std::cout << "DiamondTrap copy assignement called" << std::endl;
-	if (this != &original) {
-		*this = original;
-	}
+	std::cout << GREEN << FAINT << "DiamondTrap copy assignement called";
+	std::cout << STOP_COLOR << STOP_STYLE << std::endl;
+
+	ClapTrap::operator=(original);
 	return *this;
 }
 
@@ -65,7 +73,8 @@ void		DiamondTrap::attack( const std::string& target )
 
 void		DiamondTrap::whoAmI()
 {
-	std::cout << "DiamondTrap is " << getName() << " or " << _name << " for short" << std::endl;
+	std::cout << "DiamondTrap is named " << getName() << " or ";
+	std::cout  << _name << " for short" << std::endl;
 }
 
 void		DiamondTrap::resetHitPoint()

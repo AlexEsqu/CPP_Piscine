@@ -34,12 +34,15 @@ ClapTrap::ClapTrap( const ClapTrap& original )
 ClapTrap&		ClapTrap::operator=( const ClapTrap& original )
 {
 	std::cout << "ClapTrap copy assignement called" << std::endl;
-	if (this != &original) {
-		_name = original._name;
-		_hit_point = original._hit_point;
-		_energy_point = original._energy_point;
-		_attack_damage = original._attack_damage;
-	}
+
+	// self reference guard (unneeded unless managing memory)
+	if (this == &original)
+		return *this;
+
+	_name = original._name;
+	_hit_point = original._hit_point;
+	_energy_point = original._energy_point;
+	_attack_damage = original._attack_damage;
 	return *this;
 }
 
