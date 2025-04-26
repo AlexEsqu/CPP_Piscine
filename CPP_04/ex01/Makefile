@@ -2,7 +2,7 @@
 #		General variables													   #
 # **************************************************************************** #
 
-NAME				= account
+NAME				= noise
 
 SRC_DIR				= src
 
@@ -10,10 +10,20 @@ OBJ_DIR				= obj
 
 INC_DIR				= inc
 
-FUNC				= tests.cpp \
-					Account.cpp
+FUNC				= main.cpp \
+					Animal.cpp \
+					Cat.cpp \
+					Dog.cpp \
+					WrongAnimal.cpp \
+					WrongCat.cpp \
+					Brain.cpp
 
-HEAD				= Account.hpp
+HEAD				= Animal.hpp \
+					Cat.hpp \
+					Dog.hpp \
+					WrongAnimal.hpp \
+					WrongCat.hpp \
+					Brain.hpp
 
 SRC					= $(addprefix $(SRC_DIR)/, $(FUNC))
 
