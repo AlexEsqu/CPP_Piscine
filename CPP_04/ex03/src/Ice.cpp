@@ -33,7 +33,7 @@ Ice&				Ice::operator=( const Ice& original )
 	if (DEBUG)
 		std::cout << GREEN << "[ICE] Copy Assignement" << STOP_COLOR << std::endl;
 
-	AMateria::operator=(original);
+	_type = original.getType();
 	return *this;
 }
 

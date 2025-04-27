@@ -33,7 +33,7 @@ Cure&				Cure::operator=( const Cure& original )
 	if (DEBUG)
 		std::cout << GREEN << "[CURE] Copy Assignement" << STOP_COLOR << std::endl;
 
-	AMateria::operator=(original);
+	_type = original.getType();
 	return *this;
 }
 

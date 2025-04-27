@@ -49,10 +49,11 @@ $(OBJ_DIR):
 
 debug:				$(DEP) $(OBJ)
 					@echo "Compiling with debug flag"
-					$(CC) $(CFLAGS) -D DEBUG=1 -g $(INC) -o $(NAME) $(SRC) $(LIB)
+					$(CC) $(CFLAGS) -g $(INC) -o $(NAME) $(SRC) $(LIB)
 
 verbose:			$(DEP) $(OBJ)
-					$(CC) $(FLAGS) -D DEBUG=1 $(INC) -o $(NAME) $(OBJ)
+					@echo "Compiling with additional logging info"
+					$(CC) $(CFLAGS) -D DEBUG=1 -g $(INC) -o $(NAME) $(SRC) $(LIB)
 
 # **************************************************************************** #
 #		Clean up															   #
