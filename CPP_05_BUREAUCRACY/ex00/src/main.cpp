@@ -21,22 +21,18 @@ int	main()
 	std::cout << "exceptions if their grades are invalid :";
 	std::cout << std::endl << std::endl;
 
-	try { Bureaucrat	GodMode("GodMode", 0); }
-	catch (const Bureaucrat::GradeTooHighException& e) {
-		std::cerr << e.what() << std::endl; }
-	catch (const Bureaucrat::GradeTooLowException& e) {
-		std::cerr << e.what() << std::endl; }
-
 	try { Bureaucrat	Ghost("Ghost", 160); }
 	catch (const Bureaucrat::GradeTooHighException& e) {
 		std::cerr << e.what() << std::endl; }
 	catch (const Bureaucrat::GradeTooLowException& e) {
 		std::cerr << e.what() << std::endl; }
 
-	try { Bureaucrat	Genie("Genie", -10); }
-	catch (const Bureaucrat::GradeTooHighException& e) {
+	try { Bureaucrat	GodMode("GodMode", 0); }
+	catch (const std::exception& e) {
 		std::cerr << e.what() << std::endl; }
-	catch (const Bureaucrat::GradeTooLowException& e) {
+
+	try { Bureaucrat	Genie("Genie", -10); }
+	catch (const std::exception& e) {
 		std::cerr << e.what() << std::endl; }
 	std::cout << std::endl;
 
