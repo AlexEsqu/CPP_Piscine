@@ -2,7 +2,7 @@
 #		General variables													   #
 # **************************************************************************** #
 
-NAME				= account
+NAME				= bureaucracy
 
 SRC_DIR				= src
 
@@ -10,10 +10,10 @@ OBJ_DIR				= obj
 
 INC_DIR				= inc
 
-FUNC				= tests.cpp \
-					Account.cpp
+FUNC				= main.cpp \
+					Bureaucrat.cpp
 
-HEAD				= Account.hpp
+HEAD				= Bureaucrat.hpp
 
 SRC					= $(addprefix $(SRC_DIR)/, $(FUNC))
 
@@ -51,6 +51,10 @@ $(OBJ_DIR):
 debug:				$(DEP) $(OBJ)
 					@echo "Compiling with debug flag"
 					$(CC) $(CFLAGS) -g $(INC) -o $(NAME) $(SRC) $(LIB)
+
+verbose:			$(DEP) $(OBJ)
+					@echo "Compiling with additional logging info"
+					$(CC) $(CFLAGS) -D DEBUG=1 -g $(INC) -o $(NAME) $(SRC) $(LIB)
 
 # **************************************************************************** #
 #		Clean up															   #
