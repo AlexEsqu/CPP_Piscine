@@ -74,12 +74,12 @@ AForm		*Intern::_make_shrubbery( const std::string& target )
 
 AForm		*Intern::_make_pardon( const std::string& target )
 {
-	return new ShrubberyCreationForm(target);
+	return new PresidentialPardonForm(target);
 }
 
 AForm		*Intern::_make_request( const std::string& target )
 {
-	return new ShrubberyCreationForm(target);
+	return new RobotomyRequestForm(target);
 }
 
 
