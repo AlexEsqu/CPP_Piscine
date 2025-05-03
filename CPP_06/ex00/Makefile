@@ -2,7 +2,7 @@
 #		General variables													   #
 # **************************************************************************** #
 
-NAME				= scalar
+NAME				= convert
 
 SRC_DIR				= src
 
@@ -11,9 +11,9 @@ OBJ_DIR				= obj
 INC_DIR				= inc
 
 FUNC				= main.cpp \
-					Scalar.cpp
+					ScalarConverter.cpp
 
-HEAD				= Scalar.hpp
+HEAD				= ScalarConverter.hpp
 
 SRC					= $(addprefix $(SRC_DIR)/, $(FUNC))
 
