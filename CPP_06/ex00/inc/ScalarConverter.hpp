@@ -7,11 +7,23 @@
 # include <iomanip>
 # include <limits>
 
+typedef struct	s_conversions {
+	int			sign;
+	bool		isInvalid;
+	bool		isInf;
+	bool		isNan;
+	char		character;
+	int			integer;
+	float		fpoint;
+	double		dpoint;
+	long long	large;
+}	t_conv;
+
 class	ScalarConverter
 {
 	public:
 
-		static void			convert( std::string representation );
+		static t_conv		convert( std::string representation );
 
 	private:
 
@@ -21,17 +33,6 @@ class	ScalarConverter
 		ScalarConverter&	operator=( const ScalarConverter& original );
 
 };
-
-typedef struct	s_conversions {
-	int			sign;
-	bool		isInf;
-	bool		isNan;
-	char		character;
-	int			integer;
-	float		fpoint;
-	double		dpoint;
-	long long	large;
-}	t_conv;
 
 # define RED "\033[31m"
 # define GREEN "\033[32m"

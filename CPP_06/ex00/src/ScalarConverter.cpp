@@ -54,20 +54,17 @@ static bool	syntaxCheck( std::string literal )
 	return true;
 }
 
-static void	printNaNorInf( std::string& literal, t_conv& conv )
+static void	setNaNorInf( std::string& literal, t_conv& conv )
 {
-	std::cout << "char: impossible\nint: impossible\nfloat: ";
 	if (literal.compare("inf") == 0) {
-		if (conv.sign == -1) {std::cout << "-";}
-		std::cout << "inf\ndouble: ";
-		if (conv.sign == -1) {std::cout << "-";}
-		std::cout << "inf\n";
+		conv.isInf = true;
+		conv.large = std::numeric_limits<long long>::infinity();
+		conv.dpoint = std::numeric_limits<double>::infinity();
 	}
 	if (literal.compare("nan") == 0) {
-		if (conv.sign == -1) {std::cout << "-";}
-		std::cout << "nanf\ndouble: ";
-		if (conv.sign == -1) {std::cout << "-";}
-		std::cout << "nan\n";
+		conv.isNan = true;
+		conv.large = std::numeric_limits<long long>::signaling_NaN();
+		conv.dpoint = std::numeric_limits<double>::signaling_NaN();
 	}
 }
 
@@ -92,72 +89,42 @@ static void	extractSign( std::string& literal, t_conv& conv )
 	}
 }
 
-static void	printResults( t_conv conv )
-{
-	std::cout << "char: ";
-	if (conv.character < 0) {std::cout << "impossible";}
-	else if (!isprint(conv.character)) {std::cout << "Non displayable";}
-	else {std::cout << "'" << (char)conv.character << "'";}
-
-	std::cout << std::endl << "int: ";
-	if (conv.large > std::numeric_limits<int>::max()
-		|| conv.large < std::numeric_limits<int>::min())
-		std::cout << "impossible";
-	else
-		std::cout << (int)(conv.large) << std::endl;
-
-	std::cout << "float: ";
-	if (conv.dpoint > std::numeric_limits<float>::max()
-		|| conv.dpoint < std::numeric_limits<float>::min())
-		std::cout << "impossible";
-	else
-		std::cout << std::fixed << std::setprecision(1) << conv.dpoint << "f";
-
-	std::cout << std::endl << "double: ";
-	if (conv.dpoint > std::numeric_limits<double>::max()
-		|| conv.dpoint < std::numeric_limits<double>::min())
-		std::cout << "impossible" << std::endl;
-	else
-		std::cout << conv.dpoint << std::endl;
-}
-
-void		ScalarConverter::convert( std::string literal )
+t_conv		ScalarConverter::convert( std::string literal )
 {
 	t_conv	conv;
 
-	if (!syntaxCheck(literal))
-		return;
+	if (!syntaxCheck(literal)) {
+		conv.isInvalid = true;
+		return conv;
+	}
 
 	extractSign(literal, conv);
 
 	if (isalpha(literal[0])) {
 		if (literal.compare("inf") == 0 || literal.compare("nan") == 0) {
-			printNaNorInf(literal, conv);
-			return;
+			setNaNorInf(literal, conv);
 		}
 		else if (literal.length() == 1 && conv.sign == 1)
 			setSingleChar(literal, conv);
 		else {
 			std::cerr << "ERROR: Unsupported input." << std::endl;
-			return;
+			conv.isInvalid = true;
 		}
 	}
 
 	else if (literal.find(".")) {
-		conv.dpoint = std::atof(literal.c_str());
-		conv.large = (long long)conv.dpoint;
+		conv.dpoint = std::atof(literal.c_str()) * conv.sign;
+		conv.large = (long long)conv.dpoint * conv.sign;
 	}
 
-	else
-		conv.large = std::atoll(literal.c_str());
-
-	conv.large *= conv.sign;
-	conv.dpoint *= conv.sign;
+	else {
+		conv.large = std::atoll(literal.c_str()) * conv.sign;
+		conv.dpoint = conv.large * conv.sign;
+	}
 
 	if (conv.large >= 0 && conv.large <= 128)
 		conv.character = (char)conv.large;
 	else { conv.character = -1; }
 
-	printResults(conv);
-
+	return (conv);
 }
