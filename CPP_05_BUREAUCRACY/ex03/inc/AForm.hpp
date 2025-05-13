@@ -7,14 +7,14 @@ class Bureaucrat;
 
 class AForm {
 
-	private:
+private:
 
 		const std::string	_name;
 		const int			_gradeToSign;
 		const int			_gradeToExec;
 		bool				_isSigned;
 
-	public:
+public:
 
 	//----------------- CONSTRUCTORS ---------------------//
 

@@ -11,9 +11,9 @@ OBJ_DIR				= obj
 INC_DIR				= inc
 
 FUNC				= tests.cpp \
-					Account.cpp
+					ScalarConverter.cpp
 
-HEAD				= Account.hpp
+HEAD				= ScalarConverter.hpp
 
 SRC					= $(addprefix $(SRC_DIR)/, $(FUNC))
 

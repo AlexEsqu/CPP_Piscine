@@ -54,57 +54,71 @@ static bool	syntaxCheck( std::string literal )
 	return true;
 }
 
-static bool	isNumOrSingleChar( std::string& literal )
+static void	printNaNorInf( std::string& literal, t_conv& conv )
 {
-	if (literal.length() > 1 && !isdigit(literal[1])) {
-		std::cerr << "ERROR: Unsupported input." << std::endl;
-		return false;
+	std::cout << "char: impossible\nint: impossible\nfloat: ";
+	if (literal.compare("inf") == 0) {
+		if (conv.sign == -1) {std::cout << "-";}
+		std::cout << "inf\ndouble: ";
+		if (conv.sign == -1) {std::cout << "-";}
+		std::cout << "inf\n";
 	}
-	return true;
+	if (literal.compare("nan") == 0) {
+		if (conv.sign == -1) {std::cout << "-";}
+		std::cout << "nanf\ndouble: ";
+		if (conv.sign == -1) {std::cout << "-";}
+		std::cout << "nan\n";
+	}
 }
 
-static int	extractSign( std::string& literal )
+static void	setSingleChar( std::string& literal, t_conv& conv )
 {
-	int	sign;
+	if (isdigit(literal[0]))
+		conv.character = literal[0] - '0';
+	else
+		conv.character = literal[0];
+	conv.large = conv.character;
+	conv.dpoint = conv.large;
+}
 
-	sign = 1;
+static void	extractSign( std::string& literal, t_conv& conv )
+{
+	conv.sign = 1;
 	if (literal[0] == '-' || literal[0] == '+')
 	{
 		if (literal[0] == '-')
-			sign = -1;
+			conv.sign = -1;
 		literal.erase(0, 1);
 	}
-	return sign;
 }
 
 static void	printResults( t_conv conv )
 {
 	std::cout << "char: ";
-	if (conv.character == -1)
-		std::cout << "impossible";
-	else if (!isprint(conv.character))
-		std::cout << "Non displayable";
-	else
-		std::cout << "'" << (char)conv.character << "'";
+	if (conv.character < 0) {std::cout << "impossible";}
+	else if (!isprint(conv.character)) {std::cout << "Non displayable";}
+	else {std::cout << "'" << (char)conv.character << "'";}
 
 	std::cout << std::endl << "int: ";
-	if (conv.integer == -1)
+	if (conv.large > std::numeric_limits<int>::max()
+		|| conv.large < std::numeric_limits<int>::min())
 		std::cout << "impossible";
 	else
-		std::cout << (int)(conv.large * (long long)conv.sign);
+		std::cout << (int)(conv.large) << std::endl;
 
-	std::cout << std::endl << "float: ";
-	if (conv.fpoint == -1)
+	std::cout << "float: ";
+	if (conv.dpoint > std::numeric_limits<float>::max()
+		|| conv.dpoint < std::numeric_limits<float>::min())
 		std::cout << "impossible";
 	else
-		std::cout << (float)(conv.dpoint * conv.sign) << "f";
+		std::cout << std::fixed << std::setprecision(1) << conv.dpoint << "f";
 
 	std::cout << std::endl << "double: ";
-	if (conv.dpoint == -1)
-		std::cout << "impossible";
+	if (conv.dpoint > std::numeric_limits<double>::max()
+		|| conv.dpoint < std::numeric_limits<double>::min())
+		std::cout << "impossible" << std::endl;
 	else
-		std::cout << conv.dpoint * conv.sign;
-	std::cout << std::endl;
+		std::cout << conv.dpoint << std::endl;
 }
 
 void		ScalarConverter::convert( std::string literal )
@@ -114,30 +128,35 @@ void		ScalarConverter::convert( std::string literal )
 	if (!syntaxCheck(literal))
 		return;
 
-	conv.sign = extractSign(literal);
+	extractSign(literal, conv);
 
-	if (literal.compare("inf") == 0) {
-		conv.isInf = true;
-	}
-	else if (literal.compare("nan") == 0) {
-		conv.isNan = true;
-	}
-	else if (!isNumOrSingleChar(literal)) {
-		return;
+	if (isalpha(literal[0])) {
+		if (literal.compare("inf") == 0 || literal.compare("nan") == 0) {
+			printNaNorInf(literal, conv);
+			return;
+		}
+		else if (literal.length() == 1 && conv.sign == 1)
+			setSingleChar(literal, conv);
+		else {
+			std::cerr << "ERROR: Unsupported input." << std::endl;
+			return;
+		}
 	}
 
-	conv.character = -1;
-	if (literal.length() == 1 && conv.sign == 1) {
-		conv.character = literal[0];
-		conv.large = conv.character;
-		conv.dpoint = conv.large;
-	}
 	else if (literal.find(".")) {
 		conv.dpoint = std::atof(literal.c_str());
 		conv.large = (long long)conv.dpoint;
 	}
+
 	else
 		conv.large = std::atoll(literal.c_str());
+
+	conv.large *= conv.sign;
+	conv.dpoint *= conv.sign;
+
+	if (conv.large >= 0 && conv.large <= 128)
+		conv.character = (char)conv.large;
+	else { conv.character = -1; }
 
 	printResults(conv);
 
