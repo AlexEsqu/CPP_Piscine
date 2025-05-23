@@ -6,18 +6,26 @@
 # include <cstdlib>
 # include <iomanip>
 # include <limits>
+# include <format>
+# include <cstring>
 
-typedef struct	s_conversions {
+struct	t_conv {
+
 	int			sign;
-	bool		isInvalid;
+
+	bool		isInvalidInt;
+	bool		isInvalidChar;
+	bool		isInvalidFloat;
+
 	bool		isInf;
 	bool		isNan;
+
 	char		character;
 	int			integer;
 	float		fpoint;
 	double		dpoint;
-	long long	large;
-}	t_conv;
+
+};
 
 class	ScalarConverter
 {

@@ -2,11 +2,61 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "name": "CPP06 ex00",
+      "name": "CPP06 ex00 3",
       "type": "cppdbg",
       "request": "launch",
-      "program": "${workspaceFolder}/CPP_06/ex00/scalar",
+      "program": "${workspaceFolder}/CPP_06/ex00/convert",
       "args": ["3"],
+      "stopAtEntry": true,
+      "cwd": "${fileDirname}",
+      "environment": [],
+      "externalConsole": false,
+      "MIMode": "gdb",
+      "setupCommands": [
+          {
+              "description": "Enable pretty-printing for gdb",
+              "text": "-enable-pretty-printing",
+              "ignoreFailures": true
+          },
+          {
+              "description": "Set Disassembly Flavor to Intel",
+              "text": "-gdb-set disassembly-flavor intel",
+              "ignoreFailures": true
+          }
+      ]
+    },
+
+    {
+      "name": "CPP06 ex00 int max + 1",
+      "type": "cppdbg",
+      "request": "launch",
+      "program": "${workspaceFolder}/CPP_06/ex00/convert",
+      "args": ["2147483648"],
+      "stopAtEntry": true,
+      "cwd": "${fileDirname}",
+      "environment": [],
+      "externalConsole": false,
+      "MIMode": "gdb",
+      "setupCommands": [
+          {
+              "description": "Enable pretty-printing for gdb",
+              "text": "-enable-pretty-printing",
+              "ignoreFailures": true
+          },
+          {
+              "description": "Set Disassembly Flavor to Intel",
+              "text": "-gdb-set disassembly-flavor intel",
+              "ignoreFailures": true
+          }
+      ]
+    },
+
+    {
+      "name": "CPP06 ex00 int max + 1 as double",
+      "type": "cppdbg",
+      "request": "launch",
+      "program": "${workspaceFolder}/CPP_06/ex00/convert",
+      "args": ["2147483648.0"],
       "stopAtEntry": true,
       "cwd": "${fileDirname}",
       "environment": [],

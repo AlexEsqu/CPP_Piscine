@@ -3,30 +3,23 @@
 static void	printResults( t_conv conv )
 {
 	std::cout << "char: ";
-	if (conv.character < 0 || conv.sign == -1 ) {std::cout << "impossible";}
+	if (conv.isInvalidChar) {std::cout << "impossible";}
 	else if (!isprint(conv.character)) {std::cout << "Non displayable";}
-	else {std::cout << "'" << (char)conv.character << "'";}
+	else {std::cout << "'" << static_cast<char>(conv.character) << "'";}
 
 	std::cout << std::endl << "int: ";
-	if (conv.large > std::numeric_limits<int>::max()
-		|| conv.large < std::numeric_limits<int>::min())
-		std::cout << "impossible";
-	else
-		std::cout << (int)(conv.large) << std::endl;
+	if (conv.isInvalidInt) {std::cout << "impossible";}
+	else {std::cout << conv.integer;}
 
-	std::cout << "float: ";
-	// if (conv.dpoint > std::numeric_limits<float>::max()
-	// 	|| conv.dpoint < std::numeric_limits<float>::min())
-	// 	std::cout << "impossible";
-	// else
-		std::cout << std::fixed << std::setprecision(1) << conv.dpoint << "f";
+	std::cout << std::endl << "float: ";
+	if (conv.isInvalidFloat) {std::cout << "impossible";}
+	else {
+		std::cout << std::fixed << std::setprecision(1) << conv.fpoint;
+		if (!conv.isInf && !conv.isNan)
+			std::cout << "f";
+	}
 
-	std::cout << std::endl << "double: ";
-	// if (conv.dpoint > std::numeric_limits<double>::max()
-	// 	|| conv.dpoint < std::numeric_limits<double>::min())
-	// 	std::cout << "impossible" << std::endl;
-	// else
-		std::cout << conv.dpoint << std::endl;
+	std::cout << std::endl << "double: " << conv.dpoint << std::endl;
 }
 
 int	main(int argc, char **argv)
@@ -39,7 +32,12 @@ int	main(int argc, char **argv)
 
 	t_conv	result;
 
-	result = ScalarConverter::convert(argv[1]);
-	printResults(result);
+	try {
+		result = ScalarConverter::convert(argv[1]);
+		printResults(result);
+	}
+	catch (const std::exception& e) {
+		std::cerr << RED << e.what() << STOP_COLOR << std::endl;
+	}
 	return 0;
 }
