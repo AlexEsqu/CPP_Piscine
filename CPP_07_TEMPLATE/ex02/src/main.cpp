@@ -42,6 +42,16 @@ int	main()
 		std::cout << "[" << i << "] : " << arrayOfInt[i] << "\n";
 	}
 
+	std::cout << "But we cannot access an index higher than the array size :";
+	std::cout << std::endl;
+	try {
+		std::cout << arrayOfInt[ARRAY_LEN] << std::endl;
+	}
+	catch (const std::out_of_range& e) {
+		std::cout << "Array [" << ARRAY_LEN << "] is not accessible because [";
+		std::cout << e.what() << "]" << std::endl;
+	}
+
 	std::cout << std::endl << "FLOAT ARRAY TEST" << std::endl;
 	std::cout << "Let's initialize an float array of length " << ARRAY_LEN;
 	std::cout << std::endl;
