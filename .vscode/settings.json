@@ -112,6 +112,7 @@
     "charconv": "cpp",
     "format": "cpp",
     "variant": "cpp",
-    "cstring": "cpp"
+    "cstring": "cpp",
+    "list": "cpp"
   }
 }
