@@ -2,7 +2,7 @@
 #		General variables													   #
 # **************************************************************************** #
 
-NAME				= account
+NAME				= span
 
 SRC_DIR				= src
 
@@ -10,10 +10,9 @@ OBJ_DIR				= obj
 
 INC_DIR				= inc
 
-FUNC				= tests.cpp \
-					Account.cpp
+FUNC				= main.cpp Span.cpp
 
-HEAD				= Account.hpp
+HEAD				= Span.hpp
 
 SRC					= $(addprefix $(SRC_DIR)/, $(FUNC))
 
