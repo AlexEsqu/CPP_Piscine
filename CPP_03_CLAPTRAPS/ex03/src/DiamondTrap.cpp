@@ -52,24 +52,6 @@ DiamondTrap&	DiamondTrap::operator=( const DiamondTrap& original )
 
 //----------------- MEMBER FUNCTIONS -----------------//
 
-void		DiamondTrap::attack( const std::string& target )
-{
-
-	if (getHitPoint() <= 0) {
-		std::cout << "DiamondTrap " << _name << " has no hit point, it cannot act" << std::endl;
-		return ;
-	}
-
-	if (getEnergyPoint() <= 0) {
-		std::cout << "DiamondTrap " << _name << " has no energy left to attack" << std::endl;
-		return ;
-	}
-
-	setEnergyPoint(getEnergyPoint() - 1);
-	std::cout << "DiamondTrap " << _name << " attacks " << target;
-	std::cout << " causing " << getAttackDamage() << " points of damage!" << std::endl;
-}
-
 
 void		DiamondTrap::whoAmI()
 {

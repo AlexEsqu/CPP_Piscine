@@ -49,24 +49,6 @@ FragTrap&	FragTrap::operator=( const FragTrap& original )
 
 //----------------- MEMBER FUNCTIONS -----------------//
 
-void		FragTrap::attack( const std::string& target )
-{
-
-	if (getHitPoint() <= 0) {
-		std::cout << "FragTrap " << getName() << " has no hit point, it cannot act" << std::endl;
-		return ;
-	}
-
-	if (getEnergyPoint() <= 0) {
-		std::cout << "FragTrap " << getName() << " has no energy left to attack" << std::endl;
-		return ;
-	}
-
-	setEnergyPoint(getEnergyPoint() - 1);
-	std::cout << "FragTrap " << getName() << " attacks " << target;
-	std::cout << " causing " << getAttackDamage() << " points of damage!" << std::endl;
-}
-
 void		FragTrap::highFivesGuys()
 {
 	std::cout << "FragTrap " << getName() << " is requesting a high five !" << std::endl;
