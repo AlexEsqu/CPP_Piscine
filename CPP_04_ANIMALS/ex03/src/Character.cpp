@@ -4,6 +4,7 @@
 
 Character::Character(const std::string& name)
 	: _name(name)
+	, _drop_list(NULL)
 {
 	if (DEBUG) {
 		std::cout << GREEN << "[CHARACTER] Calling Constructor ";
@@ -13,7 +14,6 @@ Character::Character(const std::string& name)
 	for (int i = 0; i < 4; i++) {
 		_inventory[i] = NULL;
 	}
-	_drop_list = NULL;
 
 }
 
@@ -33,10 +33,11 @@ Character::~Character()
 	}
 
 	Node	*current = _drop_list;
-	Node	*next;
+	Node	*next = NULL;
 	while (current)
 	{
 		next = current->next;
+		delete current->materia;
 		delete current;
 		current = next;
 	}
@@ -47,6 +48,7 @@ Character::~Character()
 
 Character::Character( const Character& original )
 	: _name(original.getName())
+	, _drop_list(NULL)
 {
 	if (DEBUG) {
 		std::cout << GREEN << "[CHARACTER] Calling Copy Constructor ";
@@ -74,7 +76,10 @@ Character&				Character::operator=( const Character& original )
 	_name = original.getName();
 
 	for (int i = 0; i < 4; i++) {
-		_inventory[i] = original._inventory[i]->clone();
+		if (original._inventory[i])
+			_inventory[i] = original._inventory[i]->clone();
+		else
+			_inventory[i] = NULL;
 	}
 
 	return *this;
@@ -114,10 +119,14 @@ void 					Character::unequip(int idx)
 		std::cout << idx << " Materia" << STOP_COLOR << std::endl;
 	}
 
-	if (DEBUG && (idx < 0 || idx > 3))
-		std::cout << RED << "Materia is out of bounds !" << STOP_COLOR << std::endl;
-	else if (DEBUG && (_inventory[idx] == NULL))
-		std::cout << RED << "Materia does not exist !" << STOP_COLOR << std::endl;
+	if (idx < 0 || idx > 3) {
+		if (DEBUG)
+			std::cout << RED << "Materia is out of bounds !" << STOP_COLOR << std::endl;
+	}
+	else if (_inventory[idx] == NULL) {
+		if (DEBUG)
+			std::cout << RED << "Materia does not exist !" << STOP_COLOR << std::endl;
+	}
 	else
 		drop(idx);
 }
@@ -129,8 +138,10 @@ void					Character::use( int idx, ICharacter& target )
 		std::cout << idx << " Materia" << STOP_COLOR << std::endl;
 	}
 
-	if (DEBUG && (idx < 0 || idx > 3))
-		std::cout << RED << "Materia is out of bounds !" << STOP_COLOR << std::endl;
+	if (idx < 0 || idx > 3 || !_inventory[idx]) {
+		if (DEBUG)
+			std::cout << RED << "Materia is out of bounds !" << STOP_COLOR << std::endl;
+	}
 	else
 		_inventory[idx]->use(target);
 }
@@ -142,16 +153,22 @@ void					Character::drop( int idx )
 
 	_inventory[idx] = NULL;
 
-	std::cout << YELLOW << "[CHARACTER] " << _name << " dropped a ";
-	std::cout << to_drop->getType() << " Materia" << STOP_COLOR << std::endl;
+	if (DEBUG) {
+		std::cout << YELLOW << "[CHARACTER] " << _name << " dropped a ";
+		std::cout << to_drop->getType() << " Materia" << STOP_COLOR << std::endl;
+	}
 
-	Node*		drop_spot = _drop_list;
+	Node*	_new_node = new Node;
+	_new_node->materia = to_drop;
+	_new_node->next = NULL;
 
-	while (drop_spot && drop_spot->next != NULL)
-		drop_spot = drop_spot->next;
-
-	_drop_list = new Node;
-	_drop_list->materia = to_drop;
-	_drop_list->next = NULL;
+	if (!_drop_list)
+		_drop_list = _new_node;
+	else {
+		Node*	current = _drop_list;
+		while (current->next != NULL)
+			current = current->next;
+		current->next = _new_node;
+	}
 
 }

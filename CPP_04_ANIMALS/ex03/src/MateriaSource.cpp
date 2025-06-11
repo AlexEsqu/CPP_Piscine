@@ -36,9 +36,7 @@ MateriaSource::MateriaSource( const MateriaSource& original )
 		std::cout << STOP_COLOR << std::endl;
 	}
 
-	for (int i = 0; i < 4; i++) {
-		_learned[i] = original._learned[i];
-	}
+	*this = original;
 }
 
 //----------------- COPY ASSIGNEMENT -----------------//
@@ -51,7 +49,10 @@ MateriaSource&	MateriaSource::operator=( const MateriaSource& original )
 	}
 
 	for (int i = 0; i < 4; i++) {
-		_learned[i] = original._learned[i];
+		if (original._learned[i])
+			_learned[i] = original._learned[i]->clone();
+		else
+			_learned[i] = NULL;
 	}
 	return *this;
 }
