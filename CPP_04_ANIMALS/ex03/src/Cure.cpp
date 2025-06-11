@@ -44,9 +44,7 @@ Cure*				Cure::clone() const
 	if (DEBUG)
 		std::cout << GREEN << "[CURE] Cloning" << STOP_COLOR << std::endl;
 
-	Cure	*pClone;
-
-	pClone = new Cure();
+	Cure	*pClone = new Cure();
 	return (pClone);
 }
 

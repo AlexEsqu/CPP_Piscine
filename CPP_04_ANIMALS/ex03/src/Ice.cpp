@@ -44,9 +44,7 @@ Ice*				Ice::clone() const
 	if (DEBUG)
 		std::cout << GREEN << "[ICE] Cloning" << STOP_COLOR << std::endl;
 
-	Ice	*pClone;
-
-	pClone = new Ice();
+	Ice	*pClone = new Ice();
 	return (pClone);
 }
 

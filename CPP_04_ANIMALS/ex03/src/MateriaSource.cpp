@@ -78,8 +78,6 @@ void			MateriaSource::learnMateria( AMateria* m )
 		std::cout << " 4 Materia" << STOP_COLOR << std::endl;
 	}
 
-	delete m;
-
 }
 
 AMateria*		MateriaSource::createMateria( const std::string& type )
