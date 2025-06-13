@@ -45,20 +45,24 @@ void	identify(Base* p)
 void	identify(Base& p)
 {
 	try {
-		dynamic_cast<A&>(p);
+		A& a = dynamic_cast<A&>(p);
 		std::cout << "A" << std::endl;
+		(void)a; // to avoid unused compilation error
+		// Would use [[MAYBE_UNUSED]] IF WE COULD USE C++17 !!
 		return;
 	}
 	catch (...) {}
 	try {
-		dynamic_cast<B&>(p);
+		B& b = dynamic_cast<B&>(p);
 		std::cout << "B" << std::endl;
+		(void)b;
 		return;
 	}
 	catch (...) {}
 	try {
-		dynamic_cast<C&>(p);
+		C& c = dynamic_cast<C&>(p);
 		std::cout << "C" << std::endl;
+		(void)c;
 		return;
 	}
 	catch (...) {

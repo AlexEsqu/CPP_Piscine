@@ -6,7 +6,6 @@
 # include <cstdlib>
 # include <iomanip>
 # include <limits>
-# include <format>
 # include <cstring>
 
 struct	t_conv {
