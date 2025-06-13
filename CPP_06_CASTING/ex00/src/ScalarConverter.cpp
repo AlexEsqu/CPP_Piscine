@@ -89,6 +89,7 @@ static t_conv&	extractNaNorInf( std::string& literal, t_conv& conv )
 
 	else if (literal.compare("nan") == 0 || literal.compare("nanf") == 0) {
 		conv.isNan = true;
+		conv.fpoint = std::numeric_limits<float>::quiet_NaN();
 		conv.dpoint = std::numeric_limits<double>::quiet_NaN();
 	}
 
