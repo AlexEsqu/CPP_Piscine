@@ -15,7 +15,6 @@ static void	printResults( t_conv conv )
 	if (conv.isInvalidFloat) {std::cout << "impossible";}
 	else {
 		std::cout << std::fixed << std::setprecision(1) << conv.fpoint;
-		// if (!conv.isInf && !conv.isNan)
 		std::cout << "f";
 	}
 

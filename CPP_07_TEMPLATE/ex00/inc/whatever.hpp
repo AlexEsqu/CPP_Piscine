@@ -1,5 +1,5 @@
 #ifndef WHATEVER_H
-# define WHATVER_H
+# define WHATEVER_H
 
 template<typename T>
 void	swap(T a, T b)
