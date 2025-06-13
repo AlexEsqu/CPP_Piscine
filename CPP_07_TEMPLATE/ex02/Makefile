@@ -55,6 +55,10 @@ verbose:			$(DEP) $(OBJ)
 					@echo "Compiling with additional logging info"
 					$(CC) $(CFLAGS) -D DEBUG=1 -g $(INC) -o $(NAME) $(SRC) $(LIB)
 
+test:				$(DEP) $(OBJ)
+					@echo "Compiling with additional logging info"
+					$(CC) $(CFLAGS) -D DEBUG=1 -D TEST -g $(INC) -o $(NAME) $(SRC) $(LIB)
+
 # **************************************************************************** #
 #		Clean up															   #
 # **************************************************************************** #

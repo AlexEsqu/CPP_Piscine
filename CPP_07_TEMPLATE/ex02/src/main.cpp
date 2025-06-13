@@ -1,3 +1,5 @@
+#ifndef TEST
+
 #include <iostream>
 #include <string>
 #include <sstream>
@@ -100,21 +102,66 @@ int	main()
 		std::cout << "int*	a = new int(); displays [" << *a << "]\n";
 		delete a;
 	}
-
-
-
-	// std::cout << "And even combine these template based functions ";
-	// std::cout << "by first incrementing and then printing." << std::endl;
-	// iter(arrayOfInt, arrayLen, incrementAnyElem<int>);
-	// iter(arrayOfInt, arrayLen, printAnyElem<int>);
-
-
-
-
-
-
-
-
-
 	return (0);
 }
+
+#endif
+
+
+#ifdef TEST
+
+#include <iostream>
+#include <Array.hpp>
+
+#define MAX_VAL 750
+int main(int, char**)
+{
+    Array<int> numbers(MAX_VAL);
+    int* mirror = new int[MAX_VAL];
+    srand(time(NULL));
+    for (int i = 0; i < MAX_VAL; i++)
+    {
+        const int value = rand();
+        numbers[i] = value;
+        mirror[i] = value;
+    }
+    //SCOPE
+    {
+        Array<int> tmp = numbers;
+        Array<int> test(tmp);
+    }
+
+    for (int i = 0; i < MAX_VAL; i++)
+    {
+        if (mirror[i] != numbers[i])
+        {
+            std::cerr << "didn't save the same value!!" << std::endl;
+            return 1;
+        }
+    }
+    try
+    {
+        numbers[-2] = 0;
+    }
+    catch(const std::exception& e)
+    {
+        std::cerr << e.what() << '\n';
+    }
+    try
+    {
+        numbers[MAX_VAL] = 0;
+    }
+    catch(const std::exception& e)
+    {
+        std::cerr << e.what() << '\n';
+    }
+
+    for (int i = 0; i < MAX_VAL; i++)
+    {
+        numbers[i] = rand();
+    }
+    delete [] mirror;//
+    return 0;
+}
+
+#endif

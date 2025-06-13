@@ -3,6 +3,7 @@
 
 # include <stdexcept>
 # include <iostream>
+# include <stdlib.h>
 
 # define RED "\033[31m"
 # define GREEN "\033[32m"
@@ -28,12 +29,12 @@ class Array {
 
 	private:
 
-		unsigned int	_size;
-		T*				_content;
+		int	_size;
+		T*	_content;
 
 	public:
 
-		Array(unsigned int n = 0)
+		Array(int n = 0)
 			: _size(n)
 		{
 			if (DEBUG) {
@@ -46,7 +47,7 @@ class Array {
 			else
 				_content = NULL;
 
-			for (unsigned int i = 0; i < _size; i++) {
+			for (int i = 0; i < _size; i++) {
 				_content[i] = T();
 			}
 		}
@@ -95,21 +96,21 @@ class Array {
 			return *this;
 		}
 
-		T&				operator[](unsigned int idx)
+		T&				operator[](int idx)
 		{
-			if (_size == 0 || idx >= _size)
+			if (_size == 0 || idx >= _size || idx < 0)
 				throw std::out_of_range("Out of bound");
 			return _content[idx];
 		}
 
-		const T&		operator[](unsigned int idx) const
+		const T&		operator[](int idx) const
 		{
-			if (_size == 0 || idx >= _size)
+			if (_size == 0 || idx >= _size || idx < 0)
 				throw std::out_of_range("Out of bound");
 			return _content[idx];
 		}
 
-		unsigned int	size() const
+		int	size() const
 		{
 			return (_size);
 		}
