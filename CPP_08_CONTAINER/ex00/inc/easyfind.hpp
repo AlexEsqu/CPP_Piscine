@@ -51,7 +51,6 @@ void printContainer(T& container) {
 		std::cout << "[" << i << "] = " << *iter << std::endl;
 		i++;
 	}
-
 }
 
 #endif

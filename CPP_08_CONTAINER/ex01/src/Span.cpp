@@ -60,5 +60,10 @@ unsigned int	Span::getSize()
 	return (_content.size());
 }
 
+void			Span::printSpan()
+{
+	printContainer(_content);
+}
+
 
 

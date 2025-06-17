@@ -51,6 +51,10 @@ debug:				$(DEP) $(OBJ)
 					@echo "Compiling with debug flag"
 					$(CC) $(CFLAGS) -g $(INC) -o $(NAME) $(SRC) $(LIB)
 
+verbose:			$(DEP) $(OBJ)
+					@echo "Compiling with debug flag"
+					$(CC) $(CFLAGS) -g -D PRINT $(INC) -o $(NAME) $(SRC) $(LIB)
+
 # **************************************************************************** #
 #		Clean up															   #
 # **************************************************************************** #

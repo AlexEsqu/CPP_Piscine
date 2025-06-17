@@ -4,6 +4,18 @@
 # include <algorithm>
 # include <set>
 # include <stdexcept>
+# include <iostream>
+
+// Recycled from ex00 for testing purposes
+template<typename T>
+void printContainer(T& container) {
+	int i = 0;
+	for (typename T::iterator iter = container.begin(); iter != container.end(); iter++)
+	{
+		std::cout << "[" << i << "] = " << *iter << std::endl;
+		i++;
+	}
+}
 
 class Span {
 
@@ -18,6 +30,7 @@ class Span {
 		int				shortestSpan();
 		int				longestSpan();
 		unsigned int	getSize();
+		void			printSpan();
 
 		template <typename T>
 		void	addRange(const T& it_start, const T& it_end) {
