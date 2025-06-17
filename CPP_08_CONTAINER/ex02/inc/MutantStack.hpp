@@ -23,6 +23,7 @@
 #  define DEBUG 0
 # endif
 
+
 template<typename T, typename Container = std::deque<T> >
 class MutantStack : public std::stack<T, Container> {
 
@@ -39,7 +40,7 @@ public:
 			}
 		}
 
-		iterator(const iterator& original)
+		iterator(const MutantStack::iterator& original)
 			: _internal(original._internal) {
 			if (DEBUG) {
 				std::cout << GREEN << "Copy constructing an iterator";
@@ -47,7 +48,7 @@ public:
 			}
 		}
 
-		iterator&	operator=(const iterator& original) {
+		MutantStack::iterator&	operator=(const MutantStack::iterator& original) {
 			if (DEBUG) {
 				std::cout << GREEN << "Copy assigning an iterator";
 				std::cout << STOP_COLOR << std::endl;
@@ -68,40 +69,40 @@ public:
 			return (*_internal);
 		}
 
-		iterator&	operator++() {
+		MutantStack::iterator	operator++() {
 			++_internal;
 			return (*this);
 		}
 
-		iterator&	operator++(int) {
+		MutantStack::iterator	operator++(int) {
 
-			iterator	tmp = *this;
+			MutantStack::iterator	tmp = *this;
 			++_internal;
 			return (tmp);
 		}
 
-		iterator&	operator--() {
+		MutantStack::iterator	operator--() {
 			--_internal;
 			return (*this);
 		}
 
-		iterator&	operator--(int) {
+		MutantStack::iterator	operator--(int) {
 
-			iterator	tmp = *this;
+			MutantStack::iterator	tmp = *this;
 			--_internal;
 			return (tmp);
 		}
 
-		bool	operator!=(iterator& comp) const {
+		bool	operator!=(const iterator & comp) const {
 			return (_internal != comp._internal);
 		}
 
-		bool	operator==(iterator& comp) const {
+		bool	operator==(const iterator & comp) const {
 			return (_internal == comp._internal);
 		}
 
 	private:
-		typename Container::iterator		_internal;
+		typename Container::iterator	_internal;
 
 	};
 
@@ -120,5 +121,16 @@ public:
 
 
 };
+
+// Recycled from ex00 for testing purposes
+template<typename T>
+void printContainer(T& container) {
+	int i = 0;
+	for (typename T::iterator iter = container.begin(); iter != container.end(); iter++)
+	{
+		std::cout << "[" << i << "] = " << *iter << std::endl;
+		i++;
+	}
+}
 
 #endif
