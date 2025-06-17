@@ -171,7 +171,6 @@ void	subjectMandatedTest()
 
 }
 
-
 int	main()
 {
 	std::cout << "---- Subject mandated test ----\n\n";
