@@ -61,6 +61,7 @@ public:
 	static bool		isValidDateValue(Date& date);
 	static bool		isValidDateFormat(std::string date);
 	static bool		isValidDBLine(std::string line);
+	static bool		isLeapYear(int year);
 
 	// EXCEPTIONS
 

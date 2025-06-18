@@ -179,14 +179,42 @@ std::ostream& operator<< (std::ostream& stream, const BTC::Date& date)
 
 //----------------- VALIDATING INPUT ----------------------------------------//
 
+bool			BTC::isLeapYear(int year) {
+    return (year % 4 == 0) && ( (year % 100 != 0) || (year % 400 == 0) );
+}
+
 // Check the value of a date struct are in the calendar
-bool			BTC::isValidDateValue(Date& )
+bool			BTC::isValidDateValue(Date& date)
 {
+	// Given the scope of the program, year can only be between 0 and 2500
+	if (date.getyear() < 0 || date.getyear() > 2500)
+		return (false);
 
+	// Months can only be between 1 and 12
+	if (date.getmonth() < 0 || date.getmonth() > 12)
+		return (false);
 
-	// TO BE DONE
+	// February days only go to 28 OR 29 if bissextile year
+	if (date.getmonth() == 2) {
+		if (isLeapYear(date.getyear()) && date.getday() > 29)
+			return (false);
+		else if (date.getday() > 28)
+			return (false);
+	}
 
+	// January, March, April, July, August, October and December can have 31 days
+	else if (date.getmonth() == 1 || date.getmonth() == 3 || date.getmonth() == 5
+		|| date.getmonth() == 7 || date.getmonth() == 8 || date.getmonth() == 10
+		|| date.getmonth() == 12 ) {
+		if (date.getday() > 31)
+			return (false);
+	}
 
+	// The other only go up to 30 days
+	else {
+		if (date.getday() > 30)
+			return (false);
+	}
 
 	return (true);
 }
@@ -299,8 +327,6 @@ void	BTC::loadDatabase(std::string DatabasePath)
 
 //----------------- CONVERTING INPUT ----------------------------------------//
 
-
-
 // checks if a line in the provided input file is in valid format
 void	BTC::printInputLineConversion(std::string line)
 {
@@ -320,7 +346,7 @@ void	BTC::printInputLineConversion(std::string line)
 	// A valid date must be possible in our calendar (no 31 of february...)
 	Date	date(dateStr);
 	if (!date.isItValid()) {
-		std::cout << "Error: bad input => " << dateStr << std::endl;
+		std::cout << "Error: invalid date => " << dateStr << std::endl;
 		return;
 	}
 
@@ -347,7 +373,7 @@ void	BTC::printInputLineConversion(std::string line)
 	}
 
 	// A valid value's cannot be higher than 1000
-	float	btcAmount = std::atof(value.c_str());
+	double	btcAmount = std::atof(value.c_str());
 	if (btcAmount > 1000) {
 		std::cout << "Error: too large a number." << std::endl;
 		return;
@@ -355,7 +381,7 @@ void	BTC::printInputLineConversion(std::string line)
 
 	if (_database[date]) {
 		std::cout << date << " => " << value << " = ";
-		std::cout << _database[date] << std::endl;
+		std::cout << _database[date] * btcAmount  << std::endl;
 		return;
 	}
 	else {
@@ -363,7 +389,7 @@ void	BTC::printInputLineConversion(std::string line)
 		if (it != _database.begin()) {
 			--it;
 			std::cout << date << " => " << value << " = ";
-			std::cout << it->second << std::endl;
+			std::cout << (double)it->second * btcAmount << std::endl;
 			return;
 		}
 		else {
@@ -384,7 +410,6 @@ void			BTC::convertInputWithDB()
 	std::string	line;
 	std::getline(inputFile, line); // skipping the header line
 	while (std::getline(inputFile, line)) {
-		// std::cout << line << "\n";
 		printInputLineConversion(line);
 	}
 }
