@@ -1,27 +1,35 @@
 #include "BitcoinExchange.hpp"
 
-int main(int argc, char** )
+bool	isValidSyntaxAndInput(int argc)
 {
 	if (argc != 2) {
-		std::cout << "Usage is : <binary> <file containing the dates to evaluates>\n";
-		return (1);
+		std::cerr << "Usage is : <Binary> <Input file to evaluates>\n";
+		return (false);
 	}
 
-	// loading data into a map
-	try { BTC	btc; }
+	return (true);
+}
+
+int main(int argc, char** argv)
+{
+	// Checks syntax of <binary> <input file> and if input file can be opened
+	if (!isValidSyntaxAndInput(argc))
+		return (1);
+
+	try {
+
+		// loading data into a map, opening input
+		BTC	btc(DATABASE_PATH, argv[1]);
+
+		// read input, checking if valid and match valid and invalid
+
+
+	}
+
 	catch ( std::exception& e ){
 		std::cerr << e.what() << std::endl;
+		return (1);
 	}
-
-	// reading input
-
-	// checking if valid input
-
-	// match valid input
-
-
-	// create file
-	// input in file data or error
 
 	return (0);
 

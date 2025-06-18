@@ -6,17 +6,18 @@
 
 //----------------- CONSTRUCTORS ---------------------//
 
-BTC::BTC()
-	:_database(std::map<Date, int>())
+BTC::BTC(std::string DBPath, char* inputFile)
+	: _inputPath(inputFile)
+	, _DBPath(DBPath)
+	, _database(std::map<Date, double>())
 {
 	#ifdef DEBUG
 	std::cout << "Calling BTC constructor" << std::endl;
 	#endif
 
-	try { loadDatabase(); }
-	catch (...) {
-		throw;
-	}
+	openInputFile(_inputPath);
+	loadDatabase(_DBPath);
+
 }
 
 //----------------- DESTRUCTOR -----------------------//
@@ -25,15 +26,23 @@ BTC::~BTC()
 	#ifdef DEBUG
 	std::cout << "Calling BTC destructor" << std::endl;
 	#endif
+
+	delete _input;
 }
 
 //----------------- COPY CONSTRUCTORS ----------------//
 BTC::BTC( const BTC& original )
+	: _inputPath(original._inputPath)
+	, _DBPath(original._DBPath)
+	, _database(std::map<Date, double>())
 {
 	#ifdef DEBUG
 	std::cout << "Calling BTC copy constructor" << std::endl;
 	#endif
-	*this = original;
+
+	openInputFile(_inputPath);
+	loadDatabase(_DBPath);
+
 }
 
 //----------------- COPY ASSIGNEMENT -----------------//
@@ -46,9 +55,8 @@ BTC&			BTC::operator=( const BTC& original )
 	if (this == &original)
 		return *this;
 
-	if (!_database.empty())
-		_database.clear();
-	_database = original._database;
+	openInputFile(_inputPath);
+	loadDatabase(_DBPath);
 
 	return *this;
 }
@@ -62,7 +70,7 @@ BTC&			BTC::operator=( const BTC& original )
 BTC::Date::Date(std::string date)
 {
 	#ifdef DEBUG
-	std::cout << "Calling Date constructor" << std::endl;
+	//std::cout << "Calling Date constructor" << std::endl;
 	#endif
 
 	if (!BTC::isValidDateFormat(date))
@@ -78,7 +86,7 @@ BTC::Date::Date(std::string date)
 BTC::Date::~Date()
 {
 	#ifdef DEBUG
-	std::cout << "Calling Date destructor" << std::endl;
+	//std::cout << "Calling Date destructor" << std::endl;
 	#endif
 }
 
@@ -86,7 +94,7 @@ BTC::Date::~Date()
 BTC::Date::Date( const Date& original )
 {
 	#ifdef DEBUG
-	std::cout << "Calling Date copy constructor" << std::endl;
+	//std::cout << "Calling Date copy constructor" << std::endl;
 	#endif
 
 	*this = original;
@@ -96,7 +104,7 @@ BTC::Date::Date( const Date& original )
 BTC::Date&		BTC::Date::operator=( const Date& original )
 {
 	#ifdef DEBUG
-	std::cout << "Calling Date copy assignment" << std::endl;
+	//std::cout << "Calling Date copy assignment" << std::endl;
 	#endif
 
 	if (this != &original) {
@@ -161,30 +169,41 @@ bool	BTC::Date::isItValid() const
 	return (isValid);
 }
 
+std::ostream& operator<< (std::ostream& stream, const BTC::Date& date)
+{
+	// Adding leading zeros to get 01-08-0054 instead of 1-8-54
+	stream << std::setw(4) << std::setfill('0') << date.getyear() << "-";
+	stream << std::setw(2) << std::setfill('0') << date.getmonth() << "-";
+	stream << std::setw(2) << std::setfill('0') << date.getday();
+	return (stream);
+}
+
 // ****************************************************************************#
 //		MEMBER FUNCTION														   #
 // ****************************************************************************#
 
-//----------------- VALIDATING INPUT -----------------//
+//----------------- VALIDATING INPUT ----------------------------------------//
 
 // Check the value of a date struct are in the calendar
 bool			BTC::isValidDateValue(Date& )
 {
+
+
+	// TO BE DONE
+
+
+
 	return (true);
 }
 
 // Check if a string is in the YYYY-MM-DD format
 bool			BTC::isValidDateFormat(std::string date)
 {
-	#ifdef DEBUG
-	std::cout << date << std::endl;
-	#endif
-
 	// A valid date has precisely 10 chararacters
 	if (date.length() == 11)
 		return (false);
 
-	// A valid date can only contain - or digit
+	// A valid date can only contain '-' or digit
 	for (std::string::iterator it = date.begin(); it != date.end(); ++it)
 	{
 		if (!isdigit(*it) && *it != '-')
@@ -194,21 +213,12 @@ bool			BTC::isValidDateFormat(std::string date)
 	return (true);
 }
 
-const char* BTC::invalid_date::what() const throw()
-{
-	return ("Date is invalid");
-}
+//----------------- LOADING DATABASE ----------------------------------------//
 
-const char* BTC::open_failed::what() const throw()
-{
-	return ("Failed to open the database");
-}
-
-//----------------- LOADING DATABASE -----------------//
-
+// checks if a line in the provided database is in valid format
 bool			BTC::isValidDBLine(std::string line)
 {
-	// A valid line has minimum 12 char : 10 char date + , + value
+	// A valid line has minimum 12 char : 10 char date + ',' + value
 	if (line.length() < 12 || line[10] != ',')
 		return (false);
 
@@ -217,11 +227,11 @@ bool			BTC::isValidDBLine(std::string line)
 	if (!isValidDateFormat(dateStr))
 		return (false);
 
-	// A valid conversion rate contains , or digits
-	std::string	value = line.substr(11, line.length());
+	// A valid conversion rate contains '.' or digits
+	std::string	value = line.substr(11);
 	for (std::string::iterator it = value.begin(); it != value.end(); ++it)
 	{
-		if (!isdigit(*it) || *it != ',')
+		if (!isdigit(*it) && *it != '.')
 			return (false);
 	}
 
@@ -231,36 +241,34 @@ bool			BTC::isValidDBLine(std::string line)
 // Add valid lines to the database, ignores invalid lines
 void			BTC::addLineToMap(std::string line)
 {
-	#ifdef DEBUG
-	std::cout << "Line to add is " << line << std::endl;
-	#endif
-
+	// Checking syntax and discarding if invalid
 	if (!isValidDBLine(line))
 		return;
 
-	// Extracts the date into a three int class
+	// Extracts and splitting the date into a Date class
 	Date	date = Date(line.substr(0, 10));
 	// Database has no need to hold invalid dates so discards the line
 	if (!date.isItValid())
 		return;
 
-	// Extracts the conversion rate into a float
-	float	conv_rate = std::atof(line.substr(11, line.length()).c_str());
-	std::cout << conv_rate << "\n";
+	// Extracts the conversion rate into a floating point double
+	double	conv_rate = std::atof(line.substr(11).c_str());
 
 	_database[date] = conv_rate;
 
+	#ifdef DEBUG
+	//std::cout << "DATABASE [" << date << "] = " << _database[date] << "\n";
+	#endif
 
 }
 
-
-void			BTC::loadDatabase()
+void	BTC::loadDatabase(std::string DatabasePath)
 {
 	#ifdef DEBUG
 	std::cout << "Loading database" << std::endl;
 	#endif
 
-	std::fstream dataBase(DATABASE_PATH, dataBase.in);
+	std::ifstream dataBase(DatabasePath.c_str());
 	if (!dataBase.is_open()) {
 		throw BTC::open_failed();
 	}
@@ -271,5 +279,48 @@ void			BTC::loadDatabase()
 	}
 
 	dataBase.close();
+}
 
+//----------------- LOADING INPUT FILE ----------------------------------------//
+
+std::ifstream*	BTC::openInputFile(char* inputFilePath)
+{
+	#ifdef DEBUG
+	std::cout << "Opening Input File" << std::endl;
+	#endif
+
+	if (access( inputFilePath, F_OK ) == -1) {
+		std::cerr << "Input File does not exist\n";
+		throw open_failed();
+	}
+
+	if (access( inputFilePath, R_OK ) == -1) {
+		std::cerr << "Input File cannot be read\n";
+		throw open_failed();
+	}
+
+	std::ifstream*	input = new std::ifstream(inputFilePath);
+
+	if (!input->is_open()) {
+		delete input;
+		throw open_failed();
+	}
+
+	return	input;
+}
+
+
+
+// ****************************************************************************#
+//		EXCEPTION															   #
+// ****************************************************************************#
+
+const char* BTC::invalid_date::what() const throw()
+{
+	return ("ERROR: Date is invalid");
+}
+
+const char* BTC::open_failed::what() const throw()
+{
+	return ("ERROR: Failed to open the database");
 }
