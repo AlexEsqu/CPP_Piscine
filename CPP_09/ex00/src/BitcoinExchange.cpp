@@ -324,7 +324,7 @@ void	BTC::printInputLineConversion(std::string line)
 		return;
 	}
 
-	std::string	value = line.substr(11);
+	std::string	value = line.substr(13);
 	for (std::string::iterator it = value.begin(); it != value.end(); ++it) {
 		// A valid value cannot be negative
 		if (it == value.begin() && *it == '-'){
@@ -357,6 +357,19 @@ void	BTC::printInputLineConversion(std::string line)
 		std::cout << date << " => " << value << " = ";
 		std::cout << _database[date] << std::endl;
 		return;
+	}
+	else {
+		std::map<Date, double>::iterator it = _database.upper_bound(date);
+		if (it != _database.begin()) {
+			--it;
+			std::cout << date << " => " << value << " = ";
+			std::cout << it->second << std::endl;
+			return;
+		}
+		else {
+			std::cout << "Error: No BTC conversion found." << std::endl;
+			return;
+		}
 	}
 
 }
