@@ -18,11 +18,11 @@ int main(int argc, char** argv)
 
 	try {
 
-		// loading data into a map, opening input
+		// Constructor loads data into a map, open input file
 		BTC	btc(DATABASE_PATH, argv[1]);
 
-		// read input, checking if valid and match valid and invalid
-
+		// Read input line by line, match valid with value / invalid with error
+		btc.convertInputWithDB();
 
 	}
 

@@ -50,9 +50,11 @@ public:
 
 	// CORE MEMBER FUNCTIONS
 
+	void			checkInputFile(std::string inputPath);
 	void			addLineToMap(std::string line);
 	void			loadDatabase(std::string DBPath);
-	std::ifstream*	openInputFile(char* inputPath);
+	void			convertInputWithDB();
+	void			printInputLineConversion(std::string line);
 
 	// VALIDATION
 
@@ -68,19 +70,23 @@ public:
 		const char* what() const throw();
 	};
 
+	// throw() is a runtime check ensuring the function does not throw.
+	// It has nothing to do with the throw keyword throwing exception.
+	// It´s deprecated, so if 42 wasn´t a stick in the mud I'd have used
+	// noexcept, which checks at compilation instead
 	class open_failed : public std::exception {
 	public :
-		open_failed(const std::string& msg) : _errstr(msg) {}
-		virtual const char* what() const throw();
+		open_failed(const std::string& msg) throw();
+		~open_failed() throw() {};
+		const char* what() const throw();
 	private:
-		std::string	_errstr;
+		std::string	_error_message;
 	};
 
 private:
 
 	char*					_inputPath;
 	std::string				_DBPath;
-	std::ifstream*			_input;
 	std::map<Date, double>	_database;
 
 };

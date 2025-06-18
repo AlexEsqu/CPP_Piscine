@@ -15,7 +15,7 @@ BTC::BTC(std::string DBPath, char* inputFile)
 	std::cout << "Calling BTC constructor" << std::endl;
 	#endif
 
-	openInputFile(_inputPath);
+	checkInputFile(_inputPath);
 	loadDatabase(_DBPath);
 
 }
@@ -26,8 +26,6 @@ BTC::~BTC()
 	#ifdef DEBUG
 	std::cout << "Calling BTC destructor" << std::endl;
 	#endif
-
-	delete _input;
 }
 
 //----------------- COPY CONSTRUCTORS ----------------//
@@ -40,7 +38,7 @@ BTC::BTC( const BTC& original )
 	std::cout << "Calling BTC copy constructor" << std::endl;
 	#endif
 
-	openInputFile(_inputPath);
+	checkInputFile(_inputPath);
 	loadDatabase(_DBPath);
 
 }
@@ -55,7 +53,7 @@ BTC&			BTC::operator=( const BTC& original )
 	if (this == &original)
 		return *this;
 
-	openInputFile(_inputPath);
+	checkInputFile(_inputPath);
 	loadDatabase(_DBPath);
 
 	return *this;
@@ -72,9 +70,6 @@ BTC::Date::Date(std::string date)
 	#ifdef DEBUG
 	//std::cout << "Calling Date constructor" << std::endl;
 	#endif
-
-	if (!BTC::isValidDateFormat(date))
-		throw BTC::invalid_date();
 
 	year = std::atoi(date.substr(0, 4).c_str());
 	month = std::atoi(date.substr(5, 7).c_str());
@@ -199,8 +194,10 @@ bool			BTC::isValidDateValue(Date& )
 // Check if a string is in the YYYY-MM-DD format
 bool			BTC::isValidDateFormat(std::string date)
 {
+	// std::cout << "Date " << date << " has len " << date.length() << "\n";
+
 	// A valid date has precisely 10 chararacters
-	if (date.length() == 11)
+	if (date.length() != 10)
 		return (false);
 
 	// A valid date can only contain '-' or digit
@@ -210,10 +207,10 @@ bool			BTC::isValidDateFormat(std::string date)
 			return (false);
 	}
 
+	// std::cout << "Valid date: " << date << "\n";
+
 	return (true);
 }
-
-//----------------- LOADING DATABASE ----------------------------------------//
 
 // checks if a line in the provided database is in valid format
 bool			BTC::isValidDBLine(std::string line)
@@ -237,6 +234,25 @@ bool			BTC::isValidDBLine(std::string line)
 
 	return (true);
 }
+
+// to avoid loading the database if an input file is not provided, checks
+// if input file actually exist and can be read
+void	BTC::checkInputFile(std::string InputPath)
+{
+	#ifdef DEBUG
+	std::cout << "Checking Input File" << std::endl;
+	#endif
+
+	if (access( InputPath.c_str(), F_OK ) == -1) {
+		throw open_failed("Error: Input file at " + InputPath + " does not exist");
+	}
+
+	if (access( InputPath.c_str(), R_OK ) == -1) {
+		throw open_failed("Error: Input file at " + InputPath + " cannot be read");
+	}
+}
+
+//----------------- LOADING DATABASE ----------------------------------------//
 
 // Add valid lines to the database, ignores invalid lines
 void			BTC::addLineToMap(std::string line)
@@ -270,7 +286,7 @@ void	BTC::loadDatabase(std::string DatabasePath)
 
 	std::ifstream dataBase(DatabasePath.c_str());
 	if (!dataBase.is_open()) {
-		throw BTC::open_failed();
+		throw BTC::open_failed("Failed to open the Database at " + _DBPath);
 	}
 
 	std::string	line;
@@ -281,32 +297,83 @@ void	BTC::loadDatabase(std::string DatabasePath)
 	dataBase.close();
 }
 
-//----------------- LOADING INPUT FILE ----------------------------------------//
+//----------------- CONVERTING INPUT ----------------------------------------//
 
-std::ifstream*	BTC::openInputFile(char* inputFilePath)
+
+
+// checks if a line in the provided input file is in valid format
+void	BTC::printInputLineConversion(std::string line)
 {
-	#ifdef DEBUG
-	std::cout << "Opening Input File" << std::endl;
-	#endif
-
-	if (access( inputFilePath, F_OK ) == -1) {
-		std::cerr << "Input File does not exist\n";
-		throw open_failed();
+	// A valid line has minimum 14 char : 10 char date + ' ' + '|' + ' ' + value
+	if (line.length() < 14 || line[10] != ' ' || line[11] != '|' || line[12] != ' ') {
+		std::cout << "Error: bad input => " << line << std::endl;
+		return;
 	}
 
-	if (access( inputFilePath, R_OK ) == -1) {
-		std::cerr << "Input File cannot be read\n";
-		throw open_failed();
+	// A valid date format of YYYY-MM-DD is always 10 character long
+	std::string	dateStr = line.substr(0, 10);
+	if (!isValidDateFormat(dateStr)) {
+		std::cout << "Error: bad input => " << dateStr << std::endl;
+		return;
 	}
 
-	std::ifstream*	input = new std::ifstream(inputFilePath);
-
-	if (!input->is_open()) {
-		delete input;
-		throw open_failed();
+	// A valid date must be possible in our calendar (no 31 of february...)
+	Date	date(dateStr);
+	if (!date.isItValid()) {
+		std::cout << "Error: bad input => " << dateStr << std::endl;
+		return;
 	}
 
-	return	input;
+	std::string	value = line.substr(11);
+	for (std::string::iterator it = value.begin(); it != value.end(); ++it) {
+		// A valid value cannot be negative
+		if (it == value.begin() && *it == '-'){
+			std::cout << "Error: not a positive number. " << std::endl;
+			return;
+		}
+		// A valid value contains only '.' or digits
+		if (!isdigit(*it) && *it != '.') {
+			std::cout << "Error: bad input => " << value << std::endl;
+			return;
+		}
+	}
+
+	// A valid value's goes from 1 to 1000, so it cannot hold more than 4 char
+	// before the decimal point
+	size_t decimalPoint = value.find('.');
+	if (value.substr(0, decimalPoint).length() > 4) {
+		std::cout << "Error: too large a number." << std::endl;
+		return;
+	}
+
+	// A valid value's cannot be higher than 1000
+	float	btcAmount = std::atof(value.c_str());
+	if (btcAmount > 1000) {
+		std::cout << "Error: too large a number." << std::endl;
+		return;
+	}
+
+	if (_database[date]) {
+		std::cout << date << " => " << value << " = ";
+		std::cout << _database[date] << std::endl;
+		return;
+	}
+
+}
+
+void			BTC::convertInputWithDB()
+{
+	std::ifstream inputFile(_inputPath);
+	if (!inputFile.is_open()) {
+		throw BTC::open_failed("Failed to open the Database at " + _DBPath);
+	}
+
+	std::string	line;
+	std::getline(inputFile, line); // skipping the header line
+	while (std::getline(inputFile, line)) {
+		// std::cout << line << "\n";
+		printInputLineConversion(line);
+	}
 }
 
 
@@ -320,7 +387,15 @@ const char* BTC::invalid_date::what() const throw()
 	return ("ERROR: Date is invalid");
 }
 
+BTC::open_failed::open_failed(const std::string& msg) throw()
+	: _error_message(msg)
+{
+
+}
+
 const char* BTC::open_failed::what() const throw()
 {
-	return ("ERROR: Failed to open the database");
+	return (_error_message.c_str());
 }
+
+
