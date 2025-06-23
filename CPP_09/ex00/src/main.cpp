@@ -6,7 +6,6 @@ bool	isValidSyntaxAndInput(int argc)
 		std::cerr << "Usage is : <Binary> <Input file to evaluates>\n";
 		return (false);
 	}
-
 	return (true);
 }
 

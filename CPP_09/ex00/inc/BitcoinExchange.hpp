@@ -95,17 +95,4 @@ private:
 std::ostream& operator<< (std::ostream& stream, const BTC::Date& date);
 
 
-
-
-// LOADING DATA.csv
-
-
-
-
-
-// VALUE VALIDATOR
-// Valid value must be either a float or positive integer
-
-
-
 #endif

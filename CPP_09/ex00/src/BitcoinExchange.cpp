@@ -291,7 +291,7 @@ void			BTC::addLineToMap(std::string line)
 
 	// Extracts and splitting the date into a Date class
 	Date	date = Date(line.substr(0, 10));
-	// Database has no need to hold invalid dates so discards the line
+	// Database has no need to hold invalid dates so discards if invalid
 	if (!date.isItValid())
 		return;
 
@@ -379,24 +379,34 @@ void	BTC::printInputLineConversion(std::string line)
 		return;
 	}
 
-	if (_database[date]) {
-		std::cout << date << " => " << value << " = ";
-		std::cout << _database[date] * btcAmount  << std::endl;
-		return;
+
+
+	// Look up the exact date in the database
+	// DO NOT check for _database[date] as it will add a map item with value 0 ><
+	double	btcValue = 0.0;
+	std::map<Date, double>::iterator exactDate = _database.find(date);
+	if (exactDate != _database.end()) {
+		btcValue =  exactDate->second;
 	}
+
+	// IF the date does not exist, finds the smallest bigger date,
 	else {
 		std::map<Date, double>::iterator it = _database.upper_bound(date);
-		if (it != _database.begin()) {
-			--it;
-			std::cout << date << " => " << value << " = ";
-			std::cout << (double)it->second * btcAmount << std::endl;
-			return;
+
+		// decrement to the biggest smaller date to use as btcValue
+		if (--it != _database.begin()) {
+			btcValue = it->second;
 		}
+		// Or return an error if no preceding date exist
 		else {
 			std::cout << "Error: No BTC conversion found." << std::endl;
 			return;
 		}
 	}
+
+	double	convertedDollarValue = btcAmount * btcValue;
+	std::cout << date << " => " << value << " = ";
+	std::cout << convertedDollarValue << "\n";
 
 }
 
@@ -410,6 +420,9 @@ void			BTC::convertInputWithDB()
 	std::string	line;
 	std::getline(inputFile, line); // skipping the header line
 	while (std::getline(inputFile, line)) {
+		#ifdef DEBUG
+		std::cout << line << " converts to ";
+		#endif
 		printInputLineConversion(line);
 	}
 }
