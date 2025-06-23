@@ -4,6 +4,8 @@
 //		BTC																	   #
 // ****************************************************************************#
 
+const Date		BTC::_BTCStart("2009-01-09");
+
 //----------------- CONSTRUCTORS ---------------------//
 
 BTC::BTC(std::string DBPath, char* inputFile)
@@ -60,170 +62,14 @@ BTC&			BTC::operator=( const BTC& original )
 }
 
 // ****************************************************************************#
-//		DATE																   #
-// ****************************************************************************#
-
-//----------------- DATE CLASS -----------------//
-
-BTC::Date::Date(std::string date)
-{
-	#ifdef DEBUG
-	//std::cout << "Calling Date constructor" << std::endl;
-	#endif
-
-	year = std::atoi(date.substr(0, 4).c_str());
-	month = std::atoi(date.substr(5, 7).c_str());
-	day = std::atoi(date.substr(8, 10).c_str());
-	isValid = BTC::isValidDateValue(*this);
-}
-
-//----------------- DESTRUCTOR -----------------------//
-BTC::Date::~Date()
-{
-	#ifdef DEBUG
-	//std::cout << "Calling Date destructor" << std::endl;
-	#endif
-}
-
-//----------------- COPY CONSTRUCTORS ----------------//
-BTC::Date::Date( const Date& original )
-{
-	#ifdef DEBUG
-	//std::cout << "Calling Date copy constructor" << std::endl;
-	#endif
-
-	*this = original;
-}
-
-//----------------- COPY ASSIGNEMENT -----------------//
-BTC::Date&		BTC::Date::operator=( const Date& original )
-{
-	#ifdef DEBUG
-	//std::cout << "Calling Date copy assignment" << std::endl;
-	#endif
-
-	if (this != &original) {
-		day = original.getday();
-		month = original.getmonth();
-		year = original.getyear();
-	}
-
-	return (*this);
-}
-
-bool 		BTC::Date::operator==(const Date& comp) const
-{
-	return (year == comp.year && month == comp.month && day == comp.day);
-}
-
-bool		BTC::Date::operator>(const Date& comp) const
-{
-	if (year != comp.year)
-		return (year > comp.year);
-	if (month != comp.month)
-		return (month > comp.month);
-	return (day > comp.day);
-}
-
-bool		BTC::Date::operator>=(const Date& comp) const
-{
-	return (*this > comp || *this == comp);
-}
-
-bool		BTC::Date::operator<(const Date& comp) const
-{
-	if (year != comp.year)
-		return (year < comp.year);
-	if (month != comp.month)
-		return (month < comp.month);
-	return (day < comp.day);
-}
-
-bool		BTC::Date::operator<=(const Date& comp) const
-{
-	return (*this < comp || *this == comp);
-}
-
-int BTC::Date::getday() const
-{
-	return (day);
-}
-
-int BTC::Date::getmonth() const
-{
-	return (month);
-}
-
-int BTC::Date::getyear() const
-{
-	return (year);
-}
-
-bool	BTC::Date::isItValid() const
-{
-	return (isValid);
-}
-
-std::ostream& operator<< (std::ostream& stream, const BTC::Date& date)
-{
-	// Adding leading zeros to get 01-08-0054 instead of 1-8-54
-	stream << std::setw(4) << std::setfill('0') << date.getyear() << "-";
-	stream << std::setw(2) << std::setfill('0') << date.getmonth() << "-";
-	stream << std::setw(2) << std::setfill('0') << date.getday();
-	return (stream);
-}
-
-// ****************************************************************************#
 //		MEMBER FUNCTION														   #
 // ****************************************************************************#
 
 //----------------- VALIDATING INPUT ----------------------------------------//
 
-bool			BTC::isLeapYear(int year) {
-    return (year % 4 == 0) && ( (year % 100 != 0) || (year % 400 == 0) );
-}
-
-// Check the value of a date struct are in the calendar
-bool			BTC::isValidDateValue(Date& date)
-{
-	// Given the scope of the program, year can only be between 0 and 2500
-	if (date.getyear() < 0 || date.getyear() > 2500)
-		return (false);
-
-	// Months can only be between 1 and 12
-	if (date.getmonth() < 0 || date.getmonth() > 12)
-		return (false);
-
-	// February days only go to 28 OR 29 if bissextile year
-	if (date.getmonth() == 2) {
-		if (isLeapYear(date.getyear()) && date.getday() > 29)
-			return (false);
-		else if (date.getday() > 28)
-			return (false);
-	}
-
-	// January, March, April, July, August, October and December can have 31 days
-	else if (date.getmonth() == 1 || date.getmonth() == 3 || date.getmonth() == 5
-		|| date.getmonth() == 7 || date.getmonth() == 8 || date.getmonth() == 10
-		|| date.getmonth() == 12 ) {
-		if (date.getday() > 31)
-			return (false);
-	}
-
-	// The other only go up to 30 days
-	else {
-		if (date.getday() > 30)
-			return (false);
-	}
-
-	return (true);
-}
-
 // Check if a string is in the YYYY-MM-DD format
 bool			BTC::isValidDateFormat(std::string date)
 {
-	// std::cout << "Date " << date << " has len " << date.length() << "\n";
-
 	// A valid date has precisely 10 chararacters
 	if (date.length() != 10)
 		return (false);
@@ -235,12 +81,10 @@ bool			BTC::isValidDateFormat(std::string date)
 			return (false);
 	}
 
-	// std::cout << "Valid date: " << date << "\n";
-
 	return (true);
 }
 
-// checks if a line in the provided database is in valid format
+// Checks if a line in the provided database is in valid format
 bool			BTC::isValidDBLine(std::string line)
 {
 	// A valid line has minimum 12 char : 10 char date + ',' + value
@@ -263,6 +107,13 @@ bool			BTC::isValidDBLine(std::string line)
 	return (true);
 }
 
+// check the date provided could believably have a conversion value
+// Bitcoin has first traded on the 9th January 2009
+bool			BTC::isAfterBTCStart(Date& date)
+{
+	return (date >= BTC::_BTCStart);
+}
+
 // to avoid loading the database if an input file is not provided, checks
 // if input file actually exist and can be read
 void	BTC::checkInputFile(std::string InputPath)
@@ -272,11 +123,11 @@ void	BTC::checkInputFile(std::string InputPath)
 	#endif
 
 	if (access( InputPath.c_str(), F_OK ) == -1) {
-		throw open_failed("Error: Input file at " + InputPath + " does not exist");
+		throw open_failed();
 	}
 
 	if (access( InputPath.c_str(), R_OK ) == -1) {
-		throw open_failed("Error: Input file at " + InputPath + " cannot be read");
+		throw open_failed();
 	}
 }
 
@@ -314,7 +165,7 @@ void	BTC::loadDatabase(std::string DatabasePath)
 
 	std::ifstream dataBase(DatabasePath.c_str());
 	if (!dataBase.is_open()) {
-		throw BTC::open_failed("Failed to open the Database at " + _DBPath);
+		throw BTC::open_failed();
 	}
 
 	std::string	line;
@@ -327,69 +178,72 @@ void	BTC::loadDatabase(std::string DatabasePath)
 
 //----------------- CONVERTING INPUT ----------------------------------------//
 
-// checks if a line in the provided input file is in valid format
-void	BTC::printInputLineConversion(std::string line)
+Date	BTC::extractValidDate(std::string& inputLine)
 {
 	// A valid line has minimum 14 char : 10 char date + ' ' + '|' + ' ' + value
-	if (line.length() < 14 || line[10] != ' ' || line[11] != '|' || line[12] != ' ') {
-		std::cout << "Error: bad input => " << line << std::endl;
-		return;
+	if (inputLine.length() < 14 || inputLine[10] != ' '
+		|| inputLine[11] != '|' || inputLine[12] != ' ') {
+		throw BTC::bad_input(inputLine);
 	}
 
 	// A valid date format of YYYY-MM-DD is always 10 character long
-	std::string	dateStr = line.substr(0, 10);
+	std::string	dateStr = inputLine.substr(0, 10);
+
+	// checks if date is in the correct format
 	if (!isValidDateFormat(dateStr)) {
-		std::cout << "Error: bad input => " << dateStr << std::endl;
-		return;
+		throw BTC::bad_input(dateStr);
 	}
 
-	// A valid date must be possible in our calendar (no 31 of february...)
+	// extract into a Date class object and checks if exists in calendar
 	Date	date(dateStr);
-	if (!date.isItValid()) {
-		std::cout << "Error: invalid date => " << dateStr << std::endl;
-		return;
+	if (!date.isItValid() || !isAfterBTCStart(date)) {
+		throw BTC::bad_input(dateStr);
 	}
 
-	std::string	value = line.substr(13);
+	return (date);
+}
+
+double	BTC::extractBTCAmount(std::string& inputLine)
+{
+	std::string	value = inputLine.substr(13);
+	// Iterates over the value part of the string to check its syntax
 	for (std::string::iterator it = value.begin(); it != value.end(); ++it) {
 		// A valid value cannot be negative
 		if (it == value.begin() && *it == '-'){
-			std::cout << "Error: not a positive number. " << std::endl;
-			return;
+			throw no_negative();
 		}
 		// A valid value contains only '.' or digits
 		if (!isdigit(*it) && *it != '.') {
-			std::cout << "Error: bad input => " << value << std::endl;
-			return;
+			throw bad_input(value);
 		}
 	}
 
-	// A valid value's goes from 1 to 1000, so it cannot hold more than 4 char
-	// before the decimal point
+	// A valid value is 1 to 1000, so it cannot hold more than 4 char before .
 	size_t decimalPoint = value.find('.');
 	if (value.substr(0, decimalPoint).length() > 4) {
-		std::cout << "Error: too large a number." << std::endl;
-		return;
+		throw too_big();
 	}
-
 	// A valid value's cannot be higher than 1000
 	double	btcAmount = std::atof(value.c_str());
 	if (btcAmount > 1000) {
-		std::cout << "Error: too large a number." << std::endl;
-		return;
+		throw too_big();
 	}
 
+	return (btcAmount);
+}
 
+double	BTC::extractBTCValue(Date& date)
+{
+	double	btcValue = 0.0;
 
 	// Look up the exact date in the database
 	// DO NOT check for _database[date] as it will add a map item with value 0 ><
-	double	btcValue = 0.0;
 	std::map<Date, double>::iterator exactDate = _database.find(date);
 	if (exactDate != _database.end()) {
 		btcValue =  exactDate->second;
 	}
 
-	// IF the date does not exist, finds the smallest bigger date,
+	// If the date does not exist, finds the smallest bigger date,
 	else {
 		std::map<Date, double>::iterator it = _database.upper_bound(date);
 
@@ -397,24 +251,46 @@ void	BTC::printInputLineConversion(std::string line)
 		if (--it != _database.begin()) {
 			btcValue = it->second;
 		}
+
 		// Or return an error if no preceding date exist
 		else {
-			std::cout << "Error: No BTC conversion found." << std::endl;
-			return;
+			throw too_old();
 		}
 	}
 
-	double	convertedDollarValue = btcAmount * btcValue;
-	std::cout << date << " => " << value << " = ";
-	std::cout << convertedDollarValue << "\n";
+	return (btcValue);
+}
 
+
+// prints out either error message or BTC conversion based on database
+void	BTC::printInputLineConversion(std::string line)
+{
+	try
+	{
+		Date	date = extractValidDate(line);
+		double	btcAmount = extractBTCAmount(line);
+		double	btcValue = extractBTCValue(date);
+
+		double	convertedDollarValue = btcAmount * btcValue;
+
+		// Formatting the output
+		std::cout << date << " => " << btcAmount << " = ";
+		// Ensuring two decimal values after the comma since price ($1.00)
+		std::cout << std::fixed << std::setprecision(2);
+		std::cout << convertedDollarValue << "\n";
+	}
+
+	catch (std::exception& e)
+	{
+		std::cout << e.what() << "\n";
+	}
 }
 
 void			BTC::convertInputWithDB()
 {
 	std::ifstream inputFile(_inputPath);
 	if (!inputFile.is_open()) {
-		throw BTC::open_failed("Failed to open the Database at " + _DBPath);
+		throw BTC::open_failed();
 	}
 
 	std::string	line;
@@ -428,25 +304,40 @@ void			BTC::convertInputWithDB()
 }
 
 
-
 // ****************************************************************************#
 //		EXCEPTION															   #
 // ****************************************************************************#
 
-const char* BTC::invalid_date::what() const throw()
+
+BTC::bad_input::bad_input(const std::string& msg) throw()
+	: _error_message(static_cast<std::string>("Error: bad input => ").append(msg))
 {
-	return ("ERROR: Date is invalid");
+
 }
 
-BTC::open_failed::open_failed(const std::string& msg) throw()
-	: _error_message(msg)
+const char* BTC::bad_input::what() const throw()
 {
-
+	return (_error_message.c_str());
 }
 
 const char* BTC::open_failed::what() const throw()
 {
-	return (_error_message.c_str());
+	return ("Error: could not open file.");
+}
+
+const char* BTC::no_negative::what() const throw()
+{
+	return ("Error: not a positive number.");
+}
+
+const char* BTC::too_big::what() const throw()
+{
+	return ("Error: too large a number.");
+}
+
+const char* BTC::too_old::what() const throw()
+{
+	return ("Error: No corresponding value in database.");
 }
 
 

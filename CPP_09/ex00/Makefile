@@ -11,9 +11,11 @@ OBJ_DIR				= obj
 INC_DIR				= inc
 
 FUNC				= main.cpp \
-					BitcoinExchange.cpp
+					BitcoinExchange.cpp \
+					Date.cpp
 
-HEAD				= BitcoinExchange.hpp
+HEAD				= BitcoinExchange.hpp \
+					Date.hpp
 
 SRC					= $(addprefix $(SRC_DIR)/, $(FUNC))
 
