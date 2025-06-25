@@ -2,7 +2,7 @@
 #		General variables													   #
 # **************************************************************************** #
 
-NAME				= account
+NAME				= PmergeMe
 
 SRC_DIR				= src
 
@@ -10,10 +10,10 @@ OBJ_DIR				= obj
 
 INC_DIR				= inc
 
-FUNC				= tests.cpp \
-					Account.cpp
+FUNC				= main.cpp \
+					PmergeMe.cpp
 
-HEAD				= Account.hpp
+HEAD				= PmergeMe.hpp
 
 SRC					= $(addprefix $(SRC_DIR)/, $(FUNC))
 

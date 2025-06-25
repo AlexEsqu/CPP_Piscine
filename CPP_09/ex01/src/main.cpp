@@ -15,7 +15,6 @@ int	main(int argc, char **argv)
 				addDigitToStack(stack, word[0]);
 			else
 				useOperatorOnStack(stack, word[0]);
-			// std::cout << "Result is " << stack.top() << std::endl;
 		}
 
 		if (stack.size() != 1)
