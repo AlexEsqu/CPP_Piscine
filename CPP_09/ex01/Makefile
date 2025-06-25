@@ -2,7 +2,7 @@
 #		General variables													   #
 # **************************************************************************** #
 
-NAME				= account
+NAME				= RPN
 
 SRC_DIR				= src
 
@@ -11,8 +11,9 @@ OBJ_DIR				= obj
 INC_DIR				= inc
 
 FUNC				= main.cpp \
+					RPN.cpp
 
-HEAD				=
+HEAD				= RPN.hpp
 
 SRC					= $(addprefix $(SRC_DIR)/, $(FUNC))
 
@@ -53,7 +54,7 @@ debug:				$(DEP) $(OBJ)
 
 verbose:			$(DEP) $(OBJ)
 					@echo "Compiling with additional logging info"
-					$(CC) $(CFLAGS) -D DEBUG=1 -g $(INC) -o $(NAME) $(SRC) $(LIB)
+					$(CC) $(CFLAGS) -D PRINT -g $(INC) -o $(NAME) $(SRC) $(LIB)
 
 # **************************************************************************** #
 #		Clean up															   #

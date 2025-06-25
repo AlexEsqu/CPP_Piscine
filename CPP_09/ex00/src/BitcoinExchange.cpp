@@ -261,7 +261,6 @@ double	BTC::extractBTCValue(Date& date)
 	return (btcValue);
 }
 
-
 // prints out either error message or BTC conversion based on database
 void	BTC::printInputLineConversion(std::string line)
 {
@@ -303,7 +302,6 @@ void			BTC::convertInputWithDB()
 	}
 }
 
-
 // ****************************************************************************#
 //		EXCEPTION															   #
 // ****************************************************************************#
@@ -339,5 +337,3 @@ const char* BTC::too_old::what() const throw()
 {
 	return ("Error: No corresponding value in database.");
 }
-
-
