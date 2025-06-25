@@ -5,23 +5,24 @@ int	main(int argc, char **argv)
 	try
 	{
 		checkArgument(argc);
-
 		std::stringstream	stream(argv[1]);
-		std::string			word;
 		std::stack<int>		stack;
 
-		while (stream >> word)
+		for (std::string word; stream >> word;)
 		{
 			validateWord(word);
-
 			if (isdigit(word[0]))
 				addDigitToStack(stack, word[0]);
-
 			else
 				useOperatorOnStack(stack, word[0]);
+			// std::cout << "Result is " << stack.top() << std::endl;
 		}
+
+		if (stack.size() != 1)
+			throw RPN_bad_input();
 		std::cout << stack.top() << "\n";
 	}
+
 	catch (std::exception& e) {
 		std::cerr << e.what() << "\n";
 	}
