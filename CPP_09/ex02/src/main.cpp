@@ -8,13 +8,12 @@ int	main(int argc, char **argv)
 		std::list<int>		intList;
 		std::vector<int>	intVector;
 
-		for (int i = 0; i < argc; i++)
-		{
-			validateDigit(argv[i]);
+		loadDigitsIntoVectorAndList(argc, argv, intVector, intList);
+		std::cout << "Before: ";
+		printContainer<std::list <int> >(intList);
+		std::cout << "\nAfter:  ";
+		
 
-
-
-		}
 	}
 
 	catch (std::exception& e) {

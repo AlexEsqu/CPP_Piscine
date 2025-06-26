@@ -2,6 +2,30 @@
   "version": "0.2.0",
   "configurations": [
     {
+      "name": "CC09 ex02",
+      "type": "cppdbg",
+      "request": "launch",
+      "program": "${workspaceFolder}/CPP_09/ex02/PmergeMe",
+      "args": ["1", "5", "3", "8"],
+      "stopAtEntry": true,
+      "cwd": "${fileDirname}",
+      "environment": [],
+      "externalConsole": false,
+      "MIMode": "gdb",
+      "setupCommands": [
+          {
+              "description": "Enable pretty-printing for gdb",
+              "text": "-enable-pretty-printing",
+              "ignoreFailures": true
+          },
+          {
+              "description": "Set Disassembly Flavor to Intel",
+              "text": "-gdb-set disassembly-flavor intel",
+              "ignoreFailures": true
+          }
+      ]
+    },
+    {
       "name": "CPP06 ex00 3",
       "type": "cppdbg",
       "request": "launch",
@@ -145,6 +169,8 @@
           }
       ]
     },
+
+
     {
       "name": "CPP 01 Ex 04",
       "type": "cppdbg",
