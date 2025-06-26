@@ -33,10 +33,8 @@ AMateria&			AMateria::operator=( const AMateria& original )
 	if (DEBUG)
 		std::cout << GREEN << "[MATERIA] Copy Assignment" << STOP_COLOR << std::endl;
 
-	if (this == &original)
-		return *this;
-
-	_type = original.getType();
+	if (this != &original)
+		_type = original.getType();
 	return *this;
 }
 
