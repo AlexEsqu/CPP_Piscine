@@ -11,7 +11,8 @@ OBJ_DIR				= obj
 INC_DIR				= inc
 
 FUNC				= main.cpp \
-					PmergeMe.cpp
+					PmergeMe.cpp \
+					parsing.cpp
 
 HEAD				= PmergeMe.hpp
 

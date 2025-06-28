@@ -2,18 +2,15 @@
 
 int	main(int argc, char **argv)
 {
-
 	try {
-		checkArgument(argc);
 		std::list<int>		intList;
 		std::vector<int>	intVector;
 
 		loadDigitsIntoVectorAndList(argc, argv, intVector, intList);
-		std::cout << "Before: ";
-		printContainer<std::list <int> >(intList);
-		std::cout << "\nAfter:  ";
-		
-
+		printLog(intList, false);
+		TournamentSort(intList);
+		//TournamentSortVector(intVector);
+		printLog(intList, true);
 	}
 
 	catch (std::exception& e) {
