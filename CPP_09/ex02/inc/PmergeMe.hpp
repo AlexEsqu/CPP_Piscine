@@ -12,6 +12,8 @@
 void	loadDigitsIntoVectorAndList(int argc, char **argv,
 		std::vector<int>& intVector, std::list<int>& intList);
 
+void	MergeInsertSort(std::vector<int> intVector);
+
 
 
 class PMerge_bad_input : public std::exception {

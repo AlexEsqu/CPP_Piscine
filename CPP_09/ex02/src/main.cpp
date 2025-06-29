@@ -8,8 +8,8 @@ int	main(int argc, char **argv)
 
 		loadDigitsIntoVectorAndList(argc, argv, intVector, intList);
 		printLog(intList, false);
-		TournamentSort(intList);
-		//TournamentSortVector(intVector);
+		//MergeInsertSort(intList);
+		MergeInsertSort(intVector);
 		printLog(intList, true);
 	}
 
