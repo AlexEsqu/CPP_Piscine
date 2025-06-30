@@ -7,10 +7,16 @@ int	main(int argc, char **argv)
 		std::vector<int>	intVector;
 
 		loadDigitsIntoVectorAndList(argc, argv, intVector, intList);
-		printLog(intList, false);
-		//MergeInsertSort(intList);
+		printLogBefore(intList);
+		StopWatch	ChronoList("list");
+		StopWatch	ChronoVect("vector");
+		ChronoList.start();
+		MergeInsertSort(intList);
+		ChronoList.stop();
+		ChronoVect.start();
 		MergeInsertSort(intVector);
-		printLog(intList, true);
+		ChronoVect.stop();
+		printLogAfter(intList, ChronoList, ChronoVect);
 	}
 
 	catch (std::exception& e) {

@@ -52,7 +52,7 @@ int	evaluateOperator(std::stack<int>& operand, char sign)
 
 void	addDigitToStack(std::stack<int>& stack, char digit)
 {
-	#ifdef PRINT
+	#ifdef DEBUG
 	std::cout << "Adding " << digit << " to the stack\n";
 	#endif
 
@@ -62,7 +62,7 @@ void	addDigitToStack(std::stack<int>& stack, char digit)
 
 void	useOperatorOnStack(std::stack<int>& stack, char sign)
 {
-	#ifdef PRINT
+	#ifdef DEBUG
 	std::cout << "Evaluating " << sign << "\n";
 	#endif
 
