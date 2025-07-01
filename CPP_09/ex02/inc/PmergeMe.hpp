@@ -8,6 +8,7 @@
 # include <sstream>
 # include <vector>
 # include <list>
+# include <utility>
 # include <set>
 # include <cstdlib>
 # include <algorithm>
@@ -18,6 +19,8 @@ void	loadDigitsIntoVectorAndList(int argc, char **argv,
 void	MergeInsertSort(std::vector<int>& intVector);
 
 void	MergeInsertSort(std::list<int>& intList);
+
+
 
 class PMerge_bad_input : public std::exception {
 	public :

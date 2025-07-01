@@ -16,7 +16,7 @@ int	main(int argc, char **argv)
 		ChronoVect.start();
 		MergeInsertSort(intVector);
 		ChronoVect.stop();
-		printLogAfter(intList, ChronoList, ChronoVect);
+		printLogAfter(intVector, ChronoList, ChronoVect);
 	}
 
 	catch (std::exception& e) {
