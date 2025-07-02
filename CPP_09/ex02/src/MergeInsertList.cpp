@@ -114,8 +114,10 @@ o-->o------>o--- - - --->o-------------->o----- - - ----o - - - -
 		insertion, which was published soon afterwards by Ford and Johnson.
 
 */
-void	PmergeMe::MergeInsertSort(std::list<int>& intList)
+void	PmergeMe::listMergeInsertSort(std::list<int>& intList)
 {
+	listSort.start();
+
 	if (intList.size() <= 1)
 		return;
 
@@ -126,7 +128,7 @@ void	PmergeMe::MergeInsertSort(std::list<int>& intList)
 	pairwiseComparison(intList, big, small);
 
 	// recursively sort big
-	MergeInsertSort(big);
+	listMergeInsertSort(big);
 
 	// insert start of S the element paired with first and smallest element of S
 	big.insert(big.begin(), small.begin()->value);
@@ -142,4 +144,6 @@ void	PmergeMe::MergeInsertSort(std::list<int>& intList)
 	insertstraggler(intList, big);
 
 	intList = big;
+
+	listSort.stop();
 }

@@ -12,12 +12,15 @@ INC_DIR				= inc
 
 FUNC				= main.cpp \
 					PmergeMe.cpp \
-					PmergeMeList.cpp \
 					parsing.cpp \
-					StopWatch.cpp
+					StopWatch.cpp \
+					MergeInsertList.cpp \
+					MergeInsertVector.cpp
 
 HEAD				= PmergeMe.hpp \
-					StopWatch.hpp
+					StopWatch.hpp \
+					Color.hpp \
+					Log.hpp
 
 SRC					= $(addprefix $(SRC_DIR)/, $(FUNC))
 

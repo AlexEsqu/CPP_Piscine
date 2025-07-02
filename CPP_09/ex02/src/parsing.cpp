@@ -37,7 +37,7 @@ void	PmergeMe::loadDigitsIntoVectorAndList(int argc, char **argv)
 		validateDigit(argv[i]);
 		int	digit = std::atoi(argv[i]);
 		dissalowDiplicatesDigit(digit, intSet);
-		_intList.push_back(digit);
-		_intVector.push_back(digit);
+		intList.push_back(digit);
+		intVector.push_back(digit);
 	}
 }

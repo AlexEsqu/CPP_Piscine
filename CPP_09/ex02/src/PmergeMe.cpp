@@ -1,34 +1,40 @@
 #include "PmergeMe.hpp"
 
 PmergeMe::PmergeMe()
-	: _vectorComparisonCount(0)
+	: vectorSort("vector")
+	, listSort("list  ")
+	, _vectorComparisonCount(0)
 	, _listComparisonCount(0)
 {
 	#ifdef PRINT
-		std::cout << GREEN << "[PmergeMe] Calling Constructor";
-		std::cout << STOP_COLOR << std::endl;
+		std::cout << SOFT_GREEN << "[PmergeMe] Constructor\n" << RESET;
 	#endif
 }
 
 PmergeMe::~PmergeMe()
 {
 	#ifdef PRINT
-		std::cout << RED << "[PmergeMe] Calling Destructor";
-		std::cout << STOP_COLOR << std::endl;
+		std::cout << RED << "[PmergeMe] Destructor\n" << RESET;
 	#endif
 }
 
 PmergeMe::PmergeMe(const PmergeMe& original)
 {
+	#ifdef PRINT
+		std::cout << GREEN << "[PmergeMe] Copy Constructor\n" << RESET;
+	#endif
 	*this = original;
 }
 
 PmergeMe&	PmergeMe::operator=(const PmergeMe& original)
 {
+	#ifdef PRINT
+		std::cout << GREEN << "[PmergeMe] Copy Assignement\n" << RESET;
+	#endif
 	if (this != &original)
 	{
-		_intList = original._intList;
-		_intVector = original._intVector;
+		intList = original.intList;
+		intVector = original.intVector;
 		_vectorComparisonCount = original._vectorComparisonCount;
 		_listComparisonCount = original._listComparisonCount;
 	}
