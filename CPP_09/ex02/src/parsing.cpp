@@ -1,6 +1,6 @@
 #include "PmergeMe.hpp"
 
-const char* PMerge_bad_input::what() const throw()
+const char* PmergeMe::bad_input::what() const throw()
 {
 	return ("Error");
 }
@@ -16,7 +16,7 @@ static void	validateDigit(std::string word)
 {
 	for (std::string::iterator it = word.begin(); it != word.end(); it++) {
 		if (!isdigit(*it))
-			throw PMerge_bad_input();
+			throw PmergeMe::bad_input();
 	}
 }
 
@@ -24,12 +24,11 @@ static void	validateDigit(std::string word)
 static void	dissalowDiplicatesDigit(int digit, std::set<int>& intSet)
 {
 	if (std::find(intSet.begin(), intSet.end(), digit) != intSet.end())
-		throw PMerge_bad_input();
+		throw PmergeMe::bad_input();
 	intSet.insert(digit);
 }
 
-void	loadDigitsIntoVectorAndList(int argc, char **argv,
-		std::vector<int>& intVector, std::list<int>& intList)
+void	PmergeMe::loadDigitsIntoVectorAndList(int argc, char **argv)
 {
 	checkArgument(argc);
 	std::set<int>	intSet; // using a set to quickly check for duplicates
@@ -38,7 +37,7 @@ void	loadDigitsIntoVectorAndList(int argc, char **argv,
 		validateDigit(argv[i]);
 		int	digit = std::atoi(argv[i]);
 		dissalowDiplicatesDigit(digit, intSet);
-		intList.push_back(digit);
-		intVector.push_back(digit);
+		_intList.push_back(digit);
+		_intVector.push_back(digit);
 	}
 }

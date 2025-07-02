@@ -1,5 +1,13 @@
 #include "StopWatch.hpp"
 
+			StopWatch::StopWatch()
+	: _name("default")
+{
+	#ifdef DEBUG
+	//std::cout << "Calling default StopWatch constructor" << std::endl;
+	#endif
+}
+
 			StopWatch::StopWatch(std::string name)
 	: _name(name)
 {

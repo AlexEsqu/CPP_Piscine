@@ -3,10 +3,9 @@
 int	main(int argc, char **argv)
 {
 	try {
-		std::list<int>		intList;
-		std::vector<int>	intVector;
+		PmergeMe	Sorter();
 
-		loadDigitsIntoVectorAndList(argc, argv, intVector, intList);
+		Sorter.loadDigitsIntoVectorAndList(argc, argv);
 		printLogBefore(intList);
 		StopWatch	ChronoList("list");
 		StopWatch	ChronoVect("vector");

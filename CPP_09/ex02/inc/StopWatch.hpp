@@ -9,6 +9,7 @@
 class	StopWatch {
 
 	public:
+				StopWatch();
 				StopWatch(std::string name);
 				StopWatch(const StopWatch& original);
 				~StopWatch();

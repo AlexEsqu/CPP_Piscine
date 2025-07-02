@@ -12,6 +12,7 @@ INC_DIR				= inc
 
 FUNC				= main.cpp \
 					PmergeMe.cpp \
+					PmergeMeList.cpp \
 					parsing.cpp \
 					StopWatch.cpp
 
@@ -57,7 +58,7 @@ debug:				$(DEP) $(OBJ)
 
 verbose:			$(DEP) $(OBJ)
 					@echo "Compiling with additional logging info"
-					$(CC) $(CFLAGS) -D DEBUG -g $(INC) -o $(NAME) $(SRC) $(LIB)
+					$(CC) $(CFLAGS) -D PRINT -g $(INC) -o $(NAME) $(SRC) $(LIB)
 
 # **************************************************************************** #
 #		Clean up															   #
