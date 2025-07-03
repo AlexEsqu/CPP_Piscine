@@ -59,21 +59,48 @@ void	PmergeMe::insertPendingChain(std::vector<int>& big, std::vector<pend>& smal
 	// smaller than the smallest big is safe to insert at begin of the chain
 	big.insert(big.begin(), small[0].value);
 
+
+	unsigned int jacobStahlIndex = 0;
+
 	// Going through the Jacobstahl suite
-	for (unsigned int i = 1; JACOBSTHAL_SUITE[i]; i++) {
+	while (JACOBSTHAL_SUITE[jacobStahlIndex] && JACOBSTHAL_SUITE[jacobStahlIndex] <= small.size()) {
 
 		// find the next Jacobstahl number to use as indice
-		size_t	indice = JACOBSTHAL_SUITE[i];
-
-		while (indice >= small.size())
-			indice--;
-
-		if (indice == 0)
-			continue;
+		size_t	indice = JACOBSTHAL_SUITE[jacobStahlIndex];
+		std::cout << "JAcobstahl is " << JACOBSTHAL_SUITE[jacobStahlIndex] << " at " << jacobStahlIndex << "\n";
 
 		// starting at this indice, going downward, binary insert in at most main[0] - main[b's bigger]
-		while (indice > JACOBSTHAL_SUITE[i - 1])
+		while (indice > JACOBSTHAL_SUITE[jacobStahlIndex - 1])
 		{
+			std::cout << "Indice is " << indice << "\n";
+
+			if (indice == 0)
+				continue; // skipped since already done
+			if (small[indice].straggler)
+				binaryInsert(big, small[indice].value, big.size());
+			else
+			{
+				std::vector<int>::iterator bigger = std::find(big.begin(), big.end(), small[indice].smaller_than);
+				size_t	pos = std::distance(big.begin(), bigger);
+				binaryInsert(big, small[indice].value, pos);
+			}
+			indice--;
+
+		}
+	}
+
+	// in case size of small is in between two jacobstahl numbers
+	if (small.size() > JACOBSTHAL_SUITE[jacobStahlIndex]) {
+
+		jacobStahlIndex++;
+		// find the next Jacobstahl number to use as indice
+		size_t	indice = JACOBSTHAL_SUITE[jacobStahlIndex];
+
+		// starting at this indice, going downward, binary insert in at most main[0] - main[b's bigger]
+		while (indice > JACOBSTHAL_SUITE[jacobStahlIndex - 1])
+		{
+			while (indice >= small.size())
+				indice--;
 
 			if (small[indice].straggler)
 				binaryInsert(big, small[indice].value, big.size());
@@ -84,9 +111,10 @@ void	PmergeMe::insertPendingChain(std::vector<int>& big, std::vector<pend>& smal
 				binaryInsert(big, small[indice].value, pos);
 			}
 			indice--;
-			std::cout << "Indice is " << indice << "\n";
+			std::cout << "Additional Indice is " << indice << "\n";
 		}
 	}
+
 
 	// for (std::vector<pend>::iterator it = small.begin() + 1; it != small.end(); it++) {
 	// 	std::vector<int>::iterator bigger = std::find(big.begin(), big.end(), it->smaller_than);
