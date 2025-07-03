@@ -2,8 +2,8 @@
 # define PMERGE_H
 
 # include "StopWatch.hpp"
-# include "Log.hpp"
 # include "Color.hpp"
+# include "Jacobstahl.hpp"
 
 # include <iostream>
 # include <sstream>
@@ -18,6 +18,7 @@
 struct pend {
 	int		value;
 	int		smaller_than;
+	bool	straggler;
 };
 
 class	PmergeMe {
@@ -31,36 +32,36 @@ public:
 	PmergeMe(const PmergeMe& original);
 	PmergeMe&	operator=(const PmergeMe& original);
 
-	// ------- LOADING VALUES -----------------------------------
+	// ------- LOADING -------------------------------------------
 
 	void	loadDigitsIntoVectorAndList(int argc, char **argv);
 
-	// ------- VECTOR MERGE INSERT SORT -------------------------
+	// ------- SORTING -------------------------------------------
 
 	void	vectorMergeInsertSort(std::vector<int>& toSort);
-	void	pairwiseComparison(std::vector<int>& toSort, std::vector<int>& big,
-		std::vector<pend>& small);
-	void	insertPendingChain(std::vector<int>& big, std::vector<pend>& small);
-	void	insertStraggler(std::vector<int>& toSort, std::vector<int>& result);
-	void	vectBinaryInsert(std::vector<int>& vector, int value, size_t len);
-
-	// ------- LIST MERGE INSERT SORT ---------------------------
-
 	void	listMergeInsertSort(std::list<int>& intList);
-	void	pairwiseComparison();
-	void	insertPendingChain();
-	void	insertstraggler();
-	void	listBinaryInsert(std::list<int>& vector, int value, size_t len);
+
+	// -------- LOGGING ------------------------------------------
+
+	template<typename T>
+	void printLogBefore(T& container);
+	template<typename T>
+	void printLogAfter(T& container, StopWatch& A, StopWatch& B);
 
 	// ------- STOPWATCH ----------------------------------------
 
-	StopWatch			vectorSort;
-	StopWatch			listSort;
+	StopWatch			clockVectorSort;
+	StopWatch			clockListSort;
 
 	// ------- VECTOR MERGE INSERT SORT -------------------------
 
 	std::vector<int>	intVector;
 	std::list<int>		intList;
+
+	// ------- EFFICIENCY CALCULATOR -------------------------
+
+	size_t				vectorComparisonCount;
+	size_t				listComparisonCount;
 
 	class bad_input : public std::exception {
 	public :
@@ -69,26 +70,47 @@ public:
 
 private:
 
-	size_t				_vectorComparisonCount;
-	size_t				_listComparisonCount;
+	// ------- VECTOR MERGE INSERT SORT UTILITY -------------------
 
-	
+	void	pairwiseComparison(std::vector<int>& toSort, std::vector<int>& big,
+		std::vector<pend>& small);
+	void	insertPendingChain(std::vector<int>& big, std::vector<pend>& small);
+	void	insertStraggler(std::vector<int>& toSort, std::vector<int>& result);
+	void	binaryInsert(std::vector<int>& vector, int value, size_t len);
 
+	// ------- LIST MERGE INSERT SORT UTILITY -----------------------
+
+	void	pairwiseComparison(std::list<int>& toSort, std::list<int>& big,
+		std::list<pend>& small);
+	void	insertPendingChain(std::list<int>& big, std::list<pend>& small);
+	void	insertStraggler(std::list<int>& toSort, std::list<int>& result);
+	void	binaryInsert(std::list<int>& vector, int value, size_t len);
 
 };
 
+# include "Log.tpp"
 
 /*
 
 SOURCE : the Merge Insertion Algorithm
-As described on The Art Of Programming III p.185:
+As described on The Art Of Programming III p.184 and following,
+quoting the method discovered by Lester Ford, Jr and Selmer Johnson:
 
-i)		Make pairwise comparison of ⌊n/2⌋ disjoint pair of element.
+To sort 21 elements:
+
+i)		PAIRWISE COMPARISON
+
+		" Make pairwise comparison of ⌊n/2⌋ disjoint pair of element.
 		If n is odd, leave one element out.
+		`K1 : K2, K3 : K4, K5 : K6, ... , K19 : K20,       K21` "
 
-ii)		Sort the ⌊n/2⌋ larger number found in step (i) by merge insertion.
+		=> Make pairs, compare them, leave straggler out
 
-iii)	Name the elements a1, a2, a3, ... , a_⌊n/2⌋ and b1, b2, b3, ... , b_⌊n/2⌋ as in:
+
+ii)		RECURIVELY SORT THE BIGGER OF THE PAIR
+
+		Sort the ⌊n/2⌋ larger number found in step (i) by merge insertion.
+		Name the elements a1, a2, a3, ... , a_⌊n/2⌋ and b1, b2, b3, ... , b_⌊n/2⌋ as in:
 
 ```
 	a1  a2  a3  a4  a5  a6  a7  a8  a9  a10
@@ -102,7 +124,12 @@ b1  b2  b3  b4  b5  b6  b7  b8  b9  b10    b11
 
 		Call b1 and the a's the "main chain."
 
-		Insert the remaining b's into the main chain, using binary insertion,
+		=> Recursively sort the main chain of bigger numbers, remembering to which they are bigger
+
+
+iii)	BINARY INSERT THE SMALLER OF THE PAIR USING JACOBSTAHL
+
+		" Insert the remaining bs into the main chain, using binary insertion,
 		in the following order, leaving out all b_j for j > ⌈n/2⌉:
 ```
 			b3, b2; b5, b4; b11, b10; ..., b6; ...; b_t_k, b_(t(_k)-1), ..., b_(t_(k-1)+1); ....
@@ -127,12 +154,18 @@ o-->o------>o--- - - --->o-------------->o----- - - ----o - - - -
 		Let F(n) be the number of comparisons required to sort n elements by merge insertion.
 		Clearly,
 		`F(n) = ⌊n/2⌋ + F(⌊n/2⌋) + G(⌊n/2⌋)`
-		where G represents the amount of work involved in step (iii).
+		where G represents the amount of work involved in step (iii)."
 
-		[...]
+		=> Use each number in the Jacobstahl suite (sequence t in Knuth's text) as indice
+		For each indice in Jacobstahl, binary insert first b[t] into main.begin() - main[t]
+		Because b[t] cannot be bigger than any numer in the main chain bigger than a[t]
+		Then insert b[t - 1] into somewhere between main.begin() - main[t - 1]
+		Then insert b[t - 2] into somewhere between main.begin() - main[t - 2]
+		etc.
+		Until you reach indices already merged
 
-		Trybula and Czen may have independently discovered the method of merge
-		insertion, which was published soon afterwards by Ford and Johnson.
+
+		straggler left out = bj for j > [n/2]
 
 */
 

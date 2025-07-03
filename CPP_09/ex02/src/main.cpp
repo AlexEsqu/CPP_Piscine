@@ -7,13 +7,13 @@ int	main(int argc, char **argv)
 
 		Sorter.loadDigitsIntoVectorAndList(argc, argv);
 
-		printLogBefore(Sorter.intList);
+		Sorter.printLogBefore(Sorter.intList);
 
 		Sorter.listMergeInsertSort(Sorter.intList);
 
 		Sorter.vectorMergeInsertSort(Sorter.intVector);
 
-		printLogAfter(Sorter.intVector, Sorter.vectorSort, Sorter.listSort);
+		Sorter.printLogAfter(Sorter.intVector, Sorter.clockVectorSort, Sorter.clockListSort);
 	}
 
 	catch (std::exception& e) {

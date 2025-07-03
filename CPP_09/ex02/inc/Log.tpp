@@ -11,8 +11,9 @@ void printContainer(T& container)
 	}
 }
 
+
 template<typename T>
-void printLogBefore(T& container)
+void PmergeMe::printLogBefore(T& container)
 {
 	std::cout << "Before: ";
 	printContainer(container);
@@ -20,7 +21,7 @@ void printLogBefore(T& container)
 }
 
 template<typename T>
-void printLogAfter(T& container, StopWatch& A, StopWatch& B)
+void PmergeMe::printLogAfter(T& container, StopWatch& A, StopWatch& B)
 {
 	std::cout << "After:  ";
 	printContainer(container);
@@ -28,7 +29,15 @@ void printLogAfter(T& container, StopWatch& A, StopWatch& B)
 	std::cout << "Time to process a range of " << container.size();
 	std::cout << " with std::" << A.getName() << " : ";
 	std::cout << std::setprecision(6) << A.getTimeInUsec() << " us\n";
+	#ifdef PRINT
+	std::cout << SOFT_BLUE << "Vector comparisons: " << vectorComparisonCount << RESET << "\n";
+	#endif
 	std::cout << "Time to process a range of " << container.size();
 	std::cout << " with std::" << B.getName() << " : ";
 	std::cout << std::setprecision(6) << B.getTimeInUsec() << " us\n";
+	#ifdef PRINT
+	std::cout << SOFT_BLUE << "List   comparisons: " << listComparisonCount << RESET << "\n";
+	#endif
+
 }
+

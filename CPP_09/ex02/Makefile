@@ -20,7 +20,7 @@ FUNC				= main.cpp \
 HEAD				= PmergeMe.hpp \
 					StopWatch.hpp \
 					Color.hpp \
-					Log.hpp
+					Log.tpp
 
 SRC					= $(addprefix $(SRC_DIR)/, $(FUNC))
 

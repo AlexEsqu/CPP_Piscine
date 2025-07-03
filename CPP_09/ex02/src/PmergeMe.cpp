@@ -1,10 +1,10 @@
 #include "PmergeMe.hpp"
 
 PmergeMe::PmergeMe()
-	: vectorSort("vector")
-	, listSort("list  ")
-	, _vectorComparisonCount(0)
-	, _listComparisonCount(0)
+	: clockVectorSort("vector")
+	, clockListSort("list  ")
+	, vectorComparisonCount(0)
+	, listComparisonCount(0)
 {
 	#ifdef PRINT
 		std::cout << SOFT_GREEN << "[PmergeMe] Constructor\n" << RESET;
@@ -35,8 +35,8 @@ PmergeMe&	PmergeMe::operator=(const PmergeMe& original)
 	{
 		intList = original.intList;
 		intVector = original.intVector;
-		_vectorComparisonCount = original._vectorComparisonCount;
-		_listComparisonCount = original._listComparisonCount;
+		vectorComparisonCount = original.vectorComparisonCount;
+		listComparisonCount = original.listComparisonCount;
 	}
 	return (*this);
 }
