@@ -94,10 +94,23 @@ void	PmergeMe::insertPendingChain(std::vector<int>& big, std::vector<pend>& smal
 	size_t	last = JACOBSTHAL_SUITE[jacobStahlIndex - 1];
 	if (jacobStahlIndex <= 0)
 		last = 0;
+	for (size_t indice = small.size() - 1; indice > last; indice--)
+	{
+		if (indice == 0)
+			break; // skipped since already done
 
+		if (small[indice].straggler)
+			binaryInsert(big, small[indice].value, big.size());
+		else
+		{
+			std::vector<int>::iterator bigger = std::find(big.begin(), big.end(), small[indice].smaller_than);
+			size_t	pos = std::distance(big.begin(), bigger);
+			binaryInsert(big, small[indice].value, pos);
+		}
+	}
 }
 
-// void	PmergeMe::insertPendInDescendingOrder(std::vector<int>& big, std::vector<pend>& small)
+// void	PmergeMe::insertSmallsInDescendingOrder(std::vector<int>& big, std::vector<pend>& small)
 // {
 // 	if (toSort.size() % 2 != 0)
 // 		binaryInsert(result, *(toSort.end() - 1), result.size());
