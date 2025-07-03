@@ -84,8 +84,9 @@ private:
 	void	pairwiseComparison(std::list<int>& toSort, std::list<int>& big,
 		std::list<pend>& small);
 	void	insertSmallerByJacobstahlBlocks(std::list<int>& big, std::list<pend>& small);
-	void	insertStraggler(std::list<int>& toSort, std::list<int>& result);
-	void	binaryInsert(std::list<int>& vector, int value, size_t len);
+	void	insertFromJacobstahlDecreasing(size_t start, size_t end,
+			std::list<int>& big, std::list<pend>& small);
+	void	binaryInsert(std::list<int>& list, int value, size_t len);
 
 };
 

@@ -100,8 +100,6 @@ void	PmergeMe::insertSmallerByJacobstahlBlocks(std::vector<int>& big, std::vecto
 	insertFromJacobstahlDecreasing(small.size() - 1, end, big, small);
 }
 
-
-
 void	PmergeMe::vectorMergeInsertSort(std::vector<int>& intVector)
 {
 	clockVectorSort.start();

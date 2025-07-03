@@ -13,7 +13,7 @@ int	main(int argc, char **argv)
 
 		Sorter.vectorMergeInsertSort(Sorter.intVector);
 
-		Sorter.printLogAfter(Sorter.intVector, Sorter.clockVectorSort, Sorter.clockListSort);
+		Sorter.printLogAfter(Sorter.intList, Sorter.clockVectorSort, Sorter.clockListSort);
 	}
 
 	catch (std::exception& e) {

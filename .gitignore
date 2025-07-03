@@ -6,3 +6,4 @@ C*/ex*/*
 !C*/ex*/src/*.cpp
 !C*/ex*/inc
 !C*/ex*/inc/*.hpp
+!C*/ex02/*.sh

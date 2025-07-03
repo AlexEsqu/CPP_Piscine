@@ -25,11 +25,18 @@ void	PmergeMe::pairwiseComparison(std::list<int>& toSort, std::list<int>& big,
 		std::list<pend>& small)
 {
 	std::list<int>::iterator	end = toSort.end();
-	bool	hasStraggler = false;
-	if (toSort.size() % 2 != 0) {
+	bool	hasStraggler = (toSort.size() % 2 != 0);
+	if (hasStraggler) {
+		pend p;
+		p.value = *(--toSort.end());
+		p.smaller_than = 0;
+		p.straggler = true;
+		small.push_back(p);
 		end--;
-		hasStraggler = true;
 	}
+
+	if (toSort.size() <= 1)
+		return;
 
 	for (std::list<int>::iterator curr = toSort.begin(); curr != end; std::advance(curr, 2))
 	{
@@ -47,23 +54,62 @@ void	PmergeMe::pairwiseComparison(std::list<int>& toSort, std::list<int>& big,
 
 }
 
-// insert start of S the element paired with first and smallest element of S
-// insert remaining n/2 - 1 elements of X \ S into S one at a time using
-// binary search and subsequence of S (Jacobstahl) to determine position
-void	PmergeMe::insertSmallerByJacobstahlBlocks(std::list<int>& big, std::list<pend>& small)
+void	PmergeMe::insertFromJacobstahlDecreasing(size_t start, size_t end,
+			std::list<int>& big, std::list<pend>& small)
 {
-	big.insert(big.begin(), small.begin()->value);
-	for (std::list<pend>::iterator it = ++small.begin(); it != small.end(); it++) {
-		std::list<int>::iterator bigger = std::find(big.begin(), big.end(), it->smaller_than);
-		size_t pos = std::distance(big.begin(), bigger);
-		binaryInsert(big, it->value, pos);
+	std::list<pend>::iterator current = small.begin();
+	std::list<pend>::iterator ending = small.begin();
+	std::advance(current, start);
+	std::advance(ending, end);
+
+	// starting at a JAcobstahl, going downward, binary insert in
+	// at most main[0] - main[smol's bigger]
+	for (; current != ending; current--) {
+
+		if (current == small.begin())
+			break; // skipped since already done
+
+		if (current->straggler)
+			binaryInsert(big, current->value, big.size());
+		else
+		{
+			std::list<int>::iterator bigger = std::find(big.begin(), big.end(), current->smaller_than);
+			size_t	pos = std::distance(big.begin(), bigger);
+			binaryInsert(big, current->value, pos);
+		}
+
 	}
 }
 
-void	PmergeMe::insertStraggler(std::list<int>& toSort, std::list<int>& result)
+/*
+* insert start of S the element paired with first and smallest element of S
+* insert remaining n/2 - 1 elements of X \ S into S one at a time using
+* binary search and subsequence of S (Jacobstahl) to determine position
+*/
+void	PmergeMe::insertSmallerByJacobstahlBlocks(std::list<int>& big, std::list<pend>& small)
 {
-	if (toSort.size() % 2 != 0)
-		binaryInsert(result, toSort.back(), result.size());
+	// smaller than the smallest big is safe to insert at begin of the chain
+	big.insert(big.begin(), small.begin()->value);
+	if (small.size() <= 1)
+		return;
+
+	// Going through the Jacobstahl suite starting at index 1
+	unsigned int jacobStahlIndex = 1;
+	while (jacobStahlIndex < JACOBSTHAL_SIZE && JACOBSTHAL_SUITE[jacobStahlIndex] < small.size())
+	{
+		// Insert the smalls block by block, starting at [Jacobstahl number],
+		// then inserting the ones before until [Jacobstahl - 1]
+		size_t	start = JACOBSTHAL_SUITE[jacobStahlIndex];
+		size_t	end = JACOBSTHAL_SUITE[jacobStahlIndex - 1];
+		insertFromJacobstahlDecreasing(start, end, big, small);
+		jacobStahlIndex++;
+	}
+
+	// if small.size() is not a Jacobstahl number, need to insert the remaining pend
+	size_t	end = 0;
+	if (jacobStahlIndex > 0)
+		end = JACOBSTHAL_SUITE[jacobStahlIndex - 1];
+	insertFromJacobstahlDecreasing(small.size() - 1, end, big, small);
 }
 
 
@@ -85,8 +131,6 @@ void	PmergeMe::listMergeInsertSort(std::list<int>& toSort)
 
 	// binary insert smallers using Jacobstahl
 	insertSmallerByJacobstahlBlocks(big, small);
-
-	insertStraggler(toSort, big);
 
 	toSort = big;
 
