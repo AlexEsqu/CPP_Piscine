@@ -58,24 +58,25 @@ void	PmergeMe::insertPendingChain(std::vector<int>& big, std::vector<pend>& smal
 {
 	// smaller than the smallest big is safe to insert at begin of the chain
 	big.insert(big.begin(), small[0].value);
+	if (small.size() <= 1)
+		return;
 
-
-	unsigned int jacobStahlIndex = 0;
-
+	unsigned int jacobStahlIndex = 1;
 	// Going through the Jacobstahl suite
-	while (JACOBSTHAL_SUITE[jacobStahlIndex] && JACOBSTHAL_SUITE[jacobStahlIndex] <= small.size()) {
-
+	while (jacobStahlIndex < JACOBSTHAL_SIZE && JACOBSTHAL_SUITE[jacobStahlIndex] < small.size())
+	{
 		// find the next Jacobstahl number to use as indice
-		size_t	indice = JACOBSTHAL_SUITE[jacobStahlIndex];
-		std::cout << "JAcobstahl is " << JACOBSTHAL_SUITE[jacobStahlIndex] << " at " << jacobStahlIndex << "\n";
+		size_t	start = JACOBSTHAL_SUITE[jacobStahlIndex];
+		size_t	end = JACOBSTHAL_SUITE[jacobStahlIndex - 1] + 1;
+		// std::cout << "JAcobstahl is " << JACOBSTHAL_SUITE[jacobStahlIndex] << " at " << jacobStahlIndex << "\n";
 
-		// starting at this indice, going downward, binary insert in at most main[0] - main[b's bigger]
-		while (indice > JACOBSTHAL_SUITE[jacobStahlIndex - 1])
-		{
-			std::cout << "Indice is " << indice << "\n";
+		// starting at this indice, going downward, binary insert in at most main[0] - main[smol's bigger]
+		for (size_t indice = start; indice >= end; indice --) {
+			// std::cout << "Indice is " << indice << "\n";
 
 			if (indice == 0)
-				continue; // skipped since already done
+				break; // skipped since already done
+
 			if (small[indice].straggler)
 				binaryInsert(big, small[indice].value, big.size());
 			else
@@ -84,51 +85,23 @@ void	PmergeMe::insertPendingChain(std::vector<int>& big, std::vector<pend>& smal
 				size_t	pos = std::distance(big.begin(), bigger);
 				binaryInsert(big, small[indice].value, pos);
 			}
-			indice--;
 
 		}
-	}
-
-	// in case size of small is in between two jacobstahl numbers
-	if (small.size() > JACOBSTHAL_SUITE[jacobStahlIndex]) {
 
 		jacobStahlIndex++;
-		// find the next Jacobstahl number to use as indice
-		size_t	indice = JACOBSTHAL_SUITE[jacobStahlIndex];
-
-		// starting at this indice, going downward, binary insert in at most main[0] - main[b's bigger]
-		while (indice > JACOBSTHAL_SUITE[jacobStahlIndex - 1])
-		{
-			while (indice >= small.size())
-				indice--;
-
-			if (small[indice].straggler)
-				binaryInsert(big, small[indice].value, big.size());
-			else
-			{
-				std::vector<int>::iterator bigger = std::find(big.begin(), big.end(), small[indice].smaller_than);
-				size_t	pos = std::distance(big.begin(), bigger);
-				binaryInsert(big, small[indice].value, pos);
-			}
-			indice--;
-			std::cout << "Additional Indice is " << indice << "\n";
-		}
 	}
 
+	size_t	last = JACOBSTHAL_SUITE[jacobStahlIndex - 1];
+	if (jacobStahlIndex <= 0)
+		last = 0;
 
-	// for (std::vector<pend>::iterator it = small.begin() + 1; it != small.end(); it++) {
-	// 	std::vector<int>::iterator bigger = std::find(big.begin(), big.end(), it->smaller_than);
-	// 	size_t pos = std::distance(big.begin(), bigger);
-	// 	binaryInsert(big, it->value, pos);
-	// }
 }
 
-void	PmergeMe::insertStraggler(std::vector<int>& toSort, std::vector<int>& result)
-{
-	if (toSort.size() % 2 != 0)
-		binaryInsert(result, *(toSort.end() - 1), result.size());
-}
-
+// void	PmergeMe::insertPendInDescendingOrder(std::vector<int>& big, std::vector<pend>& small)
+// {
+// 	if (toSort.size() % 2 != 0)
+// 		binaryInsert(result, *(toSort.end() - 1), result.size());
+// }
 
 void	PmergeMe::vectorMergeInsertSort(std::vector<int>& intVector)
 {
@@ -148,8 +121,6 @@ void	PmergeMe::vectorMergeInsertSort(std::vector<int>& intVector)
 
 	// binary insert smaller numbers using Jacobstahl suite
 	insertPendingChain(big, small);
-
-	// insertStraggler(intVector, big);
 
 	intVector = big;
 

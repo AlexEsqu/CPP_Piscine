@@ -75,7 +75,8 @@ private:
 	void	pairwiseComparison(std::vector<int>& toSort, std::vector<int>& big,
 		std::vector<pend>& small);
 	void	insertPendingChain(std::vector<int>& big, std::vector<pend>& small);
-	void	insertStraggler(std::vector<int>& toSort, std::vector<int>& result);
+	// void	insertPendInDescendingOrder(size_t start, size_t end,
+	//			std::vector<int>& big, std::vector<pend>& small);
 	void	binaryInsert(std::vector<int>& vector, int value, size_t len);
 
 	// ------- LIST MERGE INSERT SORT UTILITY -----------------------
