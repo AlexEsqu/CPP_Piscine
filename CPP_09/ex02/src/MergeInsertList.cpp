@@ -50,7 +50,7 @@ void	PmergeMe::pairwiseComparison(std::list<int>& toSort, std::list<int>& big,
 // insert start of S the element paired with first and smallest element of S
 // insert remaining n/2 - 1 elements of X \ S into S one at a time using
 // binary search and subsequence of S (Jacobstahl) to determine position
-void	PmergeMe::insertPendingChain(std::list<int>& big, std::list<pend>& small)
+void	PmergeMe::insertSmallerByJacobstahlBlocks(std::list<int>& big, std::list<pend>& small)
 {
 	big.insert(big.begin(), small.begin()->value);
 	for (std::list<pend>::iterator it = ++small.begin(); it != small.end(); it++) {
@@ -84,7 +84,7 @@ void	PmergeMe::listMergeInsertSort(std::list<int>& toSort)
 	listMergeInsertSort(big);
 
 	// binary insert smallers using Jacobstahl
-	insertPendingChain(big, small);
+	insertSmallerByJacobstahlBlocks(big, small);
 
 	insertStraggler(toSort, big);
 

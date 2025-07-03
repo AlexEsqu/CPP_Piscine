@@ -74,16 +74,16 @@ private:
 
 	void	pairwiseComparison(std::vector<int>& toSort, std::vector<int>& big,
 		std::vector<pend>& small);
-	void	insertPendingChain(std::vector<int>& big, std::vector<pend>& small);
-	// void	insertPendInDescendingOrder(size_t start, size_t end,
-	//			std::vector<int>& big, std::vector<pend>& small);
+	void	insertSmallerByJacobstahlBlocks(std::vector<int>& big, std::vector<pend>& small);
+	void	insertFromJacobstahlDecreasing(size_t start, size_t end,
+				std::vector<int>& big, std::vector<pend>& small);
 	void	binaryInsert(std::vector<int>& vector, int value, size_t len);
 
 	// ------- LIST MERGE INSERT SORT UTILITY -----------------------
 
 	void	pairwiseComparison(std::list<int>& toSort, std::list<int>& big,
 		std::list<pend>& small);
-	void	insertPendingChain(std::list<int>& big, std::list<pend>& small);
+	void	insertSmallerByJacobstahlBlocks(std::list<int>& big, std::list<pend>& small);
 	void	insertStraggler(std::list<int>& toSort, std::list<int>& result);
 	void	binaryInsert(std::list<int>& vector, int value, size_t len);
 
