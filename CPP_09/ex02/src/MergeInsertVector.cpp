@@ -21,11 +21,18 @@ void	PmergeMe::pairwiseComparison(std::vector<int>& toSort, std::vector<int>& bi
 		std::vector<pend>& small)
 {
 	std::vector<int>::iterator	end = toSort.end();
-	bool	hasStraggler = false;
-	if (toSort.size() % 2 != 0) {
+	bool	hasStraggler = (toSort.size() % 2 != 0);
+	if (hasStraggler) {
+		pend p;
+		p.value = toSort[toSort.size() - 1];
+		p.smaller_than = 0;
+		p.straggler = true;
+		small.push_back(p);
 		end--;
-		hasStraggler = true;
 	}
+
+	if (toSort.size() <= 1)
+			return;
 
 	for (std::vector<int>::iterator i = toSort.begin(); i != end; i += 2)
 	{
@@ -37,14 +44,6 @@ void	PmergeMe::pairwiseComparison(std::vector<int>& toSort, std::vector<int>& bi
 		p.value = *(i + 1);
 		p.smaller_than = *i;
 		p.straggler = false;
-		small.push_back(p);
-	}
-
-	if (hasStraggler){
-		pend p;
-		p.value = toSort[toSort.size() - 1];
-		p.smaller_than = 0;
-		p.straggler = true;
 		small.push_back(p);
 	}
 }
@@ -100,6 +99,8 @@ void	PmergeMe::insertSmallerByJacobstahlBlocks(std::vector<int>& big, std::vecto
 		end = JACOBSTHAL_SUITE[jacobStahlIndex - 1];
 	insertFromJacobstahlDecreasing(small.size() - 1, end, big, small);
 }
+
+
 
 void	PmergeMe::vectorMergeInsertSort(std::vector<int>& intVector)
 {
