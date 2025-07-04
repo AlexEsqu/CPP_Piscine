@@ -4,6 +4,7 @@
 # include "StopWatch.hpp"
 # include "Color.hpp"
 # include "Jacobstahl.hpp"
+# include "Pair.hpp"
 
 # include <iostream>
 # include <sstream>
@@ -13,6 +14,7 @@
 # include <set>
 # include <cstdlib>
 # include <algorithm>
+# include <assert.h>
 
 
 struct pend {
@@ -39,7 +41,8 @@ public:
 	// ------- SORTING -------------------------------------------
 
 	void	vectorMergeInsertSort(std::vector<int>& toSort);
-	void	listMergeInsertSort(std::list<int>& intList);
+	void	listMergeInsertSort(std::list<int>& toSort);
+	void	verifySort();
 
 	// -------- LOGGING ------------------------------------------
 
@@ -47,6 +50,8 @@ public:
 	void printLogBefore(T& container);
 	template<typename T>
 	void printLogAfter(T& container, StopWatch& A, StopWatch& B);
+	template<typename T>
+	bool isSorted(T start_iterator, T end_iterator);
 
 	// ------- STOPWATCH ----------------------------------------
 
@@ -64,6 +69,11 @@ public:
 	size_t				listComparisonCount;
 
 	class bad_input : public std::exception {
+	public :
+		const char* what() const throw();
+	};
+
+	class bad_sort : public std::exception {
 	public :
 		const char* what() const throw();
 	};

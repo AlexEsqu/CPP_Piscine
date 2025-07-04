@@ -54,11 +54,9 @@ void	PmergeMe::insertFromJacobstahlDecreasing(size_t start, size_t end,
 	// starting at this indice, going downward, binary insert in at most main[0] - main[smol's bigger]
 	for (size_t indice = start; indice > end; indice --) {
 
-		if (indice == 0)
-			break; // skipped since already done
-
 		if (small[indice].straggler)
 			binaryInsert(big, small[indice].value, big.size());
+
 		else
 		{
 			std::vector<int>::iterator bigger = std::find(big.begin(), big.end(), small[indice].smaller_than);

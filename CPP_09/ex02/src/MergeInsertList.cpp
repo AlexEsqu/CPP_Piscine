@@ -51,7 +51,6 @@ void	PmergeMe::pairwiseComparison(std::list<int>& toSort, std::list<int>& big,
 		p.value = *next;
 		small.push_back(p);
 	}
-
 }
 
 void	PmergeMe::insertFromJacobstahlDecreasing(size_t start, size_t end,
@@ -62,12 +61,9 @@ void	PmergeMe::insertFromJacobstahlDecreasing(size_t start, size_t end,
 	std::advance(current, start);
 	std::advance(ending, end);
 
-	// starting at a JAcobstahl, going downward, binary insert in
+	// starting at a Jacobstahl, going downward, binary insert in
 	// at most main[0] - main[smol's bigger]
 	for (; current != ending; current--) {
-
-		if (current == small.begin())
-			break; // skipped since already done
 
 		if (current->straggler)
 			binaryInsert(big, current->value, big.size());
@@ -77,7 +73,6 @@ void	PmergeMe::insertFromJacobstahlDecreasing(size_t start, size_t end,
 			size_t	pos = std::distance(big.begin(), bigger);
 			binaryInsert(big, current->value, pos);
 		}
-
 	}
 }
 
@@ -89,6 +84,9 @@ void	PmergeMe::insertFromJacobstahlDecreasing(size_t start, size_t end,
 void	PmergeMe::insertSmallerByJacobstahlBlocks(std::list<int>& big, std::list<pend>& small)
 {
 	// smaller than the smallest big is safe to insert at begin of the chain
+
+
+
 	big.insert(big.begin(), small.begin()->value);
 	if (small.size() <= 1)
 		return;
@@ -105,7 +103,8 @@ void	PmergeMe::insertSmallerByJacobstahlBlocks(std::list<int>& big, std::list<pe
 		jacobStahlIndex++;
 	}
 
-	// if small.size() is not a Jacobstahl number, need to insert the remaining pend
+	// if small.size() is not a Jacobstahl number, need to insert the remaining
+	// pend from [Jacobstahl] to size()
 	size_t	end = 0;
 	if (jacobStahlIndex > 0)
 		end = JACOBSTHAL_SUITE[jacobStahlIndex - 1];

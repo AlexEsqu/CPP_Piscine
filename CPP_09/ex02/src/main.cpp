@@ -13,6 +13,8 @@ int	main(int argc, char **argv)
 
 		Sorter.vectorMergeInsertSort(Sorter.intVector);
 
+		Sorter.verifySort();
+
 		Sorter.printLogAfter(Sorter.intList, Sorter.clockVectorSort, Sorter.clockListSort);
 	}
 

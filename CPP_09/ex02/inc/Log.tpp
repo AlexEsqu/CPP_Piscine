@@ -23,14 +23,14 @@ void PmergeMe::printLogBefore(T& container)
 template<typename T>
 void PmergeMe::printLogAfter(T& container, StopWatch& A, StopWatch& B)
 {
-	std::cout << "After:  ";
+	std::cout << "After : ";
 	printContainer(container);
 	std::cout << "\n";
 	std::cout << "Time to process a range of " << container.size();
 	std::cout << " with std::" << A.getName() << " : ";
 	std::cout << std::setprecision(6) << A.getTimeInUsec() << " us\n";
 	#ifdef PRINT
-	std::cout << SOFT_BLUE << "Vector comparisons: " << vectorComparisonCount << RESET << "\n";
+	std::cout << SOFT_ORANGE << "Vector comparisons: " << vectorComparisonCount << RESET << "\n";
 	#endif
 	std::cout << "Time to process a range of " << container.size();
 	std::cout << " with std::" << B.getName() << " : ";
@@ -41,3 +41,18 @@ void PmergeMe::printLogAfter(T& container, StopWatch& A, StopWatch& B)
 
 }
 
+template<typename T>
+bool PmergeMe::isSorted(T start_iterator, T end_iterator)
+{
+	while (start_iterator != end_iterator)
+	{
+		T next = start_iterator;
+		next++;
+		if (*start_iterator > *next) {
+			std::cout << "Unsorted : " << *start_iterator << " " << *next;
+			return (false);
+		}
+		start_iterator++;
+	}
+	return (true);
+}

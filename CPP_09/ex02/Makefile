@@ -15,12 +15,14 @@ FUNC				= main.cpp \
 					parsing.cpp \
 					StopWatch.cpp \
 					MergeInsertList.cpp \
-					MergeInsertVector.cpp
+					MergeInsertVector.cpp \
+					Pair.cpp
 
 HEAD				= PmergeMe.hpp \
 					StopWatch.hpp \
 					Color.hpp \
-					Log.tpp
+					Log.tpp \
+					Pair.hpp
 
 SRC					= $(addprefix $(SRC_DIR)/, $(FUNC))
 

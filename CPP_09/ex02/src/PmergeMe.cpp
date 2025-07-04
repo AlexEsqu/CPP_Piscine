@@ -14,7 +14,7 @@ PmergeMe::PmergeMe()
 PmergeMe::~PmergeMe()
 {
 	#ifdef PRINT
-		std::cout << RED << "[PmergeMe] Destructor\n" << RESET;
+		std::cout << SOFT_RED << "[PmergeMe] Destructor\n" << RESET;
 	#endif
 }
 
@@ -39,4 +39,24 @@ PmergeMe&	PmergeMe::operator=(const PmergeMe& original)
 		listComparisonCount = original.listComparisonCount;
 	}
 	return (*this);
+}
+
+const char* PmergeMe::bad_sort::what() const throw()
+{
+	return ("Error");
+}
+
+void	PmergeMe::verifySort()
+{
+	#ifdef PRINT
+	std::cout << SOFT_ORANGE << "Vector: ";
+	printContainer(intVector);
+	std::cout << SOFT_BLUE << "\nList  : ";
+	printContainer(intList);
+	std::cout << RESET << "\n";
+	#endif
+
+	// if ( !isSorted(intVector.begin(), intVector.end()))
+	// 	// || !isSorted(intList.begin(), intList.end()))
+	// 	throw bad_sort();
 }
