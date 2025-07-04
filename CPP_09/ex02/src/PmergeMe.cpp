@@ -56,7 +56,7 @@ void	PmergeMe::verifySort()
 	std::cout << RESET << "\n";
 	#endif
 
-	// if ( !isSorted(intVector.begin(), intVector.end()))
-	// 	// || !isSorted(intList.begin(), intList.end()))
-	// 	throw bad_sort();
+	if ( !isSorted(intVector.begin(), intVector.end())
+		|| !isSorted(intList.begin(), intList.end()))
+		throw bad_sort();
 }

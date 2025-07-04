@@ -22,16 +22,11 @@ void	PmergeMe::binaryInsert(std::list<int>& list, int value, size_t len)
 }
 
 void	PmergeMe::pairwiseComparison(std::list<int>& toSort, std::list<int>& big,
-		std::list<pend>& small)
+		std::list<Pair>& small)
 {
 	std::list<int>::iterator	end = toSort.end();
-	bool	hasStraggler = (toSort.size() % 2 != 0);
+	bool						hasStraggler = (toSort.size() % 2 != 0);
 	if (hasStraggler) {
-		pend p;
-		p.value = *(--toSort.end());
-		p.smaller_than = 0;
-		p.straggler = true;
-		small.push_back(p);
 		end--;
 	}
 
@@ -46,18 +41,18 @@ void	PmergeMe::pairwiseComparison(std::list<int>& toSort, std::list<int>& big,
 		if (*curr < *next)
 			std::iter_swap(curr, next);
 		big.push_back(*curr);
-		pend p;
-		p.smaller_than = *curr;
-		p.value = *next;
-		small.push_back(p);
+		small.push_back(Pair(*curr, *next));
 	}
+
+	if (hasStraggler)
+		small.push_back(Pair(*(--toSort.end())));
 }
 
 void	PmergeMe::insertFromJacobstahlDecreasing(size_t start, size_t end,
-			std::list<int>& big, std::list<pend>& small)
+			std::list<int>& big, std::list<Pair>& small)
 {
-	std::list<pend>::iterator current = small.begin();
-	std::list<pend>::iterator ending = small.begin();
+	std::list<Pair>::iterator current = small.begin();
+	std::list<Pair>::iterator ending = small.begin();
 	std::advance(current, start);
 	std::advance(ending, end);
 
@@ -65,13 +60,13 @@ void	PmergeMe::insertFromJacobstahlDecreasing(size_t start, size_t end,
 	// at most main[0] - main[smol's bigger]
 	for (; current != ending; current--) {
 
-		if (current->straggler)
-			binaryInsert(big, current->value, big.size());
+		if (current->isStraggler())
+			binaryInsert(big, current->getSmall(), big.size());
 		else
 		{
-			std::list<int>::iterator bigger = std::find(big.begin(), big.end(), current->smaller_than);
+			std::list<int>::iterator bigger = std::find(big.begin(), big.end(), current->getBig());
 			size_t	pos = std::distance(big.begin(), bigger);
-			binaryInsert(big, current->value, pos);
+			binaryInsert(big, current->getSmall(), pos);
 		}
 	}
 }
@@ -81,13 +76,10 @@ void	PmergeMe::insertFromJacobstahlDecreasing(size_t start, size_t end,
 * insert remaining n/2 - 1 elements of X \ S into S one at a time using
 * binary search and subsequence of S (Jacobstahl) to determine position
 */
-void	PmergeMe::insertSmallerByJacobstahlBlocks(std::list<int>& big, std::list<pend>& small)
+void	PmergeMe::insertSmallerByJacobstahlBlocks(std::list<int>& big, std::list<Pair>& small)
 {
 	// smaller than the smallest big is safe to insert at begin of the chain
-
-
-
-	big.insert(big.begin(), small.begin()->value);
+	big.insert(big.begin(), small.begin()->getSmall());
 	if (small.size() <= 1)
 		return;
 
@@ -111,16 +103,29 @@ void	PmergeMe::insertSmallerByJacobstahlBlocks(std::list<int>& big, std::list<pe
 	insertFromJacobstahlDecreasing(small.size() - 1, end, big, small);
 }
 
+void	PmergeMe::updateSmallerPosition(std::list<int>& big, std::list<Pair>& small)
+{
+	if (small.size() > 1)
+	{
+		for (size_t i = 0; i < big.size(); i++)
+		{
+			std::list<int>::iterator itMain = big.begin();
+			std::advance(itMain, i);
+			std::list<Pair>::iterator itPend = small.begin();
+			std::advance(itPend, i);
+			std::list<Pair>::iterator pend = std::find(small.begin(), small.end(), *itMain);
+			std::swap(*pend, *itPend);
+		}
+	}
+}
 
 void	PmergeMe::listMergeInsertSort(std::list<int>& toSort)
 {
-	clockListSort.start();
-
 	if (toSort.size() <= 1)
 		return;
 
 	std::list<int>	big;
-	std::list<pend>	small;
+	std::list<Pair>	small;
 
 	// Pair up and order the pairs
 	pairwiseComparison(toSort, big, small);
@@ -128,10 +133,10 @@ void	PmergeMe::listMergeInsertSort(std::list<int>& toSort)
 	// recursively sort big
 	listMergeInsertSort(big);
 
+	updateSmallerPosition(big, small);
+
 	// binary insert smallers using Jacobstahl
 	insertSmallerByJacobstahlBlocks(big, small);
 
 	toSort = big;
-
-	clockListSort.stop();
 }

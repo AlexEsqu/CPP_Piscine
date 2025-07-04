@@ -56,7 +56,11 @@ void		StopWatch::start()
 void		StopWatch::stop()
 {
 	gettimeofday(&_stop, NULL);
-	_uSecTotal = (_stop.tv_sec - _start.tv_sec) * 1e6 + (_stop.tv_usec - _start.tv_usec);
+	std::cout << "seconds are " << (_stop.tv_sec - _start.tv_sec);
+	std::cout << " microseconds are " << (_stop.tv_usec - _start.tv_usec);
+	std::cout << "\n";
+	_uSecTotal = ((_stop.tv_sec - _start.tv_sec) * 1000.0) +
+		(_stop.tv_usec - _start.tv_usec);
 }
 
 std::string	StopWatch::getName()

@@ -83,20 +83,22 @@ private:
 	// ------- VECTOR MERGE INSERT SORT UTILITY -------------------
 
 	void	pairwiseComparison(std::vector<int>& toSort, std::vector<int>& big,
-		std::vector<pend>& small);
-	void	insertSmallerByJacobstahlBlocks(std::vector<int>& big, std::vector<pend>& small);
+				std::vector<Pair>& small);
+	void	insertSmallerByJacobstahlBlocks(std::vector<int>& big, std::vector<Pair>& small);
 	void	insertFromJacobstahlDecreasing(size_t start, size_t end,
-				std::vector<int>& big, std::vector<pend>& small);
+				std::vector<int>& big, std::vector<Pair>& small);
 	void	binaryInsert(std::vector<int>& vector, int value, size_t len);
+	void	updateSmallerPosition(std::vector<int>& mainVector, std::vector<Pair>& pendVector);
 
 	// ------- LIST MERGE INSERT SORT UTILITY -----------------------
 
 	void	pairwiseComparison(std::list<int>& toSort, std::list<int>& big,
-		std::list<pend>& small);
-	void	insertSmallerByJacobstahlBlocks(std::list<int>& big, std::list<pend>& small);
+				std::list<Pair>& small);
+	void	insertSmallerByJacobstahlBlocks(std::list<int>& big, std::list<Pair>& small);
 	void	insertFromJacobstahlDecreasing(size_t start, size_t end,
-			std::list<int>& big, std::list<pend>& small);
+				std::list<int>& big, std::list<Pair>& small);
 	void	binaryInsert(std::list<int>& list, int value, size_t len);
+	void	updateSmallerPosition(std::list<int>& big, std::list<Pair>& small);
 
 };
 

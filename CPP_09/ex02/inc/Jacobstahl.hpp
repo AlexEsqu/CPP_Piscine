@@ -4,7 +4,7 @@
 // Jacobsthal numbers up to INT_MAX (2147483647)
 const unsigned long JACOBSTHAL_SUITE[] = {
 	0,
-	1,
+	// 1,
 	3,
 	5,
 	11,

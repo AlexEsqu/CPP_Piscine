@@ -12,7 +12,7 @@ public:
 
 	// Canonical form
 
-	Pair(int a, int b);
+	Pair(int big, int small);
 	Pair(int a);
 	Pair(const Pair& original);
 	~Pair();
@@ -21,6 +21,7 @@ public:
 	// Operator overloads
 
 	bool	operator==(const Pair& comp) const;
+	bool	operator==(const int& comp) const;
 	bool	operator>(const Pair& comp) const;
 	bool	operator>=(const Pair& comp) const;
 	bool	operator<(const Pair& comp) const;

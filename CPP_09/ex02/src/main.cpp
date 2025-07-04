@@ -9,9 +9,13 @@ int	main(int argc, char **argv)
 
 		Sorter.printLogBefore(Sorter.intList);
 
+		Sorter.clockListSort.start();
 		Sorter.listMergeInsertSort(Sorter.intList);
+		Sorter.clockListSort.stop();
 
+		Sorter.clockVectorSort.start();
 		Sorter.vectorMergeInsertSort(Sorter.intVector);
+		Sorter.clockVectorSort.stop();
 
 		Sorter.verifySort();
 

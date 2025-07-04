@@ -6,9 +6,9 @@
 
 //----------------- PAIR CLASS -----------------//
 
-Pair::Pair(int a, int b)
-	: big(a)
-	, small(b)
+Pair::Pair(int big, int small)
+	: big(big)
+	, small(small)
 	, straggler(false)
 {
 	#ifdef PRINT
@@ -67,6 +67,11 @@ Pair&		Pair::operator=( const Pair& original )
 bool 		Pair::operator==(const Pair& comp) const
 {
 	return (big == comp.big && small == comp.small && straggler == comp.straggler);
+}
+
+bool 		Pair::operator==(const int& comp) const
+{
+	return (big == comp);
 }
 
 bool		Pair::operator>(const Pair& comp) const

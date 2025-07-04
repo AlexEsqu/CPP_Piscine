@@ -44,15 +44,17 @@ void PmergeMe::printLogAfter(T& container, StopWatch& A, StopWatch& B)
 template<typename T>
 bool PmergeMe::isSorted(T start_iterator, T end_iterator)
 {
-	while (start_iterator != end_iterator)
+	T	next_iterator = start_iterator;
+	next_iterator++;
+
+	while (next_iterator != end_iterator)
 	{
-		T next = start_iterator;
-		next++;
-		if (*start_iterator > *next) {
-			std::cout << "Unsorted : " << *start_iterator << " " << *next;
+		if (*start_iterator > *next_iterator) {
+			std::cout << "Unsorted : " << *start_iterator << " " << *next_iterator;
 			return (false);
 		}
 		start_iterator++;
+		next_iterator++;
 	}
 	return (true);
 }
