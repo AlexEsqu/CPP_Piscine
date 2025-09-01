@@ -32,7 +32,7 @@ void	PmergeMe::pairwiseComparison(std::list<int>& toSort, std::list<int>& big,
 		p.smaller_than = 0;
 		p.straggler = true;
 		small.push_back(p);
-		end--;
+		--end;
 	}
 
 	if (toSort.size() <= 1)
@@ -84,9 +84,6 @@ void	PmergeMe::insertFromJacobstahlDecreasing(size_t start, size_t end,
 void	PmergeMe::insertSmallerByJacobstahlBlocks(std::list<int>& big, std::list<pend>& small)
 {
 	// smaller than the smallest big is safe to insert at begin of the chain
-
-
-
 	big.insert(big.begin(), small.begin()->value);
 	if (small.size() <= 1)
 		return;

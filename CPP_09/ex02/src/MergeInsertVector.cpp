@@ -52,7 +52,7 @@ void	PmergeMe::insertFromJacobstahlDecreasing(size_t start, size_t end,
 			std::vector<int>& big, std::vector<pend>& small)
 {
 	// starting at this indice, going downward, binary insert in at most main[0] - main[smol's bigger]
-	for (size_t indice = start; indice > end; indice --) {
+	for (size_t indice = start; indice > end; indice--) {
 
 		if (small[indice].straggler)
 			binaryInsert(big, small[indice].value, big.size());
